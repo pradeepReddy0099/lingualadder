@@ -68,10 +68,10 @@ footer{padding:32px 0;color:var(--muted);font-size:.9rem}
 <section>
   <h2>Key takeaways</h2>
   <div class="grid">
-    <div class="card"><div class="big">2.2×</div><h3>More results at the right level</h3><p>Level match rose from 0.162 with plain BM25 to 0.359 with LinguaLadder.</p></div>
+    <div class="card"><div class="big">2.2×</div><h3>More results at the right level</h3><p>Level match rose from 0.162 with plain BM25 to 0.359 with pure level re-ranking (0.201 with the topic guard on).</p></div>
     <div class="card"><div class="big">0.888</div><h3>Difficulty accuracy</h3><p>Our 15-feature model vs 0.776 for sentence and word length alone (5-fold CV).</p></div>
     <div class="card"><div class="big">0.83–0.88</div><h3>Transfers across languages</h3><p>Trained on one language and tested on the other: 0.827 on Spanish, 0.884 on English.</p></div>
-    <div class="card"><div class="big">−0.15</div><h3>The cost in relevance</h3><p>nDCG@10 fell from 0.919 to 0.771. One weight lets users slide between relevance and level.</p></div>
+    <div class="card"><div class="big">−0.02</div><h3>Relevance kept with a topic guard</h3><p>Pure level re-ranking cost 0.15 nDCG@10 (0.919 to 0.771) by surfacing articles that only mention the query. Ranking on-topic articles first brings it back to 0.898.</p></div>
     <div class="card"><div class="big">−48%</div><h3>Feedback finds the level</h3><p>In simulation, feedback cut the gap to a learner's ideal difficulty from 0.264 to 0.136.</p></div>
   </div>
 </section>
@@ -79,7 +79,8 @@ footer{padding:32px 0;color:var(--muted);font-size:.9rem}
 <section>
   <h2>How it works</h2>
   <pre>query ─► BM25 over the language's index (top 100 candidates)
-      ─► re-rank: a · BM25/max + (1 − a) · exp(−(difficulty − target)² / 2σ²)   (a = 0.5, σ = 0.15)
+      ─► topic guard: query words in the title or lead? on-topic first, passing mentions after
+      ─► re-rank: a · relevance + (1 − a) · exp(−(difficulty − target)² / 2σ²)   (a = 0.5, σ = 0.15)
       ─► top 10 with level and CEFR badges ─► reader with highlight-to-translate
       ─► "too easy / too hard" feedback moves the learner's target level</pre>
   <p><strong>Difficulty model.</strong> Logistic regression on 15 features (sentence length and spread, word length, syllables per word, share of rare and core-vocabulary words, type-token ratio, clause markers, digits, parentheses, article length), z-scored within each language. Easy labels come from Simple English Wikipedia and Vikidia.</p>
@@ -92,18 +93,19 @@ footer{padding:32px 0;color:var(--muted);font-size:.9rem}
   <table>
     <tr><th>System</th><th>P@10</th><th>nDCG@10</th><th>Level match</th></tr>
     <tr><td>Plain BM25</td><td>0.865</td><td>0.919</td><td>0.162</td></tr>
-    <tr><td>Readability re-rank (baseline)</td><td>0.744</td><td>0.786</td><td>0.210</td></tr>
-    <tr><td>LinguaLadder, 8 features</td><td>0.728</td><td>0.770</td><td>0.329</td></tr>
-    <tr class="hl"><td>LinguaLadder, 15 features</td><td>0.730</td><td>0.771</td><td>0.359</td></tr>
+    <tr><td>Readability re-rank (baseline, no guard)</td><td>0.744</td><td>0.786</td><td>0.210</td></tr>
+    <tr><td>LinguaLadder, 8 features, no guard</td><td>0.728</td><td>0.770</td><td>0.329</td></tr>
+    <tr><td>LinguaLadder, 15 features, no guard</td><td>0.730</td><td>0.771</td><td>0.359</td></tr>
+    <tr class="hl"><td>LinguaLadder + topic guard (default)</td><td>0.852</td><td>0.898</td><td>0.201</td></tr>
   </table>
   <p class="muted">Level match is the share of results within ±0.15 of the learner's target. Differences vs BM25 and the readability baseline in level match are significant (paired permutation and Wilcoxon tests, p &lt; 0.001).</p>
-  <h3>The relevance–level trade-off</h3>
+  <h3>The relevance–level trade-off (without the topic guard)</h3>
   <table>
     <tr><th>Weight on relevance (a)</th><th>P@10</th><th>nDCG@10</th><th>Level match</th></tr>
     <tr><td>1.0 (plain BM25)</td><td>0.865</td><td>0.920</td><td>0.162</td></tr>
     <tr><td>0.8</td><td>0.841</td><td>0.892</td><td>0.240</td></tr>
     <tr><td>0.6</td><td>0.778</td><td>0.821</td><td>0.312</td></tr>
-    <tr class="hl"><td>0.5 (default)</td><td>0.730</td><td>0.771</td><td>0.359</td></tr>
+    <tr class="hl"><td>0.5</td><td>0.730</td><td>0.771</td><td>0.359</td></tr>
     <tr><td>0.2</td><td>0.631</td><td>0.664</td><td>0.421</td></tr>
   </table>
 </section>
