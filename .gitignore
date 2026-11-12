@@ -1,0 +1,5 @@
+__pycache__/
+data/index.pkl
+data/corpus.jsonl
+data/*.sqlite
+data/models/

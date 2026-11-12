@@ -1,0 +1,8 @@
+flask>=3.0
+requests>=2.31
+regex>=2023.0
+numpy>=1.26
+scikit-learn>=1.4
+scipy>=1.11
+pytest
+snowballstemmer
