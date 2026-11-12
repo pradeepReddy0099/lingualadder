@@ -12,7 +12,7 @@ def test_bm25_ranks_matching_doc_first_and_idf():
 
 def _ll():
     ll = LinguaLadder.__new__(LinguaLadder)
-    mk = lambda i, d: {"id": str(i), "title": "t", "url": "u", "difficulty": d, "level": "x",
+    mk = lambda i, d: {"id": str(i), "title": "Volcano", "url": "u", "difficulty": d, "level": "x",
                        "source": "s", "topic": "", "snippet": "", "words": 5}
     ll.docs = {"en": [mk(0, 0.2), mk(1, 0.8)]}
     ll.indexes = {"en": BM25Index().build([["volcano"], ["volcano"]])}
@@ -30,3 +30,15 @@ def test_reranker_prefers_target_level():
 def test_min_rel_and_exclude():
     ll = _ll()
     assert [r["id"] for r in ll.search("en", "volcano", 0.2, exclude=("0",))] == ["1"]
+
+
+def test_on_topic_articles_rank_before_passing_mentions():
+    ll = LinguaLadder.__new__(LinguaLadder)
+    mk = lambda i, t, d: {"id": str(i), "title": t, "url": "u", "difficulty": d, "level": "x",
+                          "source": "s", "topic": "", "snippet": "", "words": 5}
+    # doc 0 mentions "dog" a lot but is about bread and sits on the learner's level; doc 1 is about dogs.
+    ll.docs = {"en": [mk(0, "Soda bread", 0.2), mk(1, "Dog", 0.9)]}
+    ll.indexes = {"en": BM25Index().build([["dog", "dog", "dog", "bread"], ["dog", "pet"]])}
+    r = ll.search("en", "dog", 0.2)
+    assert [x["id"] for x in r] == ["1", "0"] and r[0]["on_topic"] and not r[1]["on_topic"]
+    assert ll.search("en", "dog", 0.2, on_topic_first=False, topic_weight=0.0)[0]["id"] == "0"
