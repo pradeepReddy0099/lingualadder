@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LinguaLadder: Wikipedia search at your reading level</title>
+<meta name="description" content="An IR course project: Wikipedia search ranked for relevance and reading level, for learners of English and Spanish.">
+<style>
+:root{--ink:#1d2433;--muted:#5b6475;--accent:#2f6fde;--bg:#f7f8fb;--card:#fff;--line:#e3e7ef}
+*{box-sizing:border-box}
+body{margin:0;font:17px/1.6 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color:var(--ink);background:var(--bg)}
+.wrap{max-width:900px;margin:0 auto;padding:0 20px}
+header{background:linear-gradient(135deg,#1f3c88,#2f6fde);color:#fff;padding:64px 0 48px}
+header h1{font-size:2.6rem;margin:0 0 8px;letter-spacing:-.5px}
+header p{font-size:1.2rem;margin:0 0 24px;max-width:640px;opacity:.95}
+.authors{font-size:.95rem;opacity:.85;margin-top:20px}
+.btns a{display:inline-block;margin:6px 10px 6px 0;padding:11px 20px;border-radius:8px;font-weight:600;text-decoration:none}
+.primary{background:#fff;color:#1f3c88}
+.ghost{border:1.5px solid rgba(255,255,255,.7);color:#fff}
+section{padding:40px 0;border-bottom:1px solid var(--line)}
+h2{font-size:1.6rem;margin:0 0 16px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:20px}
+.card h3{margin:0 0 8px;font-size:1.08rem}
+.card p{margin:0;color:var(--muted)}
+.big{font-size:2rem;font-weight:700;color:var(--accent);line-height:1.2}
+table{width:100%;border-collapse:collapse;background:var(--card);border:1px solid var(--line);border-radius:12px;overflow:hidden;font-size:.97rem}
+th,td{padding:10px 12px;text-align:left;border-bottom:1px solid var(--line)}
+th{background:#eef2fa}
+tr.hl td{font-weight:700;background:#f1f6ff}
+pre{background:#1d2433;color:#e8ecf5;padding:16px;border-radius:10px;overflow-x:auto;font-size:.9rem}
+.muted{color:var(--muted)}
+a{color:var(--accent)}
+footer{padding:32px 0;color:var(--muted);font-size:.9rem}
+@media(max-width:600px){header h1{font-size:2rem}th,td{padding:8px 6px;font-size:.88rem}}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <h1>LinguaLadder</h1>
+    <p>Wikipedia search that ranks articles by how relevant they are <em>and</em> how well they fit your reading level, for learners of English and Spanish.</p>
+    <div class="btns">
+      <a class="primary" href="app/">Try the live demo</a>
+      <a class="ghost" href="https://github.com/pradeepReddy0099/lingualadder">Code on GitHub</a>
+      <a class="ghost" href="https://github.com/pradeepReddy0099/lingualadder/tree/main/data">Data</a>
+    </div>
+    <div class="authors">Pradeep Reddy Sama · Marco Cerritos · Akshay Karasani · Ryan Zappone<br>Graduate Information Retrieval course project</div>
+  </div>
+</header>
+
+<main class="wrap">
+<section>
+  <h2>The problem</h2>
+  <p>A search engine returns the most relevant pages, not the ones a learner can actually read. Someone learning Spanish who searches "volcán" gets the full encyclopedia article, packed with rare words and long sentences. Graded readers fix the level but not the topic. LinguaLadder tries to give learners both: articles about what they care about, at a level they can handle.</p>
+</section>
+
+<section>
+  <h2>The big questions</h2>
+  <div class="grid">
+    <div class="card"><h3>Can we predict reading difficulty automatically?</h3><p>Using only language-independent text features, with no hand labels beyond "easy" and "regular" encyclopedias.</p></div>
+    <div class="card"><h3>Does it work across languages?</h3><p>If the model is trained on English, does it still rank Spanish articles sensibly, and vice versa?</p></div>
+    <div class="card"><h3>How much relevance do we give up?</h3><p>Re-ranking for level moves results away from pure topical relevance. How big is that trade-off, and can we control it?</p></div>
+    <div class="card"><h3>Can the system learn a learner's level?</h3><p>Starting from a guessed level, can simple "too easy / too hard" feedback steer results toward what suits the reader?</p></div>
+  </div>
+</section>
+
+<section>
+  <h2>Key takeaways</h2>
+  <div class="grid">
+    <div class="card"><div class="big">2.2×</div><h3>More results at the right level</h3><p>Level match rose from 0.162 with plain BM25 to 0.359 with LinguaLadder.</p></div>
+    <div class="card"><div class="big">0.888</div><h3>Difficulty accuracy</h3><p>Our 15-feature model vs 0.776 for sentence and word length alone (5-fold CV).</p></div>
+    <div class="card"><div class="big">0.83–0.88</div><h3>Transfers across languages</h3><p>Trained on one language and tested on the other: 0.827 on Spanish, 0.884 on English.</p></div>
+    <div class="card"><div class="big">−0.15</div><h3>The cost in relevance</h3><p>nDCG@10 fell from 0.919 to 0.771. One weight lets users slide between relevance and level.</p></div>
+    <div class="card"><div class="big">−48%</div><h3>Feedback finds the level</h3><p>In simulation, feedback cut the gap to a learner's ideal difficulty from 0.264 to 0.136.</p></div>
+  </div>
+</section>
+
+<section>
+  <h2>How it works</h2>
+  <pre>query ─► BM25 over the language's index (top 100 candidates)
+      ─► re-rank: a · BM25/max + (1 − a) · exp(−(difficulty − target)² / 2σ²)   (a = 0.5, σ = 0.15)
+      ─► top 10 with level and CEFR badges ─► reader with highlight-to-translate
+      ─► "too easy / too hard" feedback moves the learner's target level</pre>
+  <p><strong>Difficulty model.</strong> Logistic regression on 15 features (sentence length and spread, word length, syllables per word, share of rare and core-vocabulary words, type-token ratio, clause markers, digits, parentheses, article length), z-scored within each language. Easy labels come from Simple English Wikipedia and Vikidia.</p>
+  <p><strong>Levels.</strong> Beginner below 0.35, Intermediate 0.35 to 0.65, Advanced above 0.65, with targets 0.20, 0.50 and 0.80, plus an approximate CEFR band (A1 to C2).</p>
+</section>
+
+<section>
+  <h2>Results</h2>
+  <p class="muted">English and Spanish, 94 topic queries, each run at all three levels. Top 10 results.</p>
+  <table>
+    <tr><th>System</th><th>P@10</th><th>nDCG@10</th><th>Level match</th></tr>
+    <tr><td>Plain BM25</td><td>0.865</td><td>0.919</td><td>0.162</td></tr>
+    <tr><td>Readability re-rank (baseline)</td><td>0.744</td><td>0.786</td><td>0.210</td></tr>
+    <tr><td>LinguaLadder, 8 features</td><td>0.728</td><td>0.770</td><td>0.329</td></tr>
+    <tr class="hl"><td>LinguaLadder, 15 features</td><td>0.730</td><td>0.771</td><td>0.359</td></tr>
+  </table>
+  <p class="muted">Level match is the share of results within ±0.15 of the learner's target. Differences vs BM25 and the readability baseline in level match are significant (paired permutation and Wilcoxon tests, p &lt; 0.001).</p>
+  <h3>The relevance–level trade-off</h3>
+  <table>
+    <tr><th>Weight on relevance (a)</th><th>P@10</th><th>nDCG@10</th><th>Level match</th></tr>
+    <tr><td>1.0 (plain BM25)</td><td>0.865</td><td>0.920</td><td>0.162</td></tr>
+    <tr><td>0.8</td><td>0.841</td><td>0.892</td><td>0.240</td></tr>
+    <tr><td>0.6</td><td>0.778</td><td>0.821</td><td>0.312</td></tr>
+    <tr class="hl"><td>0.5 (default)</td><td>0.730</td><td>0.771</td><td>0.359</td></tr>
+    <tr><td>0.2</td><td>0.631</td><td>0.664</td><td>0.421</td></tr>
+  </table>
+</section>
+
+<section>
+  <h2>Data</h2>
+  <p>1,748 articles on 50 seed topics (volcanoes, football, chocolate, Frida Kahlo, chess and more): <strong>992 English</strong> and <strong>756 Spanish</strong>, collected through the MediaWiki API from Wikipedia, Simple English Wikipedia and Vikidia. The raw JSONL files are in the repository's <a href="https://github.com/pradeepReddy0099/lingualadder/tree/main/data/raw">data/raw folder</a>, with a description in <a href="https://github.com/pradeepReddy0099/lingualadder/blob/main/data/README.md">data/README.md</a>. Article text is CC BY-SA.</p>
+</section>
+
+<section>
+  <h2>Run it yourself</h2>
+  <pre>git clone https://github.com/pradeepReddy0099/lingualadder.git
+cd lingualadder
+pip install -r requirements.txt      # Python 3.10+: flask, numpy, scikit-learn, scipy, ...
+python -m lingualadder.build         # ~15 s
+python app.py                        # http://127.0.0.1:5000</pre>
+  <p>Full setup and how to reproduce every number are in the <a href="https://github.com/pradeepReddy0099/lingualadder#readme">README</a>. Or skip setup and use the <a href="app/">browser demo</a>, which runs the same ranking in JavaScript.</p>
+</section>
+
+<section>
+  <h2>Limitations and next steps</h2>
+  <p>Relevance labels are automatic (an article counts as relevant if it was collected for that topic), so true precision is probably higher. Level match uses our own difficulty scores; we also report a measure based on source labels. Adaptive feedback was tested on simulated learners, not real ones. Next: a small user study, comprehension checks, and ranking by the words a learner already knows.</p>
+</section>
+</main>
+<footer class="wrap">LinguaLadder · Graduate IR course project · Article text from Wikipedia and Vikidia under CC BY-SA.</footer>
+</body>
+</html>
