@@ -3,3 +3,5 @@ data/index.pkl
 data/corpus.jsonl
 data/*.sqlite
 data/models/
+.last_github_sync
+data/raw_big/

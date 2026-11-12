@@ -124,3 +124,12 @@ Larger steps look slightly better, but the simulated learner is noiseless, so a 
 
 ## Adaptive target: noisy learner and step decay
 Mean gap to the simulated ideal (lower is better), with 30% of feedback replaced by random answers: step 0.07 no decay 0.136 (clean) / 0.153 (noisy); step 0.07 with decay 0.95: 0.144 / 0.162 (worse); step 0.15 no decay 0.122 / 0.136; step 0.15 decay 0.9: 0.117 / 0.133 (best). Decay hurts at the small step and helps slightly at the large one. A larger step stays better even under noise, so a step near 0.10-0.15 is worth testing in the UI; default left at 0.07 for now. No ranking change.
+
+## Corpus collection progress
+English 5,500 articles cached; Spanish 3,620 of 5,500 cached. Collector resumes next run.
+
+## 2026-11-12 — Topic guard (fit algorithm, user request)
+- Problem (user report): searches returned articles that merely contain the word, not articles about the topic (e.g. "dog" → "Soda bread"), because level fit could lift low-relevance passing mentions.
+- Change: idf-weighted topicality = query words in the title (full) or opening lead (half). Relevance = 0.6·BM25/max + 0.4·topicality; articles below 0.5 topicality rank after all on-topic ones. Same in Python and the browser (15/15 parity). Plain BM25 baseline unchanged. Demo marks passing mentions with a "mentions" badge and says when nothing is mainly about the query.
+- Before → after (LinguaLadder, en+es, 94 queries × 3 levels): P@10 0.730 → 0.852, nDCG@10 0.771 → 0.898, level match 0.359 → 0.201. Default on (TOPIC_WEIGHT=0.4, ON_TOPIC_MIN=0.5). The level-match drop reflects few on-topic articles per level in the 1,748-article corpus; re-test after the 5,000-per-language corpus.
+- Tests: 14 passed (new on-topic test); parity 15/15; app smoke test OK.

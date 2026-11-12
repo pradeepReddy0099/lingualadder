@@ -74,12 +74,17 @@ Levels: Beginner < 0.35 ≤ Intermediate < 0.65 ≤ Advanced, targets 0.20 / 0.5
 | System | P@10 | nDCG@10 | Level match (±0.15 of target) |
 |---|---|---|---|
 | Plain BM25 | 0.865 | 0.919 | 0.162 |
-| Readability re-rank baseline | 0.744 | 0.786 | 0.210 |
-| **LinguaLadder (a = 0.5)** | 0.730 | 0.771 | **0.359** |
+| Readability re-rank baseline (no topic guard) | 0.744 | 0.786 | 0.210 |
+| LinguaLadder, no topic guard (a = 0.5) | 0.730 | 0.771 | 0.359 |
+| **LinguaLadder + topic guard (default)** | **0.852** | **0.898** | 0.201 |
 
 - Difficulty model: 0.888 accuracy (5-fold CV) vs 0.776 for sentence and word length alone; trained on one language
   and tested on the other it still reaches 0.827 (es) and 0.884 (en).
-- Re-ranking more than doubles the share of results at the learner's level, for a drop of about 0.15 nDCG@10.
+- Topic guard (default): articles whose title or opening lead doesn't contain the query words (idf-weighted) are
+  treated as passing mentions and ranked after on-topic articles; the level re-rank works within each group. This
+  recovers most of the relevance (nDCG@10 0.771 → 0.898) but keeps less of the level gain (0.359 → 0.201), because
+  each topic has few on-topic articles at every level in the small corpus. Without the guard, re-ranking more than
+  doubles level match for a drop of about 0.15 nDCG@10.
   All differences vs BM25 are significant (paired permutation and Wilcoxon tests, p < 0.001). The weight `a` moves
   along this trade-off (alpha sweep in `data/eval_report.md`).
 - Adaptive level: in simulation, "too easy / too hard" feedback cut the gap to a learner's ideal difficulty from
