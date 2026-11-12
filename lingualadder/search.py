@@ -12,7 +12,7 @@ from collections import Counter, defaultdict
 
 import numpy as np
 
-from .config import ALPHA, CANDIDATES, DATA_DIR, SIGMA
+from .config import ALPHA, CANDIDATES, DATA_DIR, ON_TOPIC_FIRST, ON_TOPIC_MIN, SIGMA, TOPIC_WEIGHT
 from .textproc import index_tokens
 
 
@@ -76,17 +76,36 @@ class LinguaLadder:
         scores = self.indexes[lang].score(index_tokens(query, lang))
         return sorted(scores.items(), key=lambda x: -x[1])[:k]
 
-    def search(self, lang, query, target, alpha=ALPHA, sigma=SIGMA, k=10, rerank=True, exclude=(), min_rel=0.0, known=None, beta=0.0):
+    def _topical(self, lang, d, qterms):
+        """Share of query terms in the article's title (full credit) or its opening lead (half credit).
+
+        A word that only appears somewhere in the body is a passing mention, not what the article is about.
+        """
+        if not qterms:
+            return 0.0
+        key = "_tl"
+        if key not in d:
+            d[key] = (set(index_tokens(d["title"], lang)), set(index_tokens(d.get("snippet", ""), lang)))
+        title, lead = d[key]
+        idf = self.indexes[lang].idf  # rarer query words count more ("rome" over "history")
+        tot = sum(idf[t] for t in qterms) or 1.0
+        return sum(idf[t] * (1.0 if t in title else 0.5 if t in lead else 0.0) for t in qterms) / tot
+
+    def search(self, lang, query, target, alpha=ALPHA, sigma=SIGMA, k=10, rerank=True, exclude=(), min_rel=0.0,
+               known=None, beta=0.0, topic_weight=TOPIC_WEIGHT, on_topic_first=ON_TOPIC_FIRST):
         cands = self.bm25(lang, query)
         if not cands:
             return []
         top = cands[0][1] or 1.0
+        idx = self.indexes[lang]
+        qterms = {t for t in index_tokens(query, lang) if t in idx.postings}
         results = []
         for i, s in cands:
             d = self.docs[lang][i]
             if d["id"] in exclude:
                 continue
-            rel = s / top
+            topical = self._topical(lang, d, qterms) if rerank else 1.0  # plain BM25 baseline stays untouched
+            rel = (1 - topic_weight) * (s / top) + topic_weight * topical if rerank else s / top
             fit = math.exp(-((d["difficulty"] - target) ** 2) / (2 * sigma ** 2))
             final = alpha * rel + (1 - alpha) * fit if rerank else rel
             if rerank and known and beta:  # opt-in vocab-aware: favor snippets mostly made of words the learner knows
@@ -95,9 +114,12 @@ class LinguaLadder:
                     final += beta * (sum(t in known for t in toks) / len(toks) - 0.5)
             if rerank and rel < min_rel:
                 final -= 1.0  # below the relevance floor: only after every on-topic doc
+            if rerank and on_topic_first and topical < ON_TOPIC_MIN:
+                final = rel - 2.0  # mentions the word but is not about it: after every on-topic article
             results.append({**{x: d[x] for x in ("id", "title", "url", "difficulty", "level", "source",
                                                   "topic", "snippet", "words")},
                             "bm25": round(s, 3), "relevance": round(rel, 3), "fit": round(fit, 3),
+                            "on_topic": topical >= ON_TOPIC_MIN,
                             "score": round(final, 4)})
         results.sort(key=lambda r: -r["score"])
         return results[:k]

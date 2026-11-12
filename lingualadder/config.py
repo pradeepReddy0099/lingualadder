@@ -47,6 +47,9 @@ LEVELS = {
 ALPHA = 0.5     # weight of relevance vs. level fit
 SIGMA = 0.15    # width of the level-fit curve
 CANDIDATES = 100
+TOPIC_WEIGHT = 0.4      # share of relevance from query words in the title / lead (vs. body BM25)
+ON_TOPIC_MIN = 0.5      # topical share needed to count as on-topic
+ON_TOPIC_FIRST = True   # articles that only mention the query in passing rank after on-topic ones
 
 SEED_TOPICS = [
     "Volcano", "Association football", "Frida Kahlo", "Solar System", "Dinosaur",
