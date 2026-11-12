@@ -1,0 +1,5 @@
+<article class="result">
+ <a class="title" href="{{ url_for('read', lang=profile.target, doc_id=r.id) }}">{{ r.title }}</a>
+ <div class="tags"><span class="lvl {{r.level}}">{{ r.level|capitalize }}</span><span>difficulty {{ '%.2f'|format(r.difficulty) }}</span><span>CEFR ~{{ r.difficulty|cefr }}</span><span>{{ r.words }} words</span><span>{{ r.source }}</span><span>rel {{ '%.2f'|format(r.relevance) }} · fit {{ '%.2f'|format(r.fit) }}</span></div>
+ <p>{{ r.snippet }}</p>
+</article>

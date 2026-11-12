@@ -1,0 +1,13 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LinguaLadder{% block title %}{% endblock %}</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"></head>
+<body>
+<header><a class="brand" href="{{ url_for('home') }}">Lingua<span>Ladder</span></a>
+{% if profile %}<nav>
+ <span class="pill">{{ LANGUAGES[profile.target] }} · {{ LEVELS[profile.level].label }}</span>
+ <a href="{{ url_for('search') }}">Search</a><a href="{{ url_for('vocab') }}">My words</a><a href="{{ url_for('home') }}">Profile</a>
+</nav>{% endif %}</header>
+<main>{% block body %}{% endblock %}</main>
+<footer>Articles from Wikipedia, Simple English Wikipedia and Vikidia (CC BY-SA). Ranking: BM25 + level fit.</footer>
+</body></html>

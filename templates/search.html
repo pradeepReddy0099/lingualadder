@@ -1,0 +1,15 @@
+{% extends "base.html" %}{% block body %}
+<form class="searchbar" method="get">
+ <input name="q" value="{{q}}" placeholder="Search a topic, e.g. volcano, football, chocolate" autofocus>
+ <label class="chk"><input type="checkbox" name="native" value="1" {% if in_native %}checked{% endif %}> typed in my language</label>
+ <label class="chk"><input type="checkbox" name="compare" value="1" {% if compare %}checked{% endif %}> compare with plain BM25</label>
+ <button>Search</button>
+</form>
+{% if q %}
+<p class="meta">Target difficulty <b>{{target}}</b>{% if used_query != q %} · searched as “{{used_query}}”{% endif %}</p>
+<div class="{% if compare %}cols{% endif %}">
+<div><h3>{% if compare %}LinguaLadder ranking{% endif %}</h3>
+{% for r in results %}{% include "_result.html" %}{% else %}<p>No articles found. Try another word{% if not in_native %}, or tick “typed in my language”{% endif %}.</p>{% endfor %}</div>
+{% if compare %}<div><h3>Plain BM25 (relevance only)</h3>{% for r in baseline %}{% include "_result.html" %}{% endfor %}</div>{% endif %}
+</div>{% endif %}
+{% endblock %}

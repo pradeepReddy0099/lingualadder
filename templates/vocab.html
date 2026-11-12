@@ -1,0 +1,6 @@
+{% extends "base.html" %}{% block body %}
+<section class="card"><h2>My words</h2>
+{% if rows %}<table><tr><th>Language</th><th>Word</th><th>Translation</th></tr>
+{% for l,t,tr,ts in rows %}<tr><td>{{LANGUAGES.get(l,l)}}</td><td>{{t}}</td><td>{{tr}}</td></tr>{% endfor %}</table>
+{% else %}<p>No words yet. Highlight words while reading to save them here.</p>{% endif %}</section>
+{% endblock %}
