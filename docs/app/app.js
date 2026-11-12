@@ -25,10 +25,15 @@ async function run() {
   const ms = Math.round(performance.now() - t0);
   if (!res.length) { $('results').innerHTML = '<li class="empty">No matches. Try a simpler or different word, or switch language.</li>'; $('status').textContent = 'No results'; return; }
   $('status').textContent = res.length ? `${res.length} results in ${ms} ms (` + Object.entries(res.reduce((a,r)=>{const c=cefr(r.difficulty);a[c]=(a[c]||0)+1;return a;},{})).sort().map(([k,v])=>k+' ×'+v).join(', ') + `)` + ($('plain').checked ? ' (plain BM25)' : ` fitted to ${level}`) : 'No matches. Try other words.';
+  if (!$('plain').checked) {
+    const off = res.filter(r => !r.onTopic).length;
+    if (off === res.length) $('status').textContent += ' · No articles are mainly about this yet; these only mention it.';
+    else if (off) $('status').textContent += ` · ${res.length - off} about this topic, then ${off} that only mention it.`;
+  }
   const card = r => `
     <li><h3><a href="${esc(r.url)}" target="_blank" rel="noopener">${esc(r.title)}</a></h3>
       <p>${esc(r.snippet)}</p>
-      <div class="meta"><span class="badge ${esc(r.level)}">${esc(r.level)}</span> <span class="badge">${cefr(r.difficulty)}</span>
+      <div class="meta"><span class="badge ${esc(r.level)}">${esc(r.level)}</span> <span class="badge">${cefr(r.difficulty)}</span>${r.onTopic === false ? ' <span class="badge mention" title="Mentions the search words but is not mainly about them">mentions</span>' : ''}
         <span>difficulty ${pct(r.difficulty)}</span>
         <span>relevance <span class="bar"><i style="width:${pct(r.relevance)}%"></i></span></span>
         <span>level fit <span class="bar"><i style="width:${pct(r.fit)}%"></i></span></span>
