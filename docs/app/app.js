@@ -9,6 +9,7 @@ async function loadIndex(lang) {
   }
   return cache[lang];
 }
+const cefr = d => { d=Math.min(Math.max(+d,0),1); const b=[[.2,'A1'],[.61,'A2'],[.87,'B1'],[.94,'B2'],[.98,'C1']]; for (const [h,l] of b) if (d<h) return l; return 'C2'; };
 const esc = s => s.replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 const pct = x => Math.round(x * 100);
 
@@ -24,7 +25,6 @@ async function run() {
   const ms = Math.round(performance.now() - t0);
   if (!res.length) { $('results').innerHTML = '<li class="empty">No matches. Try a simpler or different word, or switch language.</li>'; $('status').textContent = 'No results'; return; }
   $('status').textContent = res.length ? `${res.length} results in ${ms} ms (` + Object.entries(res.reduce((a,r)=>{const c=cefr(r.difficulty);a[c]=(a[c]||0)+1;return a;},{})).sort().map(([k,v])=>k+' ×'+v).join(', ') + `)` + ($('plain').checked ? ' (plain BM25)' : ` fitted to ${level}`) : 'No matches. Try other words.';
-  const cefr = d => { d=Math.min(Math.max(+d,0),1); const b=[[.2,'A1'],[.61,'A2'],[.87,'B1'],[.94,'B2'],[.98,'C1']]; for (const [h,l] of b) if (d<h) return l; return 'C2'; };
   const card = r => `
     <li><h3><a href="${esc(r.url)}" target="_blank" rel="noopener">${esc(r.title)}</a></h3>
       <p>${esc(r.snippet)}</p>
