@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LinguaLadder: Wikipedia at your reading level</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+  <h1>LinguaLadder</h1>
+  <p>Search Wikipedia in the language you are learning. Results are ranked by relevance <em>and</em> by how well each article fits your reading level.</p>
+</header>
+<main>
+  <form id="f">
+    <input id="q" type="search" placeholder="Search a topic, e.g. volcano" aria-label="Search" required autofocus>
+    <div class="row">
+      <label>Language
+        <select id="lang" aria-label="Language">
+          <option value="en">English</option><option value="es">Spanish</option>
+        </select>
+      </label>
+      <label>Level
+        <select id="level" aria-label="Your level">
+          <option value="beginner">Beginner (A1-A2)</option>
+          <option value="intermediate" selected>Intermediate (B1-B2)</option>
+          <option value="advanced">Advanced (C1+)</option>
+        </select>
+      </label>
+      <label class="chk"><input type="checkbox" id="cmp"> Side-by-side compare</label>
+      <label class="chk"><input type="checkbox" id="reader"> Reader view (large text)</label>
+      <label class="chk"><input type="checkbox" id="plain"> Plain BM25 (no level fit)</label>
+      <button type="submit">Search</button>
+    </div>
+  </form>
+  <p id="status" role="status" aria-live="polite"></p>
+  <ol id="results"></ol>
+</main>
+<footer>Runs entirely in your browser: BM25 plus a level-fit reranker over a small Wikipedia index.</footer>
+<script src="ll.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
