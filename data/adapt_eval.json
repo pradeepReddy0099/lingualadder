@@ -1,0 +1,78 @@
+{
+ "en/low/start0.2": {
+  "ideal": 0.478,
+  "fixed_gap": 0.175,
+  "adaptive_gap": 0.179,
+  "final_target": 0.48
+ },
+ "en/low/start0.5": {
+  "ideal": 0.478,
+  "fixed_gap": 0.155,
+  "adaptive_gap": 0.151,
+  "final_target": 0.5
+ },
+ "en/low/start0.8": {
+  "ideal": 0.478,
+  "fixed_gap": 0.427,
+  "adaptive_gap": 0.192,
+  "final_target": 0.45
+ },
+ "en/high/start0.2": {
+  "ideal": 0.989,
+  "fixed_gap": 0.546,
+  "adaptive_gap": 0.204,
+  "final_target": 0.9
+ },
+ "en/high/start0.5": {
+  "ideal": 0.989,
+  "fixed_gap": 0.357,
+  "adaptive_gap": 0.096,
+  "final_target": 0.92
+ },
+ "en/high/start0.8": {
+  "ideal": 0.989,
+  "fixed_gap": 0.084,
+  "adaptive_gap": 0.051,
+  "final_target": 0.87
+ },
+ "es/low/start0.2": {
+  "ideal": 0.555,
+  "fixed_gap": 0.184,
+  "adaptive_gap": 0.153,
+  "final_target": 0.62
+ },
+ "es/low/start0.5": {
+  "ideal": 0.555,
+  "fixed_gap": 0.134,
+  "adaptive_gap": 0.14,
+  "final_target": 0.57
+ },
+ "es/low/start0.8": {
+  "ideal": 0.555,
+  "fixed_gap": 0.346,
+  "adaptive_gap": 0.162,
+  "final_target": 0.59
+ },
+ "es/high/start0.2": {
+  "ideal": 0.987,
+  "fixed_gap": 0.368,
+  "adaptive_gap": 0.17,
+  "final_target": 0.97
+ },
+ "es/high/start0.5": {
+  "ideal": 0.987,
+  "fixed_gap": 0.312,
+  "adaptive_gap": 0.093,
+  "final_target": 0.92
+ },
+ "es/high/start0.8": {
+  "ideal": 0.987,
+  "fixed_gap": 0.086,
+  "adaptive_gap": 0.039,
+  "final_target": 0.94
+ },
+ "mean": {
+  "fixed_gap": 0.264,
+  "adaptive_gap": 0.136
+ }
+}

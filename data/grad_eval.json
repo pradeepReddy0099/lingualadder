@@ -1,0 +1,317 @@
+{
+ "en_es": {
+  "n_queries": 94,
+  "summary": {
+   "BM25": {
+    "p10": 0.865,
+    "ndcg10": 0.919,
+    "level_match": 0.162,
+    "gold_level": 0.5
+   },
+   "Readability": {
+    "p10": 0.744,
+    "ndcg10": 0.786,
+    "level_match": 0.21,
+    "gold_level": 0.574
+   },
+   "LL-noRarity": {
+    "p10": 0.723,
+    "ndcg10": 0.762,
+    "level_match": 0.289,
+    "gold_level": 0.611
+   },
+   "LL-8feat": {
+    "p10": 0.728,
+    "ndcg10": 0.77,
+    "level_match": 0.329,
+    "gold_level": 0.627
+   },
+   "LinguaLadder": {
+    "p10": 0.73,
+    "ndcg10": 0.771,
+    "level_match": 0.359,
+    "gold_level": 0.646
+   }
+  },
+  "tests_vs_LL": {
+   "BM25": {
+    "ndcg10": {
+     "diff": -0.149,
+     "perm_p": 0.0,
+     "wilcoxon_p": 5.807470636925324e-14
+    },
+    "level_match": {
+     "diff": 0.198,
+     "perm_p": 0.0,
+     "wilcoxon_p": 7.751110000561387e-15
+    },
+    "gold_level": {
+     "diff": 0.146,
+     "perm_p": 0.0,
+     "wilcoxon_p": 2.4751733461592914e-13
+    }
+   },
+   "Readability": {
+    "ndcg10": {
+     "diff": -0.016,
+     "perm_p": 0.0514,
+     "wilcoxon_p": 0.04627176420005078
+    },
+    "level_match": {
+     "diff": 0.15,
+     "perm_p": 0.0,
+     "wilcoxon_p": 7.701315508204006e-15
+    },
+    "gold_level": {
+     "diff": 0.071,
+     "perm_p": 0.0,
+     "wilcoxon_p": 7.17228321838187e-08
+    }
+   },
+   "LL-noRarity": {
+    "ndcg10": {
+     "diff": 0.009,
+     "perm_p": 0.091,
+     "wilcoxon_p": 0.08376690471622217
+    },
+    "level_match": {
+     "diff": 0.07,
+     "perm_p": 0.0,
+     "wilcoxon_p": 7.378427007810041e-13
+    },
+    "gold_level": {
+     "diff": 0.035,
+     "perm_p": 0.0,
+     "wilcoxon_p": 5.565805975823772e-06
+    }
+   },
+   "LL-8feat": {
+    "ndcg10": {
+     "diff": 0.001,
+     "perm_p": 0.864,
+     "wilcoxon_p": 0.6118872276996401
+    },
+    "level_match": {
+     "diff": 0.03,
+     "perm_p": 0.0,
+     "wilcoxon_p": 1.1995266871009694e-07
+    },
+    "gold_level": {
+     "diff": 0.019,
+     "perm_p": 0.0002,
+     "wilcoxon_p": 0.0005118410386498944
+    }
+   }
+  }
+ },
+ "labeled": {
+  "n_queries": 94,
+  "summary": {
+   "BM25": {
+    "p10": 0.865,
+    "ndcg10": 0.919,
+    "level_match": 0.162,
+    "gold_level": 0.5
+   },
+   "Readability": {
+    "p10": 0.744,
+    "ndcg10": 0.786,
+    "level_match": 0.21,
+    "gold_level": 0.574
+   },
+   "LL-noRarity": {
+    "p10": 0.723,
+    "ndcg10": 0.762,
+    "level_match": 0.289,
+    "gold_level": 0.611
+   },
+   "LL-8feat": {
+    "p10": 0.728,
+    "ndcg10": 0.77,
+    "level_match": 0.329,
+    "gold_level": 0.627
+   },
+   "LinguaLadder": {
+    "p10": 0.73,
+    "ndcg10": 0.771,
+    "level_match": 0.359,
+    "gold_level": 0.646
+   }
+  },
+  "tests_vs_LL": {
+   "BM25": {
+    "ndcg10": {
+     "diff": -0.149,
+     "perm_p": 0.0,
+     "wilcoxon_p": 5.807470636925324e-14
+    },
+    "level_match": {
+     "diff": 0.198,
+     "perm_p": 0.0,
+     "wilcoxon_p": 7.751110000561387e-15
+    },
+    "gold_level": {
+     "diff": 0.146,
+     "perm_p": 0.0,
+     "wilcoxon_p": 2.4751733461592914e-13
+    }
+   },
+   "Readability": {
+    "ndcg10": {
+     "diff": -0.016,
+     "perm_p": 0.0525,
+     "wilcoxon_p": 0.04627176420005078
+    },
+    "level_match": {
+     "diff": 0.15,
+     "perm_p": 0.0,
+     "wilcoxon_p": 7.701315508204006e-15
+    },
+    "gold_level": {
+     "diff": 0.071,
+     "perm_p": 0.0,
+     "wilcoxon_p": 7.17228321838187e-08
+    }
+   },
+   "LL-noRarity": {
+    "ndcg10": {
+     "diff": 0.009,
+     "perm_p": 0.0924,
+     "wilcoxon_p": 0.08376690471622217
+    },
+    "level_match": {
+     "diff": 0.07,
+     "perm_p": 0.0,
+     "wilcoxon_p": 7.378427007810041e-13
+    },
+    "gold_level": {
+     "diff": 0.035,
+     "perm_p": 0.0,
+     "wilcoxon_p": 5.565805975823772e-06
+    }
+   },
+   "LL-8feat": {
+    "ndcg10": {
+     "diff": 0.001,
+     "perm_p": 0.8589,
+     "wilcoxon_p": 0.6118872276996401
+    },
+    "level_match": {
+     "diff": 0.03,
+     "perm_p": 0.0,
+     "wilcoxon_p": 1.1995266871009694e-07
+    },
+    "gold_level": {
+     "diff": 0.019,
+     "perm_p": 0.0003,
+     "wilcoxon_p": 0.0005118410386498944
+    }
+   }
+  }
+ },
+ "all": {
+  "n_queries": 94,
+  "summary": {
+   "BM25": {
+    "p10": 0.865,
+    "ndcg10": 0.919,
+    "level_match": 0.162,
+    "gold_level": 0.5
+   },
+   "Readability": {
+    "p10": 0.744,
+    "ndcg10": 0.786,
+    "level_match": 0.21,
+    "gold_level": 0.574
+   },
+   "LL-noRarity": {
+    "p10": 0.723,
+    "ndcg10": 0.762,
+    "level_match": 0.289,
+    "gold_level": 0.611
+   },
+   "LL-8feat": {
+    "p10": 0.728,
+    "ndcg10": 0.77,
+    "level_match": 0.329,
+    "gold_level": 0.627
+   },
+   "LinguaLadder": {
+    "p10": 0.73,
+    "ndcg10": 0.771,
+    "level_match": 0.359,
+    "gold_level": 0.646
+   }
+  },
+  "tests_vs_LL": {
+   "BM25": {
+    "ndcg10": {
+     "diff": -0.149,
+     "perm_p": 0.0,
+     "wilcoxon_p": 5.807470636925324e-14
+    },
+    "level_match": {
+     "diff": 0.198,
+     "perm_p": 0.0,
+     "wilcoxon_p": 7.751110000561387e-15
+    },
+    "gold_level": {
+     "diff": 0.146,
+     "perm_p": 0.0,
+     "wilcoxon_p": 2.4751733461592914e-13
+    }
+   },
+   "Readability": {
+    "ndcg10": {
+     "diff": -0.016,
+     "perm_p": 0.05,
+     "wilcoxon_p": 0.04627176420005078
+    },
+    "level_match": {
+     "diff": 0.15,
+     "perm_p": 0.0,
+     "wilcoxon_p": 7.701315508204006e-15
+    },
+    "gold_level": {
+     "diff": 0.071,
+     "perm_p": 0.0,
+     "wilcoxon_p": 7.17228321838187e-08
+    }
+   },
+   "LL-noRarity": {
+    "ndcg10": {
+     "diff": 0.009,
+     "perm_p": 0.0929,
+     "wilcoxon_p": 0.08376690471622217
+    },
+    "level_match": {
+     "diff": 0.07,
+     "perm_p": 0.0,
+     "wilcoxon_p": 7.378427007810041e-13
+    },
+    "gold_level": {
+     "diff": 0.035,
+     "perm_p": 0.0,
+     "wilcoxon_p": 5.565805975823772e-06
+    }
+   },
+   "LL-8feat": {
+    "ndcg10": {
+     "diff": 0.001,
+     "perm_p": 0.8633,
+     "wilcoxon_p": 0.6118872276996401
+    },
+    "level_match": {
+     "diff": 0.03,
+     "perm_p": 0.0,
+     "wilcoxon_p": 1.1995266871009694e-07
+    },
+    "gold_level": {
+     "diff": 0.019,
+     "perm_p": 0.0003,
+     "wilcoxon_p": 0.0005118410386498944
+    }
+   }
+  }
+ }
+}

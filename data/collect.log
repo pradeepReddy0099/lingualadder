@@ -1,0 +1,18 @@
+1) Finding topical English articles ...
+   649 English titles across 50 topics
+2) Mapping to other languages ...
+3) Downloading article text ...
+  saved  632 articles -> enwiki.jsonl
+  saved  466 articles -> eswiki.jsonl
+  saved  460 articles -> frwiki.jsonl
+  saved  191 articles -> hiwiki.jsonl
+  saved  391 articles -> jawiki.jsonl
+4) Downloading easy-language articles ...
+  saved  233 articles -> simplewiki.jsonl
+  saved  170 articles -> esvikidia.jsonl
+  saved  268 articles -> frvikidia.jsonl
+5) Adding random regular articles for balance ...
+  saved  129 articles -> enwiki_random.jsonl
+  saved  124 articles -> eswiki_random.jsonl
+  saved  128 articles -> frwiki_random.jsonl
+Done.

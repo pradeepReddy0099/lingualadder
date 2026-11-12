@@ -1,0 +1,99 @@
+{
+ "features": [
+  "avg_sentence_len",
+  "avg_word_len",
+  "rare_word_share",
+  "type_token_ratio",
+  "long_word_share",
+  "digit_rate",
+  "parens_per_sentence",
+  "log_length",
+  "syllables_per_word",
+  "core_vocab_share",
+  "mid_band_share",
+  "subord_per_sentence",
+  "commas_per_sentence",
+  "sentence_len_std",
+  "long_sentence_share"
+ ],
+ "rows": [
+  {
+   "features": "base",
+   "model": "LR",
+   "cv_accuracy": 0.849,
+   "cv_f1": 0.902,
+   "cv_auc": 0.89,
+   "lolo_accuracy": {
+    "es": 0.837,
+    "en": 0.909,
+    "fr": 0.786
+   },
+   "lolo_mean": 0.844
+  },
+  {
+   "features": "base",
+   "model": "LR_C0.1",
+   "cv_accuracy": 0.848,
+   "cv_f1": 0.901,
+   "cv_auc": 0.89,
+   "lolo_accuracy": {
+    "es": 0.832,
+    "en": 0.905,
+    "fr": 0.784
+   },
+   "lolo_mean": 0.84
+  },
+  {
+   "features": "base",
+   "model": "GBT",
+   "cv_accuracy": 0.853,
+   "cv_f1": 0.904,
+   "cv_auc": 0.893,
+   "lolo_accuracy": {
+    "es": 0.829,
+    "en": 0.885,
+    "fr": 0.781
+   },
+   "lolo_mean": 0.832
+  },
+  {
+   "features": "extended",
+   "model": "LR",
+   "cv_accuracy": 0.865,
+   "cv_f1": 0.912,
+   "cv_auc": 0.901,
+   "lolo_accuracy": {
+    "es": 0.832,
+    "en": 0.918,
+    "fr": 0.795
+   },
+   "lolo_mean": 0.848
+  },
+  {
+   "features": "extended",
+   "model": "LR_C0.1",
+   "cv_accuracy": 0.86,
+   "cv_f1": 0.909,
+   "cv_auc": 0.901,
+   "lolo_accuracy": {
+    "es": 0.835,
+    "en": 0.922,
+    "fr": 0.797
+   },
+   "lolo_mean": 0.851
+  },
+  {
+   "features": "extended",
+   "model": "GBT",
+   "cv_accuracy": 0.859,
+   "cv_f1": 0.908,
+   "cv_auc": 0.906,
+   "lolo_accuracy": {
+    "es": 0.837,
+    "en": 0.902,
+    "fr": 0.79
+   },
+   "lolo_mean": 0.843
+  }
+ ]
+}
