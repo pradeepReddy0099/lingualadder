@@ -88,7 +88,7 @@
    "LL-8feat": {
     "ndcg10": {
      "diff": 0.001,
-     "perm_p": 0.864,
+     "perm_p": 0.8543,
      "wilcoxon_p": 0.6118872276996401
     },
     "level_match": {
@@ -193,7 +193,7 @@
    "LL-8feat": {
     "ndcg10": {
      "diff": 0.001,
-     "perm_p": 0.8589,
+     "perm_p": 0.8491,
      "wilcoxon_p": 0.6118872276996401
     },
     "level_match": {
@@ -298,7 +298,7 @@
    "LL-8feat": {
     "ndcg10": {
      "diff": 0.001,
-     "perm_p": 0.8633,
+     "perm_p": 0.8545,
      "wilcoxon_p": 0.6118872276996401
     },
     "level_match": {
