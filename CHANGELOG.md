@@ -157,3 +157,15 @@ English 5,500 articles cached; Spanish 3,620 of 5,500 cached. Collector resumes 
 
 ## Flask parity: Too easy / Too hard buttons
 - Search results in the Flask app now have Too easy and Too hard buttons that call the feedback endpoint and step the target level. No ranking change (metrics unchanged). Tests: 14 pass; /search returns 200 for en and es.
+
+## Flask error pages
+- Added friendly 404 and 500 pages with a link home, plus a test. No ranking change (metrics unchanged). Tests: 15 pass; /search?q=volcano returns 200.
+
+## Spanish Flask test
+- Added a Spanish search test for the Flask app. No ranking change. Tests: 16 pass.
+
+## Feedback test (en and es)
+- Added a test that too hard / too easy feedback moves the target level in English and Spanish and rejects bad verdicts. No ranking change. Tests: 17 pass.
+
+## Coverage report test
+- Added a test that the en and es coverage reports are consistent (complete + gaps = 304 topics, at least 290 complete). No ranking change. Tests: 18 pass.

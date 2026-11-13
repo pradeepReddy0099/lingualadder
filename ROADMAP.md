@@ -33,7 +33,7 @@ Goal: results that fit the learner's level better WITHOUT losing much relevance.
 ## Engineering
 - [x] Unit tests for textproc, BM25, re-ranker (pytest). (DONE: app, textproc, BM25, reranker; 10 tests)
 - [ ] Faster startup (smaller index, lazy load).
-- [x] Input validation (profile form returns 400 on bad values); error pages still todo.
+- [x] Input validation (400 on bad values); 404/500 error pages done.
 - [ ] README kept current.
 
 - [ ] CEFR: validate bands against externally CEFR-labelled texts (e.g. graded readers) instead of corpus quantiles.

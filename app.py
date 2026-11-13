@@ -166,5 +166,16 @@ def api_search():
     return jsonify(ENGINE.search(lang, q, LEVELS[level]["target"]))
 
 
+
+@app.errorhandler(404)
+def _not_found(e):
+    return "<!doctype html><title>Not found</title><h1>Page not found</h1><p><a href='/'>Back to LinguaLadder</a></p>", 404
+
+
+@app.errorhandler(500)
+def _server_error(e):
+    return "<!doctype html><title>Error</title><h1>Something went wrong</h1><p><a href='/'>Back to LinguaLadder</a></p>", 500
+
+
 if __name__ == "__main__":
     app.run(debug=False, port=int(os.environ.get("PORT", 5000)))
