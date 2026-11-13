@@ -140,3 +140,11 @@ English 5,500 articles cached; Spanish 3,620 of 5,500 cached. Collector resumes 
 - Recommendations: topic chips ranked by articles near the learner's level (unread first); "The ladder for this topic" strip with one on-topic pick per level; "Read next ↑" per article (same topic, next step harder, unread); "Too easy / Too hard" moves the personal target by 0.07 quantile.
 - Coverage tool (python -m lingualadder.coverage [--fill]): reports topics missing a level and fetches candidates to fill gaps. Current corpus: en 31/50, es 22/50 topics have all three levels (mostly missing intermediate).
 - Tests: pytest 14 passed, parity 15/15, app smoke test OK, placement test 8/8.
+
+## Spanish boost
+- Merged the Spanish boost (Vikidia + Spanish Wikipedia) and rebuilt. Docs: en 8,282 (2,039 easy), es 8,109 (1,908 easy); before: en 8,159 total / 1,964 easy, es 7,419 / 1,338. Spanish easy articles grew +570 but still trail English by 131; Spanish total trails by 173.
+- Levels after: en beginner 1,266 / intermediate 885 / advanced 6,131; es 1,040 / 1,020 / 6,049.
+- Coverage: en 302/304 topics complete (gaps: Gabriel García Márquez beginner, Photography intermediate); es 294/304 (was 287). Fill rounds found no new candidates for the remaining 10 es topics: Inca Empire, Barcelona, Vegetable, Magnetism, Carnival, Corn (beginner); Colombia, Painting, Martial arts (intermediate); Tourism (both).
+- evaluate.py overall: P@10 0.774 -> 0.707, nDCG@10 0.8 -> 0.72, level match 0.211 -> 0.441 (BM25 -> LL). en nDCG LL 0.73-0.75, es 0.69-0.71. grad_eval summary unchanged (nDCG 0.516, gold level fit 0.757).
+- Web data: en 21.8 MB + two parts (5.2 MB), es 23.2 MB; 45 MB total. Parity 14/15 (one 5e-5 score tie in en), smoke and placement tests pass, pytest 14 pass.
+- Next: another easy Spanish source (e.g. Spanish children's encyclopedias) and targeted fill for the 12 gap topics.

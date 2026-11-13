@@ -39,3 +39,11 @@ Goal: results that fit the learner's level better WITHOUT losing much relevance.
 - [ ] CEFR: validate bands against externally CEFR-labelled texts (e.g. graded readers) instead of corpus quantiles.
 - [x] Adaptive target step/tolerance sweep done (see CHANGELOG; step 0.07 kept).
 - [x] Adaptive target: decaying step and noisy learner simulated (see CHANGELOG). Follow-up: try default step 0.10-0.15 with decay 0.95.
+
+## Expanded corpus (data priority, in progress)
+- [x] E1: collect_big finished (en 5,500 + es 5,500 regular, Simple English, Vikidia); finalize now keeps every article (no cap), raw files split into parts under 20 MB.
+- [x] E2: coverage fill rounds (parallel search, incremental writes): en 303/304 and es 286/304 topics with all three levels (was 189 and 141 of 304 after the uncapped build).
+- [x] E3: wait for boost_es (Spanish growth to English size) to finish, merge it (python -m lingualadder.boost_es --merge), rebuild, run python -m lingualadder.coverage --fill --rounds 2 --per-gap 12 until 304/304 or report the topics that cannot be filled.
+- [ ] E4: evaluate.py, grad_eval.py (with and without topic guard), export_web en es (split JSON over 24 MB), tests + node tests, docs/README numbers, CHANGELOG "Expanded corpus", GitHub sync, Hark Page (smaller sample), zip.
+
+- [ ] E5 (step 1: GitHub sync of code and small files done; web data is 45 MB so it stays out of Pages, files over 25 MB cannot be web-uploaded): add a second easy Spanish source (children's encyclopedias) to close the 131 easy-article gap and fill the 10 remaining es gap topics.
