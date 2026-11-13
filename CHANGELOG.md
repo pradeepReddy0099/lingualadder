@@ -154,3 +154,6 @@ English 5,500 articles cached; Spanish 3,620 of 5,500 cached. Collector resumes 
 - Coverage: en 302/304 topics, es 294/304 (before 299 / 287); extra fill found no new candidates for the remaining gaps.
 - Overall eval: BM25 P@10 0.774, nDCG 0.800; LinguaLadder P@10 0.707, nDCG 0.720, level match 0.441.
 - Web data re-exported: en 26.98 MB (3 parts), es 23.18 MB.
+
+## Flask parity: Too easy / Too hard buttons
+- Search results in the Flask app now have Too easy and Too hard buttons that call the feedback endpoint and step the target level. No ranking change (metrics unchanged). Tests: 14 pass; /search returns 200 for en and es.
