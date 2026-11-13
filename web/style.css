@@ -35,3 +35,4 @@ footer{color:var(--mute);font-size:.8rem;padding-bottom:24px}
 
 body.reader #results p{font-size:1.25rem;line-height:1.75;max-width:38em}
 body.reader #results h3{font-size:1.4rem}
+.badge.mention{background:#eee;color:#555;border:1px dashed #999}

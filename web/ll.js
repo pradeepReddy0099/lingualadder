@@ -46,15 +46,24 @@
     const cands = Array.from(bm25(idx, query)).sort((a, b) => b[1] - a[1] || a[0] - b[0]).slice(0, o.candidates);
     if (!cands.length) return [];
     const top = cands[0][1] || 1;
+    const tw = o.topicWeight ?? idx.topic_weight ?? 0.4, tmin = idx.on_topic_min ?? 0.5;
+    const onFirst = o.onTopicFirst ?? idx.on_topic_first ?? true;
+    const qterms = Array.from(new Set(indexTokens(query, idx))).filter(t => idx.terms[t]);
+    const qidf = qterms.reduce((a, t) => a + idx.terms[t][0], 0) || 1;
     const out = cands.map(([i, s]) => {
       const d = idx.docs[i];
-      const rel = s / top;
+      // Topicality: query words in the title (full credit) or opening lead (half), weighted by idf.
+      if (!d._tl) d._tl = [new Set(indexTokens(d[1], idx)), new Set(indexTokens(d[3] || '', idx))];
+      const topical = qterms.reduce((a, t) => a + idx.terms[t][0] * (d._tl[0].has(t) ? 1 : d._tl[1].has(t) ? 0.5 : 0), 0) / qidf;
+      const onTopic = topical >= tmin;
+      const rel = o.rerank ? (1 - tw) * (s / top) + tw * topical : s / top;
       const diff = d[4];
       const fit = Math.exp(-((diff - o.target) ** 2) / (2 * o.sigma ** 2));
       let final = o.rerank ? o.alpha * rel + (1 - o.alpha) * fit : rel;
       if (o.rerank && rel < o.minRel) final -= 1;
+      if (o.rerank && onFirst && !onTopic) final = rel - 2;
       return { id: d[0], title: d[1], url: d[2], snippet: d[3], difficulty: d[4], level: d[5], words: d[6],
-               topic: d[7], source: d[8], bm25: s, relevance: rel, fit, score: final };
+               topic: d[7], source: d[8], bm25: s, relevance: rel, fit, score: final, onTopic };
     });
     out.sort((a, b) => b.score - a.score);
     return out.slice(0, o.k);
