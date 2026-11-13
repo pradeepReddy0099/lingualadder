@@ -1,3 +1,4 @@
+function loadIdx(l){const fs_=require('fs');const d=JSON.parse(fs_.readFileSync(__dirname+'/data/'+l+'.json','utf8'));for(let i=2;i<=(d.parts||0)+1;i++)Object.assign(d.terms,JSON.parse(fs_.readFileSync(__dirname+'/data/'+l+'.p'+i+'.json','utf8')));return d;}
 // Compares JS top-10 with Python's (web/parity_expected.json from lingualadder.web_parity). Run: node web/parity_test.js
 const fs = require('fs'), path = require('path');
 const LL = require('./ll.js');
@@ -5,7 +6,7 @@ const exp = JSON.parse(fs.readFileSync(path.join(__dirname, 'parity_expected.jso
 const cache = {};
 let bad = 0, total = 0;
 for (const c of exp) {
-  const idx = cache[c.lang] || (cache[c.lang] = JSON.parse(fs.readFileSync(path.join(__dirname, 'data', c.lang + '.json'), 'utf8')));
+  const idx = cache[c.lang] || (cache[c.lang] = loadIdx(c.lang));
   const res = LL.search(idx, c.query, { target: c.target });
   const got = res.map(r => r.id);
   const ok = JSON.stringify(got) === JSON.stringify(c.ids);

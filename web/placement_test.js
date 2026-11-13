@@ -1,8 +1,9 @@
+function loadIdx(l){const fs_=require('fs');const d=JSON.parse(fs_.readFileSync(__dirname+'/data/'+l+'.json','utf8'));for(let i=2;i<=(d.parts||0)+1;i++)Object.assign(d.terms,JSON.parse(fs_.readFileSync(__dirname+'/data/'+l+'.p'+i+'.json','utf8')));return d;}
 // Checks the placement test generator and simulates learners of known ability. Run: node web/placement_test.js
 const fs = require('fs'), P = require(__dirname + '/placement.js');
 let fails = 0; const ok = (c, m) => { console.log((c ? 'OK   ' : 'FAIL ') + m); if (!c) fails++; };
 for (const lang of ['en', 'es']) {
-  const idx = JSON.parse(fs.readFileSync(__dirname + `/data/${lang}.json`, 'utf8'));
+  const idx = loadIdx(lang);
   const v = P.vocabItems(idx, 7, lang);
   ok(v.filter(x => x.real).length === 18 && v.filter(x => !x.real).length >= 5, `${lang} vocab: ${v.filter(x=>x.real).length} real + ${v.filter(x=>!x.real).length} fake (${v.filter(x=>!x.real).map(x=>x.word).join(', ')})`);
   ok(P.scoreVocab(v, v.map(x => x.real)) === 1 && P.scoreVocab(v, v.map(() => true)) === 0, `${lang} vocab scoring: perfect=1, say-yes-to-all=0`);

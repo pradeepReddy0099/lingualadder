@@ -5,7 +5,13 @@ async function loadIndex(lang) {
   if (!cache[lang]) {
     const r = await fetch(`data/${lang}.json`);
     if (!r.ok) throw new Error('Could not load the ' + lang + ' index');
-    cache[lang] = await r.json();
+    const idx = await r.json();
+    for (let i = 2; i <= (idx.parts || 0) + 1; i++) {
+      const rp = await fetch(`data/${lang}.p${i}.json`);
+      if (!rp.ok) throw new Error('Could not load the ' + lang + ' index part ' + i);
+      Object.assign(idx.terms, await rp.json());
+    }
+    cache[lang] = idx;
   }
   return cache[lang];
 }
