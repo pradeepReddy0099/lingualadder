@@ -46,7 +46,7 @@ def search(url, q, n):
     return [r["title"] for r in data.get("query", {}).get("search", [])]
 
 
-def fill_round(cov, per_gap=8, workers=12):
+def fill_round(cov, per_gap=8, workers=24):
     from .collect import fetch_extract
     existing = set()
     for p in RAW_DIR.glob("*.jsonl"):
@@ -56,16 +56,21 @@ def fill_round(cov, per_gap=8, workers=12):
     for lang, info in cov.items():
         easy_url, reg_url = EASY_SOURCES[lang], wiki_api(lang)
         easy_src = "simple.wikipedia" if lang == "en" else f"{lang}.vikidia"
-        jobs = []
-        for topic, missing in info["gaps"].items():
+        def plan(item):
+            topic, missing = item
             q = info["labels"].get(topic, topic)
+            out = []
             if "beginner" in missing or "intermediate" in missing:
-                jobs += [(easy_url, t, {"lang": lang, "source": easy_src, "topic": topic, "en_title": None, "easy": 1, "_fill": "easy"})
-                         for t in search(easy_url, q, per_gap)]
-            if "intermediate" in missing or "advanced" in missing:
-                jobs += [(reg_url, t, {"lang": lang, "source": f"{lang}.wikipedia", "topic": topic, "en_title": None, "easy": 0,
-                                       "_fill": "short" if "advanced" not in missing else "any"})
-                         for t in search(reg_url, q, per_gap * 2)]
+                out += [(easy_url, t, {"lang": lang, "source": easy_src, "topic": topic, "en_title": None, "easy": 1, "_fill": "easy"})
+                        for t in search(easy_url, q, per_gap)]
+            if missing:   # beginner/intermediate gaps also look at short regular articles (stubs are often easy)
+                out += [(reg_url, t, {"lang": lang, "source": f"{lang}.wikipedia", "topic": topic, "en_title": None, "easy": 0,
+                                      "_fill": "short" if "advanced" not in missing else "any"})
+                        for t in search(reg_url, q, per_gap * 2)]
+            return out
+        with ThreadPoolExecutor(workers) as ex:
+            jobs = [j for js in ex.map(plan, info["gaps"].items()) for j in js]
+        print(f"  {lang}: {len(jobs)} search candidates", flush=True)
         jobs = [j for j in jobs if (j[2]["source"], j[1]) not in existing]
 
         def get(job):
@@ -77,11 +82,13 @@ def fill_round(cov, per_gap=8, workers=12):
                 return None
             a.update({k: v for k, v in meta.items() if k != "_fill"})
             return a
-        with ThreadPoolExecutor(workers) as ex:
-            arts = [a for a in ex.map(get, jobs) if a]
-        with open(RAW_DIR / f"fill_{lang}.jsonl", "a", encoding="utf-8") as f:
-            for a in arts:
-                f.write(json.dumps(a, ensure_ascii=False) + "\n")
+        arts, done = [], 0
+        with ThreadPoolExecutor(workers) as ex, open(RAW_DIR / f"fill_{lang}.jsonl", "a", encoding="utf-8") as f:
+            for a in ex.map(get, jobs):
+                done += 1
+                if a:
+                    arts.append(a); f.write(json.dumps(a, ensure_ascii=False) + "\n"); f.flush()
+                if done % 200 == 0: print(f"    {lang}: {done}/{len(jobs)} fetched, {len(arts)} kept", flush=True)
         print(f"  {lang}: +{len(arts)} candidate articles for {len(info['gaps'])} topics with gaps")
         added += len(arts)
     return added
@@ -91,6 +98,7 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--fill", action="store_true")
     ap.add_argument("--rounds", type=int, default=3)
+    ap.add_argument("--per-gap", type=int, default=0, help="search results per gap (default grows 4, 8, 12 per round)")
     a = ap.parse_args()
     cov = report()
     if not a.fill:
@@ -99,7 +107,7 @@ def main():
         if not any(v["gaps"] for v in cov.values()):
             break
         print(f"Round {r + 1}: filling gaps ...")
-        if not fill_round(cov, per_gap=8 * (r + 1)):
+        if not fill_round(cov, per_gap=a.per_gap or 4 * (r + 1)):
             break
         subprocess.run([sys.executable, "-m", "lingualadder.build"], check=True)
         cov = report()

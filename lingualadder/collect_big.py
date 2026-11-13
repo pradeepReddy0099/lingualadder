@@ -114,17 +114,41 @@ def read(name):
         seen.add(d["pageid"]); d.pop("_req", None); out.append(d)
     return out
 
-def finalize(target):
-    """Write capped data/raw files: easy + random kept whole, topical regular articles fill up to `target`."""
-    def keep_random(n):
-        p = RAW_DIR / f"{n}.jsonl"; return [json.loads(l) for l in open(p, encoding="utf-8")] if p.exists() else []
+MAX_PART = 20 * 1024 * 1024   # GitHub web upload allows 25 MB per file; keep parts under 20 MB
+
+def write_parts(name, arts):
+    """Write articles to data/raw/<name>.jsonl, or <name>_p1.jsonl, _p2.jsonl ... when bigger than MAX_PART."""
+    for old in list(RAW_DIR.glob(f"{name}.jsonl")) + list(RAW_DIR.glob(f"{name}_p*.jsonl")): old.unlink()
+    parts, cur, size = [], [], 0
+    for x in arts:
+        line = json.dumps(x, ensure_ascii=False) + "\n"
+        b = len(line.encode("utf-8"))
+        if cur and size + b > MAX_PART: parts.append(cur); cur, size = [], 0
+        cur.append(line); size += b
+    if cur: parts.append(cur)
+    for k, lines in enumerate(parts, 1):
+        fn = f"{name}.jsonl" if len(parts) == 1 else f"{name}_p{k}.jsonl"
+        with open(RAW_DIR / fn, "w", encoding="utf-8") as f: f.writelines(lines)
+    return len(parts)
+
+def finalize(target=None):
+    """Write data/raw files with NO article cap: every fetched article is kept (plus any older curated ones),
+    split into parts under 20 MB. `target` is ignored (kept for command-line compatibility)."""
+    def load_old(n):
+        out = []
+        for p in sorted(RAW_DIR.glob(f"{n}.jsonl")) + sorted(RAW_DIR.glob(f"{n}_p*.jsonl")):
+            out += [json.loads(l) for l in open(p, encoding="utf-8")]
+        return out
     for lang, reg, easy, rnd in (("en", "enwiki", "simplewiki", "enwiki_random"), ("es", "eswiki", "esvikidia", "eswiki_random")):
-        e, r, g = read(easy), keep_random(rnd), read(reg)
-        g = g[: max(0, target - len(e) - len(r))]
-        for name, arts in ((reg, g), (easy, e)):
-            with open(RAW_DIR / f"{name}.jsonl", "w", encoding="utf-8") as f:
-                for x in arts: f.write(json.dumps(x, ensure_ascii=False) + "\n")
-        print(f"{lang}: {len(g)} regular + {len(e)} easy + {len(r)} random = {len(g)+len(e)+len(r)}")
+        res = {}
+        for name in (reg, easy):
+            arts, seen = read(name), set()
+            arts_ids = {x["pageid"] for x in arts}
+            old = [x for x in load_old(name) if x["pageid"] not in arts_ids]   # keep older curated articles too
+            arts = arts + old
+            res[name] = (arts, write_parts(name, arts))
+        r = load_old(rnd)
+        print(f"{lang}: {len(res[reg][0])} regular ({res[reg][1]} files) + {len(res[easy][0])} easy ({res[easy][1]} files) + {len(r)} random")
 
 if __name__ == "__main__":
     main()

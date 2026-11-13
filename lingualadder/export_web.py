@@ -49,11 +49,32 @@ def export_lang(ll, lang):
     return path
 
 
+def split_parts(p, limit=24e6):
+    """Split an index over the limit: terms go into extra part files <lang>.pN.json (app.js loads 'parts')."""
+    import json, glob, os
+    for old in glob.glob(str(p).replace('.json', '.p*.json')):
+        os.remove(old)
+    if p.stat().st_size <= limit:
+        return
+    d = json.loads(p.read_text())
+    terms = list(d['terms'].items())
+    n = int(p.stat().st_size // 12e6) + 1
+    step = -(-len(terms) // n)
+    chunks = [dict(terms[i:i + step]) for i in range(0, len(terms), step)]
+    d['terms'] = chunks[0]
+    d['parts'] = len(chunks) - 1
+    p.write_text(json.dumps(d, ensure_ascii=False, separators=(',', ':')))
+    for i, c in enumerate(chunks[1:], 2):
+        p.with_name(p.name.replace('.json', f'.p{i}.json')).write_text(
+            json.dumps(c, ensure_ascii=False, separators=(',', ':')))
+
+
 def main(langs):
     ll = LinguaLadder()
     total = 0
     for lang in langs:
         p = export_lang(ll, lang)
+        split_parts(p)
         size = p.stat().st_size
         total += size
         print(f"{lang}: {size / 1e6:.2f} MB -> {p}")
