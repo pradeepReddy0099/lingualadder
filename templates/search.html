@@ -12,4 +12,5 @@
 {% for r in results %}{% include "_result.html" %}{% else %}<p>No articles found. Try another word{% if not in_native %}, or tick “typed in my language”{% endif %}.</p>{% endfor %}</div>
 {% if compare %}<div><h3>Plain BM25 (relevance only)</h3>{% for r in baseline %}{% include "_result.html" %}{% endfor %}</div>{% endif %}
 </div>{% endif %}
+<script>function llFb(b,v,id,d){fetch('/api/feedback',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({verdict:v,doc_id:id,difficulty:d})}).then(r=>r.json()).then(j=>{b.parentNode.textContent=(v==='too_easy'?'Stepping your level up':'Stepping your level down')+' (target '+j.target+'). Search again to apply.'})}</script>
 {% endblock %}
