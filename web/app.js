@@ -154,7 +154,7 @@ function testCloze() {
   const answer = o => {
     const ok = o === c.answer;
     $('test-body').querySelectorAll('.opt').forEach(b => { b.disabled = true; if (b.dataset.o === c.answer) b.classList.add('right'); else if (b.dataset.o === o) b.classList.add('wrong'); });
-    T.st.record(ok); setTimeout(testCloze, 650);
+    T.st.record(ok); setTimeout(testCloze, 450);
   };
   $('test-body').querySelectorAll('.opt').forEach(b => b.onclick = () => answer(b.dataset.o));
   $('t-skip').onclick = () => answer(null);
