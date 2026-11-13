@@ -148,3 +148,9 @@ English 5,500 articles cached; Spanish 3,620 of 5,500 cached. Collector resumes 
 - evaluate.py overall: P@10 0.774 -> 0.707, nDCG@10 0.8 -> 0.72, level match 0.211 -> 0.441 (BM25 -> LL). en nDCG LL 0.73-0.75, es 0.69-0.71. grad_eval summary unchanged (nDCG 0.516, gold level fit 0.757).
 - Web data: en 21.8 MB + two parts (5.2 MB), es 23.2 MB; 45 MB total. Parity 14/15 (one 5e-5 score tie in en), smoke and placement tests pass, pytest 14 pass.
 - Next: another easy Spanish source (e.g. Spanish children's encyclopedias) and targeted fill for the 12 gap topics.
+
+## Spanish boost
+- Vikidia/Spanish Wikipedia boost merged. Spanish now 8,109 docs (1,908 easy) vs English 8,282 (before: es 7,419 total / 1,338 easy). Levels es: beginner 1,040, intermediate 1,020, advanced 6,049; en: 1,266 / 885 / 6,131.
+- Coverage: en 302/304 topics, es 294/304 (before 299 / 287); extra fill found no new candidates for the remaining gaps.
+- Overall eval: BM25 P@10 0.774, nDCG 0.800; LinguaLadder P@10 0.707, nDCG 0.720, level match 0.441.
+- Web data re-exported: en 26.98 MB (3 parts), es 23.18 MB.
