@@ -1,214 +1,67 @@
 {
  "en": {
-  "topics": 50,
-  "complete": 31,
+  "topics": 304,
+  "complete": 302,
   "gaps": {
-   "Volcano": [
-    "intermediate"
-   ],
-   "Frida Kahlo": [
+   "Gabriel García Márquez": [
     "beginner"
    ],
-   "Solar System": [
-    "intermediate"
-   ],
-   "Artificial intelligence": [
-    "intermediate"
-   ],
-   "Guitar": [
-    "intermediate"
-   ],
-   "Pizza": [
-    "intermediate"
-   ],
-   "Ocean": [
-    "intermediate"
-   ],
-   "Climate change": [
-    "beginner",
-    "intermediate"
-   ],
-   "Earthquake": [
-    "beginner"
-   ],
-   "Moon": [
-    "intermediate"
-   ],
-   "Leonardo da Vinci": [
-    "intermediate"
-   ],
-   "Albert Einstein": [
-    "intermediate"
-   ],
-   "Mount Everest": [
-    "beginner"
-   ],
-   "Airplane": [
-    "intermediate"
-   ],
-   "Basketball": [
-    "beginner"
-   ],
-   "Human brain": [
-    "intermediate"
-   ],
-   "Bird": [
-    "intermediate"
-   ],
-   "Yoga": [
-    "beginner",
-    "intermediate"
-   ],
-   "Bread": [
+   "Photography": [
     "intermediate"
    ]
   },
   "labels": {
-   "Volcano": "Volcano",
-   "Frida Kahlo": "Frida Kahlo",
-   "Solar System": "Solar System",
-   "Artificial intelligence": "Artificial intelligence",
-   "Guitar": "Guitar",
-   "Pizza": "Pizza",
-   "Ocean": "Ocean",
-   "Climate change": "Climate change",
-   "Earthquake": "Earthquake",
-   "Moon": "Moon",
-   "Leonardo da Vinci": "Leonardo da Vinci",
-   "Albert Einstein": "Albert Einstein",
-   "Mount Everest": "Mount Everest",
-   "Airplane": "Airplane",
-   "Basketball": "Basketball",
-   "Human brain": "Human brain",
-   "Bird": "Bird",
-   "Yoga": "Yoga",
-   "Bread": "Bread"
+   "Gabriel García Márquez": "Gabriel García Márquez",
+   "Photography": "Photography"
   }
  },
  "es": {
-  "topics": 50,
-  "complete": 22,
+  "topics": 304,
+  "complete": 294,
   "gaps": {
-   "Volcano": [
+   "Inca Empire": [
+    "beginner"
+   ],
+   "Colombia": [
     "intermediate"
    ],
-   "Frida Kahlo": [
-    "intermediate"
+   "Barcelona": [
+    "beginner"
    ],
-   "Solar System": [
-    "intermediate"
+   "Vegetable": [
+    "beginner"
    ],
-   "Dinosaur": [
-    "beginner",
-    "intermediate"
-   ],
-   "Chocolate": [
-    "intermediate"
-   ],
-   "Coffee": [
-    "intermediate"
-   ],
-   "Artificial intelligence": [
-    "intermediate"
-   ],
-   "Elephant": [
-    "intermediate"
-   ],
-   "Earthquake": [
-    "intermediate"
-   ],
-   "Moon": [
-    "intermediate"
-   ],
-   "Albert Einstein": [
-    "intermediate"
-   ],
-   "Ancient Egypt": [
-    "intermediate"
-   ],
-   "Train": [
-    "intermediate"
-   ],
-   "Airplane": [
-    "intermediate"
-   ],
-   "Mahatma Gandhi": [
+   "Tourism": [
     "beginner",
     "intermediate"
    ],
    "Painting": [
     "intermediate"
    ],
-   "Vaccine": [
-    "intermediate"
-   ],
-   "Pyramid": [
+   "Magnetism": [
     "beginner"
    ],
-   "Tiger": [
-    "intermediate"
-   ],
-   "Music": [
-    "intermediate"
-   ],
-   "Cricket": [
+   "Carnival": [
     "beginner"
    ],
-   "Climate change": [
-    "beginner",
-    "intermediate"
-   ],
-   "Mount Everest": [
-    "beginner",
-    "intermediate"
-   ],
-   "Tea": [
+   "Corn": [
     "beginner"
    ],
-   "Tennis": [
-    "beginner"
-   ],
-   "Yoga": [
-    "beginner",
+   "Martial arts": [
     "intermediate"
-   ],
-   "Honey bee": [
-    "beginner",
-    "intermediate"
-   ],
-   "Space exploration": [
-    "beginner"
    ]
   },
   "labels": {
-   "Volcano": "Volcán",
-   "Frida Kahlo": "Frida Kahlo",
-   "Solar System": "Sistema solar",
-   "Dinosaur": "Dinosauria",
-   "Chocolate": "Chocolate",
-   "Coffee": "Café",
-   "Artificial intelligence": "Inteligencia artificial",
-   "Elephant": "Elephantidae",
-   "Earthquake": "Terremoto",
-   "Moon": "Luna",
-   "Albert Einstein": "Albert Einstein",
-   "Ancient Egypt": "Antiguo Egipto",
-   "Train": "Tren",
-   "Airplane": "Avión",
-   "Mahatma Gandhi": "Mahatma Gandhi",
+   "Inca Empire": "Inca Empire",
+   "Colombia": "Colombia",
+   "Barcelona": "Barcelona",
+   "Vegetable": "Vegetable",
+   "Tourism": "Turismo",
    "Painting": "Pintura",
-   "Vaccine": "Vacuna",
-   "Pyramid": "Pirámide (arquitectura)",
-   "Tiger": "Panthera tigris",
-   "Music": "Music",
-   "Cricket": "Críquet",
-   "Climate change": "Calentamiento global",
-   "Mount Everest": "Monte Everest",
-   "Tea": "Té",
-   "Tennis": "Tenis",
-   "Yoga": "Yoga",
-   "Honey bee": "Apis (género)",
-   "Space exploration": "Exploración espacial"
+   "Magnetism": "Magnetism",
+   "Carnival": "Carnival",
+   "Corn": "Zea mays",
+   "Martial arts": "Arte marcial"
   }
  }
 }

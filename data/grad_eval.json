@@ -1,315 +1,315 @@
 {
  "en_es": {
-  "n_queries": 94,
+  "n_queries": 331,
   "summary": {
    "BM25": {
-    "p10": 0.865,
-    "ndcg10": 0.919,
-    "level_match": 0.162,
+    "p10": 0.772,
+    "ndcg10": 0.798,
+    "level_match": 0.212,
     "gold_level": 0.5
    },
    "Readability": {
-    "p10": 0.744,
-    "ndcg10": 0.786,
-    "level_match": 0.21,
-    "gold_level": 0.574
+    "p10": 0.541,
+    "ndcg10": 0.565,
+    "level_match": 0.335,
+    "gold_level": 0.634
    },
    "LL-noRarity": {
-    "p10": 0.723,
-    "ndcg10": 0.762,
-    "level_match": 0.289,
-    "gold_level": 0.611
+    "p10": 0.485,
+    "ndcg10": 0.522,
+    "level_match": 0.568,
+    "gold_level": 0.714
    },
    "LL-8feat": {
-    "p10": 0.728,
-    "ndcg10": 0.77,
-    "level_match": 0.329,
-    "gold_level": 0.627
+    "p10": 0.481,
+    "ndcg10": 0.522,
+    "level_match": 0.662,
+    "gold_level": 0.741
    },
    "LinguaLadder": {
-    "p10": 0.73,
-    "ndcg10": 0.771,
-    "level_match": 0.359,
-    "gold_level": 0.646
+    "p10": 0.477,
+    "ndcg10": 0.516,
+    "level_match": 0.766,
+    "gold_level": 0.757
    }
   },
   "tests_vs_LL": {
    "BM25": {
     "ndcg10": {
-     "diff": -0.149,
+     "diff": -0.282,
      "perm_p": 0.0,
-     "wilcoxon_p": 5.807470636925324e-14
+     "wilcoxon_p": 6.084819507495297e-53
     },
     "level_match": {
-     "diff": 0.198,
+     "diff": 0.554,
      "perm_p": 0.0,
-     "wilcoxon_p": 7.751110000561387e-15
+     "wilcoxon_p": 2.157309183462153e-54
     },
     "gold_level": {
-     "diff": 0.146,
+     "diff": 0.257,
      "perm_p": 0.0,
-     "wilcoxon_p": 2.4751733461592914e-13
+     "wilcoxon_p": 1.1154076493127178e-51
     }
    },
    "Readability": {
     "ndcg10": {
-     "diff": -0.016,
-     "perm_p": 0.0514,
-     "wilcoxon_p": 0.04627176420005078
+     "diff": -0.049,
+     "perm_p": 0.0,
+     "wilcoxon_p": 5.012814009499858e-16
     },
     "level_match": {
-     "diff": 0.15,
+     "diff": 0.431,
      "perm_p": 0.0,
-     "wilcoxon_p": 7.701315508204006e-15
+     "wilcoxon_p": 2.1731364834756558e-54
     },
     "gold_level": {
-     "diff": 0.071,
+     "diff": 0.123,
      "perm_p": 0.0,
-     "wilcoxon_p": 7.17228321838187e-08
+     "wilcoxon_p": 3.1721687888747815e-36
     }
    },
    "LL-noRarity": {
     "ndcg10": {
-     "diff": 0.009,
-     "perm_p": 0.091,
-     "wilcoxon_p": 0.08376690471622217
+     "diff": -0.005,
+     "perm_p": 0.1326,
+     "wilcoxon_p": 0.09486619930223526
     },
     "level_match": {
-     "diff": 0.07,
+     "diff": 0.197,
      "perm_p": 0.0,
-     "wilcoxon_p": 7.378427007810041e-13
+     "wilcoxon_p": 1.0165523236149622e-52
     },
     "gold_level": {
-     "diff": 0.035,
+     "diff": 0.043,
      "perm_p": 0.0,
-     "wilcoxon_p": 5.565805975823772e-06
+     "wilcoxon_p": 1.7561369234164273e-15
     }
    },
    "LL-8feat": {
     "ndcg10": {
-     "diff": 0.001,
-     "perm_p": 0.8543,
-     "wilcoxon_p": 0.6118872276996401
+     "diff": -0.006,
+     "perm_p": 0.0407,
+     "wilcoxon_p": 0.021909977769925506
     },
     "level_match": {
-     "diff": 0.03,
+     "diff": 0.103,
      "perm_p": 0.0,
-     "wilcoxon_p": 1.1995266871009694e-07
+     "wilcoxon_p": 7.584695608322898e-48
     },
     "gold_level": {
-     "diff": 0.019,
-     "perm_p": 0.0002,
-     "wilcoxon_p": 0.0005118410386498944
+     "diff": 0.016,
+     "perm_p": 0.0,
+     "wilcoxon_p": 3.3235543870625615e-05
     }
    }
   }
  },
  "labeled": {
-  "n_queries": 94,
+  "n_queries": 331,
   "summary": {
    "BM25": {
-    "p10": 0.865,
-    "ndcg10": 0.919,
-    "level_match": 0.162,
+    "p10": 0.772,
+    "ndcg10": 0.798,
+    "level_match": 0.212,
     "gold_level": 0.5
    },
    "Readability": {
-    "p10": 0.744,
-    "ndcg10": 0.786,
-    "level_match": 0.21,
-    "gold_level": 0.574
+    "p10": 0.541,
+    "ndcg10": 0.565,
+    "level_match": 0.335,
+    "gold_level": 0.634
    },
    "LL-noRarity": {
-    "p10": 0.723,
-    "ndcg10": 0.762,
-    "level_match": 0.289,
-    "gold_level": 0.611
+    "p10": 0.485,
+    "ndcg10": 0.522,
+    "level_match": 0.568,
+    "gold_level": 0.714
    },
    "LL-8feat": {
-    "p10": 0.728,
-    "ndcg10": 0.77,
-    "level_match": 0.329,
-    "gold_level": 0.627
+    "p10": 0.481,
+    "ndcg10": 0.522,
+    "level_match": 0.662,
+    "gold_level": 0.741
    },
    "LinguaLadder": {
-    "p10": 0.73,
-    "ndcg10": 0.771,
-    "level_match": 0.359,
-    "gold_level": 0.646
+    "p10": 0.477,
+    "ndcg10": 0.516,
+    "level_match": 0.766,
+    "gold_level": 0.757
    }
   },
   "tests_vs_LL": {
    "BM25": {
     "ndcg10": {
-     "diff": -0.149,
+     "diff": -0.282,
      "perm_p": 0.0,
-     "wilcoxon_p": 5.807470636925324e-14
+     "wilcoxon_p": 6.084819507495297e-53
     },
     "level_match": {
-     "diff": 0.198,
+     "diff": 0.554,
      "perm_p": 0.0,
-     "wilcoxon_p": 7.751110000561387e-15
+     "wilcoxon_p": 2.157309183462153e-54
     },
     "gold_level": {
-     "diff": 0.146,
+     "diff": 0.257,
      "perm_p": 0.0,
-     "wilcoxon_p": 2.4751733461592914e-13
+     "wilcoxon_p": 1.1154076493127178e-51
     }
    },
    "Readability": {
     "ndcg10": {
-     "diff": -0.016,
-     "perm_p": 0.0525,
-     "wilcoxon_p": 0.04627176420005078
+     "diff": -0.049,
+     "perm_p": 0.0,
+     "wilcoxon_p": 5.012814009499858e-16
     },
     "level_match": {
-     "diff": 0.15,
+     "diff": 0.431,
      "perm_p": 0.0,
-     "wilcoxon_p": 7.701315508204006e-15
+     "wilcoxon_p": 2.1731364834756558e-54
     },
     "gold_level": {
-     "diff": 0.071,
+     "diff": 0.123,
      "perm_p": 0.0,
-     "wilcoxon_p": 7.17228321838187e-08
+     "wilcoxon_p": 3.1721687888747815e-36
     }
    },
    "LL-noRarity": {
     "ndcg10": {
-     "diff": 0.009,
-     "perm_p": 0.0924,
-     "wilcoxon_p": 0.08376690471622217
+     "diff": -0.005,
+     "perm_p": 0.1275,
+     "wilcoxon_p": 0.09486619930223526
     },
     "level_match": {
-     "diff": 0.07,
+     "diff": 0.197,
      "perm_p": 0.0,
-     "wilcoxon_p": 7.378427007810041e-13
+     "wilcoxon_p": 1.0165523236149622e-52
     },
     "gold_level": {
-     "diff": 0.035,
+     "diff": 0.043,
      "perm_p": 0.0,
-     "wilcoxon_p": 5.565805975823772e-06
+     "wilcoxon_p": 1.7561369234164273e-15
     }
    },
    "LL-8feat": {
     "ndcg10": {
-     "diff": 0.001,
-     "perm_p": 0.8491,
-     "wilcoxon_p": 0.6118872276996401
+     "diff": -0.006,
+     "perm_p": 0.0395,
+     "wilcoxon_p": 0.021909977769925506
     },
     "level_match": {
-     "diff": 0.03,
+     "diff": 0.103,
      "perm_p": 0.0,
-     "wilcoxon_p": 1.1995266871009694e-07
+     "wilcoxon_p": 7.584695608322898e-48
     },
     "gold_level": {
-     "diff": 0.019,
-     "perm_p": 0.0003,
-     "wilcoxon_p": 0.0005118410386498944
+     "diff": 0.016,
+     "perm_p": 0.0,
+     "wilcoxon_p": 3.3235543870625615e-05
     }
    }
   }
  },
  "all": {
-  "n_queries": 94,
+  "n_queries": 331,
   "summary": {
    "BM25": {
-    "p10": 0.865,
-    "ndcg10": 0.919,
-    "level_match": 0.162,
+    "p10": 0.772,
+    "ndcg10": 0.798,
+    "level_match": 0.212,
     "gold_level": 0.5
    },
    "Readability": {
-    "p10": 0.744,
-    "ndcg10": 0.786,
-    "level_match": 0.21,
-    "gold_level": 0.574
+    "p10": 0.541,
+    "ndcg10": 0.565,
+    "level_match": 0.335,
+    "gold_level": 0.634
    },
    "LL-noRarity": {
-    "p10": 0.723,
-    "ndcg10": 0.762,
-    "level_match": 0.289,
-    "gold_level": 0.611
+    "p10": 0.485,
+    "ndcg10": 0.522,
+    "level_match": 0.568,
+    "gold_level": 0.714
    },
    "LL-8feat": {
-    "p10": 0.728,
-    "ndcg10": 0.77,
-    "level_match": 0.329,
-    "gold_level": 0.627
+    "p10": 0.481,
+    "ndcg10": 0.522,
+    "level_match": 0.662,
+    "gold_level": 0.741
    },
    "LinguaLadder": {
-    "p10": 0.73,
-    "ndcg10": 0.771,
-    "level_match": 0.359,
-    "gold_level": 0.646
+    "p10": 0.477,
+    "ndcg10": 0.516,
+    "level_match": 0.766,
+    "gold_level": 0.757
    }
   },
   "tests_vs_LL": {
    "BM25": {
     "ndcg10": {
-     "diff": -0.149,
+     "diff": -0.282,
      "perm_p": 0.0,
-     "wilcoxon_p": 5.807470636925324e-14
+     "wilcoxon_p": 6.084819507495297e-53
     },
     "level_match": {
-     "diff": 0.198,
+     "diff": 0.554,
      "perm_p": 0.0,
-     "wilcoxon_p": 7.751110000561387e-15
+     "wilcoxon_p": 2.157309183462153e-54
     },
     "gold_level": {
-     "diff": 0.146,
+     "diff": 0.257,
      "perm_p": 0.0,
-     "wilcoxon_p": 2.4751733461592914e-13
+     "wilcoxon_p": 1.1154076493127178e-51
     }
    },
    "Readability": {
     "ndcg10": {
-     "diff": -0.016,
-     "perm_p": 0.05,
-     "wilcoxon_p": 0.04627176420005078
+     "diff": -0.049,
+     "perm_p": 0.0,
+     "wilcoxon_p": 5.012814009499858e-16
     },
     "level_match": {
-     "diff": 0.15,
+     "diff": 0.431,
      "perm_p": 0.0,
-     "wilcoxon_p": 7.701315508204006e-15
+     "wilcoxon_p": 2.1731364834756558e-54
     },
     "gold_level": {
-     "diff": 0.071,
+     "diff": 0.123,
      "perm_p": 0.0,
-     "wilcoxon_p": 7.17228321838187e-08
+     "wilcoxon_p": 3.1721687888747815e-36
     }
    },
    "LL-noRarity": {
     "ndcg10": {
-     "diff": 0.009,
-     "perm_p": 0.0929,
-     "wilcoxon_p": 0.08376690471622217
+     "diff": -0.005,
+     "perm_p": 0.1353,
+     "wilcoxon_p": 0.09486619930223526
     },
     "level_match": {
-     "diff": 0.07,
+     "diff": 0.197,
      "perm_p": 0.0,
-     "wilcoxon_p": 7.378427007810041e-13
+     "wilcoxon_p": 1.0165523236149622e-52
     },
     "gold_level": {
-     "diff": 0.035,
+     "diff": 0.043,
      "perm_p": 0.0,
-     "wilcoxon_p": 5.565805975823772e-06
+     "wilcoxon_p": 1.7561369234164273e-15
     }
    },
    "LL-8feat": {
     "ndcg10": {
-     "diff": 0.001,
-     "perm_p": 0.8545,
-     "wilcoxon_p": 0.6118872276996401
+     "diff": -0.006,
+     "perm_p": 0.0434,
+     "wilcoxon_p": 0.021909977769925506
     },
     "level_match": {
-     "diff": 0.03,
+     "diff": 0.103,
      "perm_p": 0.0,
-     "wilcoxon_p": 1.1995266871009694e-07
+     "wilcoxon_p": 7.584695608322898e-48
     },
     "gold_level": {
-     "diff": 0.019,
-     "perm_p": 0.0003,
-     "wilcoxon_p": 0.0005118410386498944
+     "diff": 0.016,
+     "perm_p": 0.0,
+     "wilcoxon_p": 3.3235543870625615e-05
     }
    }
   }

@@ -4,42 +4,42 @@
 
 | Language | Articles |
 |---|---|
-| en | 992 |
-| es | 756 |
+| en | 8282 |
+| es | 8109 |
 
 ## 1. Difficulty model (easy vs. regular)
 
 | Setting | Accuracy | F1 |
 |---|---|---|
-| 5-fold CV, all features | 0.888 | 0.929 |
-| 5-fold CV, baseline (sentence + word length) | 0.776 | 0.867 |
-| Test on unseen language: en, all features | 0.884 | 0.928 |
-| Test on unseen language: en, baseline | 0.769 | 0.868 |
-| Test on unseen language: es, all features | 0.827 | 0.89 |
-| Test on unseen language: es, baseline | 0.762 | 0.856 |
+| 5-fold CV, all features | 0.866 | 0.914 |
+| 5-fold CV, baseline (sentence + word length) | 0.777 | 0.865 |
+| Test on unseen language: es, all features | 0.814 | 0.881 |
+| Test on unseen language: es, baseline | 0.745 | 0.843 |
+| Test on unseen language: en, all features | 0.882 | 0.925 |
+| Test on unseen language: en, baseline | 0.765 | 0.862 |
 
-Feature weights (positive = harder): log_length 1.319, avg_sentence_len 1.03, rare_word_share 0.765, digit_rate 0.71, core_vocab_share -0.662, sentence_len_std 0.534, long_sentence_share 0.438, avg_word_len -0.411, long_word_share 0.271, mid_band_share -0.269, syllables_per_word 0.256, commas_per_sentence -0.208, parens_per_sentence -0.129, type_token_ratio 0.098, subord_per_sentence -0.055
+Feature weights (positive = harder): core_vocab_share -2.088, rare_word_share -1.266, mid_band_share -1.127, log_length 1.101, avg_sentence_len 0.629, sentence_len_std 0.511, long_word_share 0.435, digit_rate 0.423, avg_word_len -0.411, long_sentence_share 0.389, syllables_per_word 0.231, commas_per_sentence -0.178, parens_per_sentence 0.1, subord_per_sentence -0.028, type_token_ratio -0.019
 
 ## 2-3. Retrieval and level match (top 10, averaged over levels)
 
 | Language | Queries | Level | P@10 BM25 | P@10 LL | nDCG@10 BM25 | nDCG@10 LL | Level match BM25 | Level match LL |
 |---|---|---|---|---|---|---|---|---|
-| en | 47 | beginner | 0.943 | 0.928 | 0.955 | 0.924 | 0.1 | 0.162 |
-| en | 47 | intermediate | 0.943 | 0.934 | 0.955 | 0.941 | 0.104 | 0.134 |
-| en | 47 | advanced | 0.943 | 0.915 | 0.955 | 0.925 | 0.272 | 0.377 |
-| es | 47 | beginner | 0.787 | 0.783 | 0.884 | 0.868 | 0.097 | 0.109 |
-| es | 47 | intermediate | 0.787 | 0.781 | 0.884 | 0.868 | 0.066 | 0.072 |
-| es | 47 | advanced | 0.787 | 0.77 | 0.884 | 0.863 | 0.331 | 0.35 |
+| en | 152 | beginner | 0.805 | 0.724 | 0.824 | 0.73 | 0.115 | 0.374 |
+| en | 152 | intermediate | 0.805 | 0.73 | 0.824 | 0.741 | 0.125 | 0.328 |
+| en | 152 | advanced | 0.805 | 0.733 | 0.824 | 0.747 | 0.375 | 0.716 |
+| es | 179 | beginner | 0.744 | 0.694 | 0.777 | 0.71 | 0.096 | 0.259 |
+| es | 179 | intermediate | 0.744 | 0.672 | 0.777 | 0.687 | 0.122 | 0.289 |
+| es | 179 | advanced | 0.744 | 0.687 | 0.777 | 0.704 | 0.434 | 0.682 |
 
-**Overall:** P@10 0.865 → 0.852, nDCG@10 0.92 → 0.898, level match 0.162 → 0.201 (BM25 → LinguaLadder).
+**Overall:** P@10 0.774 → 0.707, nDCG@10 0.8 → 0.72, level match 0.211 → 0.441 (BM25 → LinguaLadder).
 
 ## Alpha sweep (alpha = weight on relevance)
 
 | alpha | P@10 | nDCG@10 | Level match |
 |---|---|---|---|
-| 1.0 | 0.864 | 0.919 | 0.16 |
-| 0.8 | 0.86 | 0.914 | 0.186 |
-| 0.6 | 0.854 | 0.903 | 0.198 |
-| 0.5 | 0.852 | 0.898 | 0.201 |
-| 0.4 | 0.85 | 0.896 | 0.201 |
-| 0.2 | 0.849 | 0.891 | 0.203 |
+| 1.0 | 0.785 | 0.814 | 0.214 |
+| 0.8 | 0.767 | 0.791 | 0.337 |
+| 0.6 | 0.722 | 0.739 | 0.426 |
+| 0.5 | 0.707 | 0.72 | 0.441 |
+| 0.4 | 0.696 | 0.708 | 0.449 |
+| 0.2 | 0.679 | 0.686 | 0.456 |
