@@ -20,3 +20,13 @@ button{background:#1f4e79;color:#fff;border:0;border-radius:8px;padding:9px 16px
 table{border-collapse:collapse;width:100%}td,th{border-bottom:1px solid #eee;padding:8px;text-align:left}
 @media(max-width:800px){.cols,.reader{grid-template-columns:1fr}}
 #pop .ctx{margin-top:6px;padding-top:6px;border-top:1px solid #ffffff33;font-size:13px;color:#cfe3ff}
+.place .bar{height:6px;background:#e6ecf3;border-radius:4px;margin-bottom:16px}.place .bar i{display:block;height:100%;background:#1f4e79;border-radius:4px}
+.place .words{display:flex;flex-wrap:wrap;gap:10px;margin:14px 0}.place .word{position:relative}.place .word input{position:absolute;opacity:0}
+.place .word span{display:inline-block;min-height:44px;line-height:26px;padding:8px 16px;border:1px solid #ccd;border-radius:22px;background:#fff;cursor:pointer;font-size:17px}
+.place .word input:checked+span{background:#1f4e79;color:#fff;border-color:#1f4e79}.place .word input:focus-visible+span{outline:3px solid #9fd3ff}
+.place .passage{font-size:19px;line-height:1.7;max-width:760px}.place .blank{display:inline-block;border-bottom:3px solid #1f4e79;min-width:90px}
+.place .opts{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:14px 0;max-width:560px}.place .opts button,.place button,.btn{min-height:44px}
+.place .skip{background:#eef3f8;color:#1f4e79;margin-top:6px}.place .big{font-size:64px;font-weight:800;color:#1f4e79}
+.place .ladder{display:flex;gap:6px;margin:6px 0 14px}.place .ladder span{padding:4px 12px;border-radius:12px;background:#eef3f8;color:#667}.place .ladder .on{background:#1f4e79;color:#fff;font-weight:700}
+.btn{display:inline-block;background:#1f4e79;color:#fff;border-radius:8px;padding:11px 18px;text-decoration:none}.btn:hover{background:#2c6aa3}
+@media(max-width:600px){.place .opts{grid-template-columns:1fr}}
