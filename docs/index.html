@@ -84,7 +84,7 @@ footer{padding:32px 0;color:var(--muted);font-size:.9rem}
       ─► top 10 with level and CEFR badges ─► reader with highlight-to-translate
       ─► "too easy / too hard" feedback moves the learner's target level</pre>
   <p><strong>Difficulty model.</strong> Logistic regression on 15 features (sentence length and spread, word length, syllables per word, share of rare and core-vocabulary words, type-token ratio, clause markers, digits, parentheses, article length), z-scored within each language. Easy labels come from Simple English Wikipedia and Vikidia.</p>
-  <p><strong>Levels.</strong> Beginner below 0.35, Intermediate 0.35 to 0.65, Advanced above 0.65, with targets 0.20, 0.50 and 0.80, plus an approximate CEFR band (A1 to C2).</p>
+  <p><strong>Levels.</strong> Beginner below 0.35, Intermediate 0.35 to 0.65, Advanced above 0.65, with targets 0.20, 0.50 and 0.80, plus an approximate CEFR band (A1 to C2). The band cut-offs were checked against externally labelled texts: English (Cambridge exam and ELG texts) lands on the right band about half the time and within one band 93% of the time; Spanish bands are only weakly validated (Spearman 0.18).</p>
 </section>
 
 <section>
