@@ -27,7 +27,7 @@ Goal: results that fit the learner's level better WITHOUT losing much relevance.
 ## Search quality
 - [x] Tune ALPHA and SIGMA with the eval harness (grid in CHANGELOG; current default is on the best harmonic-mean frontier, kept).
 - [x] Query expansion / stemming (Snowball en/es, opt-in LL_STEM=1; BM25 P@10 0.745->0.756 but LL nDCG 0.737->0.714, so off by default). Follow-up: stem only for BM25 stage, keep reranker snippets unstemmed.
-- [ ] Personalize with looked-up words (vocab-aware re-ranking): (opt-in known=/beta in search() added, off by default; remaining: wire to UI lookups, evaluate)
+- [ ] Personalize with looked-up words (vocab-aware re-ranking): (DONE: evaluated for en and es with simulated learners, default beta 0.5 whenever a known-word set is given, see CHANGELOG; remaining: wire to UI lookups in web and Flask, then web port of the term)
 - [ ] CEFR mapping: (band distribution in web status line; cefr_label helper added; band shown in web UI; Flask UI now shows band; bands now corpus-quantile calibrated; remaining: validate vs gold CEFR texts) on top of Beginner/Intermediate/Advanced.
 
 ## Engineering

@@ -187,3 +187,10 @@ English 5,500 articles cached; Spanish 3,620 of 5,500 cached. Collector resumes 
 - build_single now inlines placement.js and i18n.js too (the single-file page was missing the placement test).
 - Tests: pytest 19 pass; parity 15/15; app smoke test (en/en, es/es, mixed) OK; placement test OK; new i18n test (same keys and placeholders in both languages, every key used by the page exists) OK; /search?q=volcano 200 (en), es 200.
 - Next: Flask UI in Spanish; the Hark Page needs a smaller data sample because the full single file is 41 MB.
+
+## Vocabulary-aware re-ranking: evaluation (fit algorithm)
+- New `python -m lingualadder.vocab_eval`: simulated learners know the 300 / 1,500 / 5,000 most frequent words of the language (beginner / intermediate / advanced), search the same topic queries as evaluate.py at their level, and we measure nDCG@10, P@10, known-word coverage of the top-10 snippets and the share of snippets with at least 90% known words, for several weights beta on the known-word share.
+- Results (averaged over the three levels; beta 0 = current ranking), English: nDCG@10 0.734 -> 0.727 at beta 0.5 (0.715 at beta 2), coverage 0.565 -> 0.601, readable share 0.087 -> 0.116. Spanish: nDCG@10 0.683 -> 0.684 at beta 0.5 (0.668 at beta 2), coverage 0.515 -> 0.547, readable share 0.048 -> 0.067. P@10 en 0.725 -> 0.716, es 0.666 -> 0.664.
+- Decision: beta 0.5 is the default whenever a known-word set is passed to search() (new VOCAB_BETA); beyond 1.0 Spanish loses relevance. With no known-word set nothing changes, so the main metrics are unchanged (en nDCG@10 0.734, es 0.683). The effect is real but modest: snippets are short and a rare word is rarely the deciding factor; coverage is simulated, not measured with real learners.
+- Tests: pytest 20 pass (new test: default beta does not lower coverage, en and es); /search?q=volcano 200.
+- Next: wire looked-up words in the web UI and Flask to the known-word set, then port the term to web/ll.js with a parity check.
