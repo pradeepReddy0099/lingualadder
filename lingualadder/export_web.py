@@ -37,7 +37,7 @@ def export_lang(ll, lang):
         "lang": lang, "n": len(docs), "avgdl": round(ix.avgdl, 3), "k1": ix.k1, "b": ix.b,
         "cjk": is_cjk(lang), "stop": sorted(STOP.get(lang, ())), "candidates": CANDIDATES, "alpha": ALPHA, "sigma": SIGMA, "topic_weight": TOPIC_WEIGHT, "on_topic_min": ON_TOPIC_MIN, "on_topic_first": ON_TOPIC_FIRST, "targets": {k: v["target"] for k, v in LEVELS.items()},
         # Display label for each seed topic in this language: the seed article's own title there.
-        "topics": {d["topic"]: d["title"] for d in docs if d.get("topic") and d.get("en_title") == d["topic"] and not d.get("easy")},
+        "topics": topic_labels(docs, lang),
         "docs": [[d["id"], d["title"], d["url"], d["snippet"], round(d["difficulty"], 4), d["level"],
                   d["words"], d["topic"], d["source"]] for d in docs],
         "dl": ix.doc_len,
@@ -47,6 +47,19 @@ def export_lang(ll, lang):
     path = WEB_DATA / f"{lang}.json"
     path.write_text(json.dumps(out, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
     return path
+
+
+def topic_labels(docs, lang):
+    """Display label per seed topic: the seed article's own title when this language has one, else (Spanish)
+    the Wikipedia language-link label from data/topic_labels_es.json (python -m lingualadder.topic_labels)."""
+    import json
+    from lingualadder.config import DATA_DIR
+    labels = {d["topic"]: d["title"] for d in docs if d.get("topic") and d.get("en_title") == d["topic"] and not d.get("easy")}
+    f = DATA_DIR / f"topic_labels_{lang}.json"
+    if f.exists():
+        for t, v in json.loads(f.read_text(encoding="utf-8")).items():
+            labels.setdefault(t, v)
+    return labels
 
 
 def split_parts(p, limit=24e6):

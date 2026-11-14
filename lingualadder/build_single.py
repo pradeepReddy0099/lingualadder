@@ -10,6 +10,8 @@ def build(langs):
     data = 'window.LL_EMBEDDED=' + json.dumps(emb, ensure_ascii=False, separators=(',', ':')).replace('</', '<\\/') + ';'
     html = html.replace('<link rel="stylesheet" href="style.css">', '<style>' + rd('style.css') + '</style>')
     html = html.replace('<script src="ll.js"></script>', '<script>' + data + '</script><script>' + rd('ll.js') + '</script>')
+    html = html.replace('<script src="i18n.js"></script>', '<script>' + rd('i18n.js') + '</script>')
+    html = html.replace('<script src="placement.js"></script>', '<script>' + rd('placement.js') + '</script>')
     html = html.replace('<script src="app.js"></script>', '<script>' + rd('app.js') + '</script>')
     os.makedirs(os.path.join(W, 'dist'), exist_ok=True)
     out = os.path.join(W, 'dist', 'lingualadder.html')
