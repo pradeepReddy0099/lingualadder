@@ -42,3 +42,22 @@ def test_on_topic_articles_rank_before_passing_mentions():
     r = ll.search("en", "dog", 0.2)
     assert [x["id"] for x in r] == ["1", "0"] and r[0]["on_topic"] and not r[1]["on_topic"]
     assert ll.search("en", "dog", 0.2, on_topic_first=False, topic_weight=0.0)[0]["id"] == "0"
+
+
+def _titles(titles, diffs):
+    ll = LinguaLadder.__new__(LinguaLadder)
+    mk = lambda i, t, d: {"id": str(i), "title": t, "url": "u", "difficulty": d, "level": "x",
+                          "source": "s", "topic": "", "snippet": "andes mountains range", "words": 5}
+    ll.docs = {"en": [mk(i, t, d) for i, (t, d) in enumerate(zip(titles, diffs))]}
+    ll.indexes = {"en": BM25Index().build([["andes", "mountains"] for _ in titles])}
+    return ll
+
+
+def test_title_bonus_puts_the_named_article_first_even_at_the_wrong_level():
+    ll = _titles(["Andes", "Andes (disambiguation)", "Andes mountains guide", "Andes (band)"], [0.35, 0.2, 0.2, 0.2])
+    assert ll.search("en", "Andes", 0.2, title_bonus=0)[0]["id"] != "0"          # level fit wins without the bonus
+    top = ll.search("en", "andes", 0.2, title_bonus=0.5)
+    assert top[0]["id"] == "0"                                                    # exact title, case-insensitive
+    ids = [r["id"] for r in top]
+    assert ids.index("3") < ids.index("1")                                        # "(band)" half bonus; disambiguation none
+    assert ll.search("en", "andes", 0.2, title_bonus=0.5, rerank=False)               # plain BM25 untouched
