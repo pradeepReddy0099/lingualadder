@@ -100,3 +100,7 @@ at least one beginner, one intermediate and one advanced article in both languag
 
 Automatic relevance labels; level match judged with our own difficulty scores (we also report a source-label
 measure); simulated rather than real learners; easy articles are still fewer than regular ones on many topics.
+
+
+## CEFR bands, validated
+`python -m lingualadder.cefr_validate` scores externally CEFR-labelled texts (UniversalCEFR: Cambridge exams and ELG for English, Kwiziq and Habla Cultura for Spanish) with the production difficulty model. English: Spearman 0.84 with the CEFR level, bands exact 51% / within one band 93% on held-out texts (the old bands: 5% / 39%). Spanish: Spearman 0.18, bands exact 27% / within one 67%, no better than always guessing the most common level, so Spanish bands are indicative only (see CHANGELOG).

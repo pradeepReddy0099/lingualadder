@@ -117,7 +117,7 @@ def search():
         if compare:
             baseline = ENGINE.search(p["target"], used_query, target, rerank=False)
     return render_template("search.html", q=q, used_query=used_query, results=results, baseline=baseline,
-                           compare=compare, in_native=in_native, target=round(target_of(p), 2))
+                           compare=compare, in_native=in_native, target=round(target_of(p), 2), lang=p["target"])
 
 
 @app.route("/read/<lang>/<path:doc_id>")
@@ -137,7 +137,7 @@ def read(lang, doc_id):
             blocks.append(("p", x))
     vocab = db().execute("SELECT term, translation FROM vocab WHERE uid=? AND lang=? ORDER BY ts DESC LIMIT 30",
                          (session["uid"], lang)).fetchall()
-    return render_template("read.html", d=d, blocks=blocks, vocab=vocab)
+    return render_template("read.html", d=d, blocks=blocks, vocab=vocab, lang=lang)
 
 
 @app.post("/api/translate")

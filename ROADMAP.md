@@ -36,7 +36,9 @@ Goal: results that fit the learner's level better WITHOUT losing much relevance.
 - [x] Input validation (400 on bad values); 404/500 error pages done.
 - [ ] README kept current.
 
-- [ ] CEFR: validate bands against externally CEFR-labelled texts (e.g. graded readers) instead of corpus quantiles.
+- [x] CEFR: validate bands against externally CEFR-labelled texts instead of corpus quantiles (DONE: lingualadder.cefr_validate, per-language cuts; en works, es weak).
+- [ ] CEFR-es: the Spanish difficulty score barely tracks CEFR (Spearman 0.18 on Kwiziq; a ridge head on the 15 features reaches 0.51 in cross-validation but does not transfer to long articles). Needs more Spanish CEFR-labelled documents (A1-C2, esp. C2) or a Spanish-specific head; then re-fit the es cuts.
+- [ ] CEFR-top: en/es corpus articles pile into the top bands (en 67% C2, es 83% C1); consider splitting the upper range by within-corpus quantile for display.
 - [x] Adaptive target step/tolerance sweep done (see CHANGELOG; step 0.07 kept).
 - [x] Adaptive target: decaying step and noisy learner simulated (see CHANGELOG). Follow-up: try default step 0.10-0.15 with decay 0.95.
 
