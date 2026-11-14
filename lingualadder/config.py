@@ -45,7 +45,7 @@ LEVELS = {
 
 # Ranking parameters (tuned in evaluate.py).
 ALPHA = 0.5     # weight of relevance vs. level fit
-SIGMA = 0.15    # width of the level-fit curve
+SIGMA = float(__import__('os').environ.get('LL_SIGMA', '0.15'))    # width of the level-fit curve
 CANDIDATES = 100
 TOPIC_WEIGHT = 0.4      # share of relevance from query words in the title / lead (vs. body BM25)
 ON_TOPIC_MIN = 0.5      # topical share needed to count as on-topic
