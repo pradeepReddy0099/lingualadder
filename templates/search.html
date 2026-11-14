@@ -6,6 +6,9 @@
  <label class="chk"><input type="checkbox" name="compare" value="1" {% if compare %}checked{% endif %}> {{ t('compare') }}</label>
  <button>{{ t('search_btn') }}</button>
 </form>
+{% if chips %}<section class="rec"><h3>{{ t('rec_h') }} <small>{{ t('rec_sub') }}</small></h3>
+<div class="chips">{% for c in chips %}<a class="chip{% if c.read %} seen{% endif %}" href="{{ url_for('search', q=c.label) }}">{{ c.label }}</a>{% endfor %}
+{% if all_topics %}<a class="chip more" href="{{ url_for('search', q=q) }}">{{ t('fewer_topics') }}</a>{% else %}<a class="chip more" href="{{ url_for('search', q=q, topics='all') }}">{{ t('all_topics', n=n_topics) }}</a>{% endif %}</div></section>{% endif %}
 {% if q %}
 <p class="meta">{{ t('target_diff') }} <b>{{target}}</b>{% if used_query != q %} · {{ t('searched_as') }} “{{used_query}}”{% endif %}</p>
 <div class="{% if compare %}cols{% endif %}">
