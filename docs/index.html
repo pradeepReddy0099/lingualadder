@@ -68,7 +68,7 @@ footer{padding:32px 0;color:var(--muted);font-size:.9rem}
 <section>
   <h2>Key takeaways</h2>
   <div class="grid">
-    <div class="card"><div class="big">2.1×</div><h3>More results at the right level</h3><p>Level match rose from 0.222 with plain BM25 to 0.460 with LinguaLadder (English 0.218 to 0.493, Spanish 0.226 to 0.427).</p></div>
+    <div class="card"><div class="big">2.0×</div><h3>More results at the right level</h3><p>Level match rose from 0.222 with plain BM25 to 0.434 with LinguaLadder (English 0.218 to 0.465, Spanish 0.226 to 0.403).</p></div>
     <div class="card"><div class="big">0.860</div><h3>Difficulty accuracy</h3><p>Our 15-feature model vs 0.772 for sentence and word length alone (5-fold CV).</p></div>
     <div class="card"><div class="big">0.80–0.88</div><h3>Transfers across languages</h3><p>Trained on one language and tested on the other: 0.804 on Spanish, 0.879 on English.</p></div>
     <div class="card"><div class="big">304/304</div><h3>Every topic, every level</h3><p>All 304 topics have a beginner, an intermediate and an advanced article in both English and Spanish.</p></div>
@@ -93,19 +93,19 @@ footer{padding:32px 0;color:var(--muted);font-size:.9rem}
   <table>
     <tr><th>Language</th><th>System</th><th>P@10</th><th>nDCG@10</th><th>Level match</th></tr>
     <tr><td>English</td><td>Plain BM25</td><td>0.801</td><td>0.819</td><td>0.218</td></tr>
-    <tr class="hl"><td>English</td><td>LinguaLadder</td><td>0.725</td><td>0.734</td><td>0.493</td></tr>
+    <tr class="hl"><td>English</td><td>LinguaLadder</td><td>0.747</td><td>0.792</td><td>0.465</td></tr>
     <tr><td>Spanish</td><td>Plain BM25</td><td>0.731</td><td>0.764</td><td>0.226</td></tr>
-    <tr class="hl"><td>Spanish</td><td>LinguaLadder</td><td>0.666</td><td>0.683</td><td>0.427</td></tr>
+    <tr class="hl"><td>Spanish</td><td>LinguaLadder</td><td>0.690</td><td>0.748</td><td>0.403</td></tr>
   </table>
-  <p class="muted">Level match is the share of results within ±0.15 of the learner's target. Level match roughly doubles for about 0.08 nDCG@10.</p>
+  <p class="muted">Level match is the share of results within ±0.15 of the learner's target. Level match roughly doubles for about 0.02 nDCG@10.</p>
   <h3>The relevance–level trade-off</h3>
   <table>
     <tr><th>Weight on relevance (a)</th><th>P@10</th><th>nDCG@10</th><th>Level match</th></tr>
-    <tr><td>1.0 (plain BM25)</td><td>0.776</td><td>0.804</td><td>0.225</td></tr>
-    <tr><td>0.8</td><td>0.758</td><td>0.781</td><td>0.350</td></tr>
-    <tr><td>0.6</td><td>0.709</td><td>0.727</td><td>0.445</td></tr>
-    <tr class="hl"><td>0.5</td><td>0.695</td><td>0.709</td><td>0.460</td></tr>
-    <tr><td>0.2</td><td>0.667</td><td>0.673</td><td>0.475</td></tr>
+    <tr><td>1.0 (no level term)</td><td>0.780</td><td>0.824</td><td>0.226</td></tr>
+    <tr><td>0.8</td><td>0.766</td><td>0.811</td><td>0.339</td></tr>
+    <tr><td>0.6</td><td>0.730</td><td>0.781</td><td>0.420</td></tr>
+    <tr class="hl"><td>0.5</td><td>0.719</td><td>0.770</td><td>0.434</td></tr>
+    <tr><td>0.2</td><td>0.692</td><td>0.723</td><td>0.458</td></tr>
   </table>
 </section>
 
