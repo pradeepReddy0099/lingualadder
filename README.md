@@ -78,14 +78,14 @@ at least one beginner, one intermediate and one advanced article in both languag
 | Language | System | P@10 | nDCG@10 | Level match (±0.15 of target) |
 |---|---|---|---|---|
 | English | Plain BM25 | 0.801 | 0.819 | 0.218 |
-| English | **LinguaLadder** | 0.725 | 0.734 | 0.493 |
+| English | **LinguaLadder** | 0.747 | 0.792 | 0.465 |
 | Spanish | Plain BM25 | 0.731 | 0.764 | 0.226 |
-| Spanish | **LinguaLadder** | 0.666 | 0.683 | 0.427 |
+| Spanish | **LinguaLadder** | 0.690 | 0.748 | 0.403 |
 | Both | Plain BM25 | 0.766 | 0.792 | 0.222 |
-| Both | **LinguaLadder** | 0.695 | 0.709 | 0.460 |
+| Both | **LinguaLadder** | 0.719 | 0.770 | 0.434 |
 
-- Level match roughly doubles for a cost of about 0.08 nDCG@10. The weight `a` moves along this trade-off
-  (alpha sweep in `data/eval_report.md`: a = 0.8 gives nDCG@10 0.781 and level match 0.350).
+- Level match roughly doubles for a cost of about 0.02 nDCG@10 (an article titled exactly like the query gets a score bonus, so name searches find it first). The weight `a` moves along this trade-off
+  (alpha sweep in `data/eval_report.md`: a = 0.8 gives nDCG@10 0.811 and level match 0.339).
 - Difficulty model: 0.860 accuracy (5-fold CV) vs 0.772 for sentence and word length alone; trained on one language
   and tested on the other it reaches 0.804 (es) and 0.879 (en).
 - Second evaluation (`data/grad_eval.json`, 331 queries, source-label level fit with paired significance tests):
