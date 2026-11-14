@@ -1,6 +1,6 @@
 <article class="result">
  <a class="title" href="{{ url_for('read', lang=profile.target, doc_id=r.id) }}">{{ r.title }}</a>
- <div class="tags"><span class="lvl {{r.level}}">{{ t('lvl_' ~ r.level) }}</span><span>{{ t('difficulty') }} {{ '%.2f'|format(r.difficulty) }}</span><span>{{ t('cefr') }} ~{{ r.difficulty|cefr }}</span><span>{{ r.words }} {{ t('words') }}</span><span>{{ r.source }}</span><span>{{ t('rel') }} {{ '%.2f'|format(r.relevance) }} · {{ t('fit') }} {{ '%.2f'|format(r.fit) }}</span></div>
+ <div class="tags"><span class="lvl {{r.level}}">{{ t('lvl_' ~ r.level) }}</span><span>{{ t('difficulty') }} {{ '%.2f'|format(r.difficulty) }}</span><span>{{ t('cefr') }} ~{{ r.difficulty|cefr(lang) }}</span><span>{{ r.words }} {{ t('words') }}</span><span>{{ r.source }}</span><span>{{ t('rel') }} {{ '%.2f'|format(r.relevance) }} · {{ t('fit') }} {{ '%.2f'|format(r.fit) }}</span></div>
  <p>{{ r.snippet }}</p>
  <div class="actions"><button type="button" class="mini" onclick="llFb(this,'too_easy','{{ r.id }}',{{ r.difficulty }})">{{ t('too_easy') }}</button> <button type="button" class="mini" onclick="llFb(this,'too_hard','{{ r.id }}',{{ r.difficulty }})">{{ t('too_hard') }}</button></div>
 </article>

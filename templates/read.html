@@ -2,7 +2,7 @@
 <div class="reader">
 <article id="article" class="card" data-doc="{{d.id}}" data-diff="{{d.difficulty}}" lang="{{d.lang}}">
  <h1>{{ d.title }}</h1>
- <div class="tags"><span class="lvl {{d.level}}">{{ t('lvl_' ~ d.level) }}</span><span>{{ t('difficulty') }} {{ '%.2f'|format(d.difficulty) }}</span><span>{{ t('cefr') }} ~{{ d.difficulty|cefr }}</span><span>{{d.words}} {{ t('words') }}</span><a href="{{d.url}}" target="_blank">{{ t('source') }}</a></div>
+ <div class="tags"><span class="lvl {{d.level}}">{{ t('lvl_' ~ d.level) }}</span><span>{{ t('difficulty') }} {{ '%.2f'|format(d.difficulty) }}</span><span>{{ t('cefr') }} ~{{ d.difficulty|cefr(lang) }}</span><span>{{d.words}} {{ t('words') }}</span><a href="{{d.url}}" target="_blank">{{ t('source') }}</a></div>
  <p class="hint">{{ t('hint') }}</p>
  {% for kind, txt in blocks %}{% if kind=='h' %}<h3>{{txt}}</h3>{% else %}<p>{{txt}}</p>{% endif %}{% endfor %}
  <div class="feedback">{{ t('fb_prompt') }} <button data-v="too_easy">{{ t('too_easy') }}</button><button data-v="just_right">{{ t('just_right') }}</button><button data-v="too_hard">{{ t('too_hard') }}</button><span id="fbmsg"></span></div>
