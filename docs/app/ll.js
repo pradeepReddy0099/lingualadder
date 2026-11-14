@@ -85,6 +85,16 @@
     return out.slice(0, o.k);
   }
 
-  const api = { indexTokens, bm25, search, knownWords, VOCAB_SIZES };
+  // Approximate CEFR band from the 0-1 difficulty score; cut-offs per language (same as lingualadder/search.py CEFR_CUTS).
+  const CEFR_CUTS = { en: [0.016, 0.076, 0.292, 0.582, 0.774], es: [0.036, 0.060, 0.111, 0.220, 0.980] };
+  const CEFR_NAMES = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
+  function cefr(d, lang) {
+    d = Math.min(Math.max(+d, 0), 1);
+    const cuts = CEFR_CUTS[lang] || CEFR_CUTS.en;
+    for (let i = 0; i < cuts.length; i++) if (d < cuts[i]) return CEFR_NAMES[i];
+    return 'C2';
+  }
+
+  const api = { indexTokens, bm25, search, knownWords, VOCAB_SIZES, cefr, CEFR_CUTS };
   if (typeof module !== 'undefined' && module.exports) module.exports = api; else root.LL = api;
 })(typeof self !== 'undefined' ? self : this);

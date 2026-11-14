@@ -17,7 +17,7 @@ async function loadIndex(lang) {
   }
   return cache[lang];
 }
-const cefr = d => { d=Math.min(Math.max(+d,0),1); const b=[[.2,'A1'],[.61,'A2'],[.87,'B1'],[.94,'B2'],[.98,'C1']]; for (const [h,l] of b) if (d<h) return l; return 'C2'; };
+const cefr = (d, lang) => LL.cefr(d, lang || ($('lang') && $('lang').value) || 'en');
 const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 const pct = x => Math.round(x * 100);
 const LEVEL_NAMES = { get beginner() { return tr('lvl_beginner'); }, get intermediate() { return tr('lvl_intermediate'); }, get advanced() { return tr('lvl_advanced'); } };
@@ -121,7 +121,7 @@ async function feedback(kind) {
   const lang = $('lang').value, idx = await loadIndex(lang);
   const p = prof.place[lang] || { q: quantileOf(idx, targetFor(idx, lang)), cefr: '', level: 'intermediate', source: 'feedback' };
   p.q = Math.min(0.97, Math.max(0.03, p.q + (kind === 'too_easy' ? 0.07 : -0.07)));
-  const t = LLPlace.quantileToTarget(idx, p.q); p.cefr = cefr(t); p.level = t < 0.35 ? 'beginner' : t < 0.65 ? 'intermediate' : 'advanced';
+  const t = LLPlace.quantileToTarget(idx, p.q); p.cefr = cefr(t, lang); p.level = t < 0.35 ? 'beginner' : t < 0.65 ? 'intermediate' : 'advanced';
   prof.place[lang] = p; save(); showChip(); $('level').value = 'custom'; prof.level = 'custom'; save();
   $('status').textContent = tr(kind === 'too_easy' ? 'fb_up' : 'fb_down');
   run(); renderTopics();
@@ -172,7 +172,7 @@ function testCloze() {
 }
 function testResult() {
   prog(1);
-  const r = LLPlace.combine(T.idx, T.vocab, T.st.estimate()), band = cefr(r.target);
+  const r = LLPlace.combine(T.idx, T.vocab, T.st.estimate()), band = cefr(r.target, T.lang);
   prof.place[T.lang] = { q: r.quantile, cefr: band, level: r.level, vocab: +T.vocab.toFixed(2), cloze: +T.st.estimate().toFixed(2), source: 'test' };
   save();
   const bands = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
