@@ -51,7 +51,9 @@ async function run() {
   if (document.body.classList) document.body.classList.add('searched');
   const target = targetFor(idx, lang);
   const t0 = performance.now();
-  const res = LL.search(idx, q, { target, rerank: !$('plain').checked });
+  const place = prof.place[lang], vlevel = level === 'custom' ? (place && place.level) || 'intermediate' : level;
+  const known = $('vocab') && $('vocab').checked ? LL.knownWords(idx, vlevel) : null;  // words a learner at this level is assumed to know
+  const res = LL.search(idx, q, { target, rerank: !$('plain').checked, known });
   const ms = Math.round(performance.now() - t0);
   if (!res.length) { $('results').innerHTML = '<li class="empty">' + esc(tr('empty')) + '</li>'; $('status').textContent = tr('no_results'); return; }
    $('status').textContent = tr('results_in', { n: res.length, ms }) + ' (' + Object.entries(res.reduce((a,r)=>{const c=cefr(r.difficulty);a[c]=(a[c]||0)+1;return a;},{})).sort().map(([k,v])=>k+' ×'+v).join(', ') + ')' + ($('plain').checked ? tr('plain_tag') : tr('fitted', { level: level === 'custom' ? tr('fitted_custom') : LEVEL_NAMES[level].toLowerCase() }));
