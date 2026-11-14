@@ -1,16 +1,17 @@
 {% extends "base.html" %}{% block body %}
 <form class="searchbar" method="get">
- <input name="q" value="{{q}}" placeholder="Search a topic, e.g. volcano, football, chocolate" autofocus>
- <label class="chk"><input type="checkbox" name="native" value="1" {% if in_native %}checked{% endif %}> typed in my language</label>
- <label class="chk"><input type="checkbox" name="compare" value="1" {% if compare %}checked{% endif %}> compare with plain BM25</label>
- <button>Search</button>
+ <input name="q" value="{{q}}" placeholder="{{ t('search_ph') }}" autofocus>
+ <label class="chk"><input type="checkbox" name="native" value="1" {% if in_native %}checked{% endif %}> {{ t('typed_native') }}</label>
+ <label class="chk"><input type="checkbox" name="compare" value="1" {% if compare %}checked{% endif %}> {{ t('compare') }}</label>
+ <button>{{ t('search_btn') }}</button>
 </form>
 {% if q %}
-<p class="meta">Target difficulty <b>{{target}}</b>{% if used_query != q %} · searched as “{{used_query}}”{% endif %}</p>
+<p class="meta">{{ t('target_diff') }} <b>{{target}}</b>{% if used_query != q %} · {{ t('searched_as') }} “{{used_query}}”{% endif %}</p>
 <div class="{% if compare %}cols{% endif %}">
-<div><h3>{% if compare %}LinguaLadder ranking{% endif %}</h3>
-{% for r in results %}{% include "_result.html" %}{% else %}<p>No articles found. Try another word{% if not in_native %}, or tick “typed in my language”{% endif %}.</p>{% endfor %}</div>
-{% if compare %}<div><h3>Plain BM25 (relevance only)</h3>{% for r in baseline %}{% include "_result.html" %}{% endfor %}</div>{% endif %}
+<div><h3>{% if compare %}{{ t('ll_ranking') }}{% endif %}</h3>
+{% for r in results %}{% include "_result.html" %}{% else %}<p>{{ t('no_results') }}{% if not in_native %}{{ t('or_tick') }}{% endif %}.</p>{% endfor %}</div>
+{% if compare %}<div><h3>{{ t('plain_bm25_h') }}</h3>{% for r in baseline %}{% include "_result.html" %}{% endfor %}</div>{% endif %}
 </div>{% endif %}
-<script>function llFb(b,v,id,d){fetch('/api/feedback',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({verdict:v,doc_id:id,difficulty:d})}).then(r=>r.json()).then(j=>{b.parentNode.textContent=(v==='too_easy'?'Stepping your level up':'Stepping your level down')+' (target '+j.target+'). Search again to apply.'})}</script>
+<script>const LLT={{ {'fb_up':t('fb_up'),'fb_down':t('fb_down'),'fb_target':t('fb_target'),'fb_apply':t('fb_apply')}|tojson }};
+function llFb(b,v,id,d){fetch('/api/feedback',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({verdict:v,doc_id:id,difficulty:d})}).then(r=>r.json()).then(j=>{b.parentNode.textContent=(v==='too_easy'?LLT.fb_up:LLT.fb_down)+' ('+LLT.fb_target+' '+j.target+'). '+LLT.fb_apply})}</script>
 {% endblock %}

@@ -1,13 +1,14 @@
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<html lang="{{ ui }}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>LinguaLadder{% block title %}{% endblock %}</title>
 <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"></head>
 <body>
 <header><a class="brand" href="{{ url_for('home') }}">Lingua<span>Ladder</span></a>
-{% if profile %}<nav>
- <span class="pill">{{ LANGUAGES[profile.target] }} · {{ LEVELS[profile.level].label }}</span>
- <a href="{{ url_for('search') }}">Search</a><a href="{{ url_for('vocab') }}">My words</a><a href="{{ url_for('home') }}">Profile</a>
-</nav>{% endif %}</header>
+<nav>
+{% if profile %}<span class="pill">{{ lname(profile.target) }} · {{ t('lv_' ~ profile.level) }}</span>
+ <a href="{{ url_for('search') }}">{{ t('nav_search') }}</a><a href="{{ url_for('vocab') }}">{{ t('nav_words') }}</a><a href="{{ url_for('home') }}">{{ t('nav_profile') }}</a>{% endif %}
+ <span class="uisw" aria-label="{{ t('ui_label') }}">{% for u in UI_LANGS %}<a href="{{ url_for('set_ui', lang=u) }}" {% if u==ui %}aria-current="true" style="font-weight:700;text-decoration:underline"{% endif %} hreflang="{{u}}">{{ u|upper }}</a>{% endfor %}</span>
+</nav></header>
 <main>{% block body %}{% endblock %}</main>
-<footer>Articles from Wikipedia, Simple English Wikipedia and Vikidia (CC BY-SA). Ranking: BM25 + level fit.</footer>
+<footer>{{ t('footer') }}</footer>
 </body></html>

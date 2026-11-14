@@ -1,6 +1,6 @@
 {% extends "base.html" %}{% block body %}
-<section class="card"><h2>My words</h2>
-{% if rows %}<table><tr><th>Language</th><th>Word</th><th>Translation</th></tr>
-{% for l,t,tr,ts in rows %}<tr><td>{{LANGUAGES.get(l,l)}}</td><td>{{t}}</td><td>{{tr}}</td></tr>{% endfor %}</table>
-{% else %}<p>No words yet. Highlight words while reading to save them here.</p>{% endif %}</section>
+<section class="card"><h2>{{ t('words_h') }}</h2>
+{% if rows %}<table><tr><th>{{ t('col_lang') }}</th><th>{{ t('col_word') }}</th><th>{{ t('col_trans') }}</th></tr>
+{% for l,w,tr,ts in rows %}<tr><td>{{ lname(l, LANGUAGES.get(l,l)) }}</td><td>{{w}}</td><td>{{tr}}</td></tr>{% endfor %}</table>
+{% else %}<p>{{ t('no_words') }}</p>{% endif %}</section>
 {% endblock %}
