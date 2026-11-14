@@ -326,3 +326,10 @@ English 5,500 articles cached; Spanish 3,620 of 5,500 cached. Collector resumes 
 - No ranking change: metrics unchanged (en nDCG@10 0.792, es 0.748; level match 0.465 / 0.403). Data unchanged; public site CSS and HTML updated.
 - Tests: pytest 49 pass; parity 81/81; app smoke, placement, i18n, cefr, lookup OK; Flask /search?q=volcano 200.
 - Next: fit step - CEFR-top display split (step 2).
+
+## CEFR-top display split (fit step 2-3, en and es)
+- The crowded top band is now halved for display: articles at or above the median of that band get a "+" (English C2+, Spanish C1+). New `python -m lingualadder.cefr_split` computes the medians (en 0.9496, es 0.8696) and writes data/cefr_split.json. Validated bands, filtering, placement and ranking are untouched (a test checks that dropping the "+" always gives the validated band). Same rule in `web/ll.js` (`cefrDisplay`), checked against search.py by the CEFR node test, and used by the Flask pages.
+- Biggest band before / after: English C2 5,640 (67%) -> C2 2,815 + C2+ 2,825 (34% each); Spanish C1 6,972 (79%) -> C1 3,486 + C1+ 3,486 (40% each). Other bands unchanged (en A1-C1 47 / 262 / 800 / 860 / 799; es A1-C2 70 / 65 / 186 / 366 / 1,141 for C2).
+- No ranking change: metrics unchanged (en nDCG@10 0.792, es 0.748; level match 0.465 / 0.403). Data unchanged; the "+" is not externally validated, only the base band is.
+- Tests: pytest 51 pass; parity 81/81; app smoke, placement, i18n, cefr, lookup OK; Flask /search?q=volcano 200 (en and es pages show the "+" bands).
+- Next: website step (Hark Page refresh with the "+" bands), then fit step on the Spanish CEFR head.

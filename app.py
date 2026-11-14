@@ -19,8 +19,8 @@ import random
 from lingualadder.translate import translate
 
 app = Flask(__name__)
-from lingualadder.search import cefr_label
-app.jinja_env.filters['cefr'] = cefr_label
+from lingualadder.search import cefr_label, cefr_display
+app.jinja_env.filters['cefr'] = cefr_display
 app.secret_key = os.environ.get("SECRET_KEY", "lingualadder-dev-key")
 ENGINE = LinguaLadder()
 DB = DATA_DIR / "users.sqlite"
