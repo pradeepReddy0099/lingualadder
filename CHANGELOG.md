@@ -286,3 +286,9 @@ English 5,500 articles cached; Spanish 3,620 of 5,500 cached. Collector resumes 
 - sigma 0.10 looked slightly better on this evaluation at alpha 0.5 (en nDCG@10 0.792 -> 0.796, es 0.748 -> 0.753; level match en 0.465 -> 0.469, es 0.403 -> 0.405), but the graduate evaluation (331 labelled queries, en + es) disagrees: nDCG@10 0.507 -> 0.484 and source-label level fit 0.762 -> 0.727 (level match 0.778 -> 0.779). A narrower fit curve over-penalises articles that the source labels call right, so sigma stays 0.15 and alpha stays 0.5.
 - No ranking change; the saved graduate-evaluation file is restored to the default run (en nDCG@10 0.792, es 0.748 on the seed-title evaluation; level match 0.465 / 0.403). Web data, web code and the Hark Page unchanged.
 - Next: fit step - partial-title matches (query = all title words in another order or a title prefix), or the CEFR-top display split.
+
+## Web: keyboard focus and reduced motion (website step, en and es)
+- Added a visible focus outline for every link, button, select, input and topic chip, and a reduced-motion rule, to the browser version (same files copied to the public site). Applies equally to the English and Spanish interface.
+- No ranking change: metrics unchanged (en nDCG@10 0.792, es 0.748; level match 0.465 / 0.403). Data unchanged; the Hark Page is unchanged (styling only, update with the next ranking edit).
+- Tests: pytest, parity (81 cases), app smoke, placement all pass; Flask /search?q=volcano 200.
+- Next: fit step - partial-title matches or CEFR-top display split.
