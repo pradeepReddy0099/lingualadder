@@ -81,7 +81,7 @@
         d._tt = low.includes('disambiguation') || low.includes('desambiguaci') ? null
           : [indexTokens(d[1], idx), indexTokens(d[1].replace(/\s*\([^()]*\)\s*$/, ''), idx)];
       }
-      const tmatch = !qtoks.length || !d._tt ? 0 : sameToks(d._tt[0], qtoks) ? 1 : (sameToks(d._tt[1], qtoks) && !sameToks(d._tt[1], d._tt[0])) ? 0.5 : ((idx.reorder_match ?? 0.5) && qtoks.length >= 2 && sameSet(d._tt[1], qtoks)) ? (idx.reorder_match ?? 0.5) : 0;
+      const tmatch = !qtoks.length || !d._tt ? 0 : sameToks(d._tt[0], qtoks) ? 1 : (sameToks(d._tt[1], qtoks) && !sameToks(d._tt[1], d._tt[0])) ? 0.5 : ((idx.reorder_match ?? 0.5) && qtoks.length >= 2 && sameSet(d._tt[1], qtoks)) ? (idx.reorder_match ?? 0.5) : ((idx.prefix_match ?? 0.25) && qtoks.length >= 2 && d._tt[1].length > qtoks.length && qtoks.every((t, i) => d._tt[1][i] === t)) ? (idx.prefix_match ?? 0.25) : 0;
       const rel = o.rerank ? (1 - tw) * (s / top) + tw * topical : s / top;
       const diff = d[4];
       const fit = Math.exp(-((diff - o.target) ** 2) / (2 * o.sigma ** 2));
