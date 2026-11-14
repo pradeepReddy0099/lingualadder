@@ -1,0 +1,292 @@
+{
+ "en/beginner/beta0.0": {
+  "ndcg10": 0.723,
+  "p10": 0.718,
+  "coverage": 0.308,
+  "readable": 0.0
+ },
+ "en/beginner/beta0.1": {
+  "ndcg10": 0.718,
+  "p10": 0.711,
+  "coverage": 0.323,
+  "readable": 0.0
+ },
+ "en/beginner/beta0.3": {
+  "ndcg10": 0.717,
+  "p10": 0.709,
+  "coverage": 0.332,
+  "readable": 0.0
+ },
+ "en/beginner/beta0.5": {
+  "ndcg10": 0.716,
+  "p10": 0.709,
+  "coverage": 0.338,
+  "readable": 0.0
+ },
+ "en/beginner/beta1.0": {
+  "ndcg10": 0.717,
+  "p10": 0.712,
+  "coverage": 0.356,
+  "readable": 0.0
+ },
+ "en/beginner/beta2.0": {
+  "ndcg10": 0.713,
+  "p10": 0.708,
+  "coverage": 0.371,
+  "readable": 0.0
+ },
+ "en/intermediate/beta0.0": {
+  "ndcg10": 0.735,
+  "p10": 0.726,
+  "coverage": 0.595,
+  "readable": 0.018
+ },
+ "en/intermediate/beta0.1": {
+  "ndcg10": 0.73,
+  "p10": 0.72,
+  "coverage": 0.61,
+  "readable": 0.021
+ },
+ "en/intermediate/beta0.3": {
+  "ndcg10": 0.729,
+  "p10": 0.717,
+  "coverage": 0.626,
+  "readable": 0.027
+ },
+ "en/intermediate/beta0.5": {
+  "ndcg10": 0.724,
+  "p10": 0.714,
+  "coverage": 0.637,
+  "readable": 0.029
+ },
+ "en/intermediate/beta1.0": {
+  "ndcg10": 0.719,
+  "p10": 0.712,
+  "coverage": 0.662,
+  "readable": 0.034
+ },
+ "en/intermediate/beta2.0": {
+  "ndcg10": 0.71,
+  "p10": 0.699,
+  "coverage": 0.684,
+  "readable": 0.039
+ },
+ "en/advanced/beta0.0": {
+  "ndcg10": 0.745,
+  "p10": 0.73,
+  "coverage": 0.793,
+  "readable": 0.243
+ },
+ "en/advanced/beta0.1": {
+  "ndcg10": 0.747,
+  "p10": 0.731,
+  "coverage": 0.802,
+  "readable": 0.261
+ },
+ "en/advanced/beta0.3": {
+  "ndcg10": 0.744,
+  "p10": 0.728,
+  "coverage": 0.816,
+  "readable": 0.291
+ },
+ "en/advanced/beta0.5": {
+  "ndcg10": 0.742,
+  "p10": 0.726,
+  "coverage": 0.827,
+  "readable": 0.319
+ },
+ "en/advanced/beta1.0": {
+  "ndcg10": 0.733,
+  "p10": 0.717,
+  "coverage": 0.847,
+  "readable": 0.374
+ },
+ "en/advanced/beta2.0": {
+  "ndcg10": 0.721,
+  "p10": 0.706,
+  "coverage": 0.871,
+  "readable": 0.461
+ },
+ "es/beginner/beta0.0": {
+  "ndcg10": 0.695,
+  "p10": 0.678,
+  "coverage": 0.27,
+  "readable": 0.0
+ },
+ "es/beginner/beta0.1": {
+  "ndcg10": 0.694,
+  "p10": 0.674,
+  "coverage": 0.282,
+  "readable": 0.0
+ },
+ "es/beginner/beta0.3": {
+  "ndcg10": 0.688,
+  "p10": 0.671,
+  "coverage": 0.289,
+  "readable": 0.0
+ },
+ "es/beginner/beta0.5": {
+  "ndcg10": 0.686,
+  "p10": 0.667,
+  "coverage": 0.296,
+  "readable": 0.0
+ },
+ "es/beginner/beta1.0": {
+  "ndcg10": 0.677,
+  "p10": 0.657,
+  "coverage": 0.306,
+  "readable": 0.0
+ },
+ "es/beginner/beta2.0": {
+  "ndcg10": 0.666,
+  "p10": 0.645,
+  "coverage": 0.319,
+  "readable": 0.0
+ },
+ "es/intermediate/beta0.0": {
+  "ndcg10": 0.668,
+  "p10": 0.653,
+  "coverage": 0.532,
+  "readable": 0.009
+ },
+ "es/intermediate/beta0.1": {
+  "ndcg10": 0.67,
+  "p10": 0.651,
+  "coverage": 0.543,
+  "readable": 0.009
+ },
+ "es/intermediate/beta0.3": {
+  "ndcg10": 0.669,
+  "p10": 0.652,
+  "coverage": 0.556,
+  "readable": 0.011
+ },
+ "es/intermediate/beta0.5": {
+  "ndcg10": 0.668,
+  "p10": 0.651,
+  "coverage": 0.568,
+  "readable": 0.014
+ },
+ "es/intermediate/beta1.0": {
+  "ndcg10": 0.669,
+  "p10": 0.656,
+  "coverage": 0.586,
+  "readable": 0.016
+ },
+ "es/intermediate/beta2.0": {
+  "ndcg10": 0.66,
+  "p10": 0.647,
+  "coverage": 0.605,
+  "readable": 0.02
+ },
+ "es/advanced/beta0.0": {
+  "ndcg10": 0.687,
+  "p10": 0.666,
+  "coverage": 0.744,
+  "readable": 0.134
+ },
+ "es/advanced/beta0.1": {
+  "ndcg10": 0.69,
+  "p10": 0.669,
+  "coverage": 0.752,
+  "readable": 0.145
+ },
+ "es/advanced/beta0.3": {
+  "ndcg10": 0.698,
+  "p10": 0.675,
+  "coverage": 0.765,
+  "readable": 0.168
+ },
+ "es/advanced/beta0.5": {
+  "ndcg10": 0.699,
+  "p10": 0.675,
+  "coverage": 0.776,
+  "readable": 0.186
+ },
+ "es/advanced/beta1.0": {
+  "ndcg10": 0.691,
+  "p10": 0.67,
+  "coverage": 0.795,
+  "readable": 0.229
+ },
+ "es/advanced/beta2.0": {
+  "ndcg10": 0.678,
+  "p10": 0.659,
+  "coverage": 0.813,
+  "readable": 0.28
+ },
+ "summary": {
+  "en/beta0.0": {
+   "ndcg10": 0.734,
+   "p10": 0.725,
+   "coverage": 0.565,
+   "readable": 0.087
+  },
+  "en/beta0.1": {
+   "ndcg10": 0.732,
+   "p10": 0.721,
+   "coverage": 0.578,
+   "readable": 0.094
+  },
+  "en/beta0.3": {
+   "ndcg10": 0.73,
+   "p10": 0.718,
+   "coverage": 0.591,
+   "readable": 0.106
+  },
+  "en/beta0.5": {
+   "ndcg10": 0.727,
+   "p10": 0.716,
+   "coverage": 0.601,
+   "readable": 0.116
+  },
+  "en/beta1.0": {
+   "ndcg10": 0.723,
+   "p10": 0.714,
+   "coverage": 0.622,
+   "readable": 0.136
+  },
+  "en/beta2.0": {
+   "ndcg10": 0.715,
+   "p10": 0.704,
+   "coverage": 0.642,
+   "readable": 0.167
+  },
+  "es/beta0.0": {
+   "ndcg10": 0.683,
+   "p10": 0.666,
+   "coverage": 0.515,
+   "readable": 0.048
+  },
+  "es/beta0.1": {
+   "ndcg10": 0.685,
+   "p10": 0.665,
+   "coverage": 0.526,
+   "readable": 0.051
+  },
+  "es/beta0.3": {
+   "ndcg10": 0.685,
+   "p10": 0.666,
+   "coverage": 0.537,
+   "readable": 0.06
+  },
+  "es/beta0.5": {
+   "ndcg10": 0.684,
+   "p10": 0.664,
+   "coverage": 0.547,
+   "readable": 0.067
+  },
+  "es/beta1.0": {
+   "ndcg10": 0.679,
+   "p10": 0.661,
+   "coverage": 0.562,
+   "readable": 0.082
+  },
+  "es/beta2.0": {
+   "ndcg10": 0.668,
+   "p10": 0.65,
+   "coverage": 0.579,
+   "readable": 0.1
+  }
+ }
+}
