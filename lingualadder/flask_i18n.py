@@ -53,6 +53,9 @@ STRINGS = {
         "rec_sub": "picked for your level",
         "all_topics": "All {n} topics",
         "fewer_topics": "Show fewer",
+        "ladder_h": "The ladder for this topic", "ladder_none": "No article at this level yet",
+        "next_up": "Next up:", "nothing_harder": "(nothing harder left on this topic)",
+        "all_read": "You have read everything on this topic. Try a recommended topic.",
     },
     "es": {
         "tagline": "Wikipedia a tu nivel de lectura",
@@ -103,6 +106,9 @@ STRINGS = {
         "rec_sub": "elegidos para tu nivel",
         "all_topics": "Los {n} temas",
         "fewer_topics": "Ver menos",
+        "ladder_h": "La escalera de este tema", "ladder_none": "A\u00fan no hay art\u00edculo de este nivel",
+        "next_up": "Siguiente:", "nothing_harder": "(no queda nada m\u00e1s dif\u00edcil sobre este tema)",
+        "all_read": "Ya has le\u00eddo todo sobre este tema. Prueba con un tema recomendado.",
     },
 }
 UI_LANGS = tuple(STRINGS)
