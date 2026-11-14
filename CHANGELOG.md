@@ -201,3 +201,11 @@ English 5,500 articles cached; Spanish 3,620 of 5,500 cached. Collector resumes 
 - No ranking change, so retrieval metrics are unchanged (en nDCG@10 0.734, es 0.683 for LinguaLadder). Web data unchanged (41.3 MB), so the Hark Page sample is unchanged.
 - Tests: pytest 20 -> 27 pass (new: same keys and placeholders in both languages, every template key exists, Accept-Language detection, Spanish home/search/reader pages contain Spanish and no English button text, UI switch, translated error page); /search?q=volcano 200 with 10 results (en); Spanish search 200.
 - Next: wire looked-up words to the known-word set in the UIs (W8).
+
+## Vocabulary-aware ranking in both UIs (W8, fit algorithm)
+- New `lingualadder/vocab.py`: a learner's assumed known words are the N most frequent words of the article openings (300 / 1,500 / 5,000 for beginner / intermediate / advanced, ties alphabetical so the browser builds the identical list) minus every word they looked up. `search(known=...)` applies the existing beta 0.5 term.
+- Flask: /search now passes that set, using the words the learner looked up in the reader as "not known yet". Web: `LL.knownWords` and the `known` option in `web/ll.js` port the same term; new display switch "Prefer snippets made of words I know" (on by default, English and Spanish text).
+- Parity: node web/parity_test.js now 45/45 (15 original + 30 vocabulary cases, en and es, three levels, with and without looked-up words), max score difference 7e-5.
+- Metrics with the deterministic tie-break (vocab_eval, simulated learners, beta 0 -> 0.5): English nDCG@10 0.734 -> 0.727, known-word coverage 0.565 -> 0.600, readable share 0.087 -> 0.115; Spanish nDCG@10 0.683 -> 0.685, coverage 0.516 -> 0.547, readable share 0.047 -> 0.065. Main evaluate.py/grad_eval.py metrics unchanged (no known set there). Coverage is simulated, not measured with real learners.
+- Tests: pytest 27 -> 29 pass (known-word sizes and looked-up removal, en and es; Flask search en and es); i18n, app smoke and placement tests OK; /search?q=volcano 200.
+- Next: CEFR validation against externally labelled texts, or real word lookups in the web reader.

@@ -109,7 +109,11 @@ def search():
             tr = translate(q, p["native"], p["target"])
             used_query = tr["text"] or q
         target = target_of(p)
-        results = ENGINE.search(p["target"], used_query, target)
+        # vocabulary-aware term: words of the learner's level are known, words they looked up are not
+        looked_up = [r[0] for r in db().execute("SELECT term FROM vocab WHERE uid=? AND lang=?",
+                                                     (session["uid"], p["target"])).fetchall()]
+        known = ENGINE.known_words(p["target"], p["level"], looked_up)
+        results = ENGINE.search(p["target"], used_query, target, known=known)
         if compare:
             baseline = ENGINE.search(p["target"], used_query, target, rerank=False)
     return render_template("search.html", q=q, used_query=used_query, results=results, baseline=baseline,

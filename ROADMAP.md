@@ -50,4 +50,4 @@ Goal: results that fit the learner's level better WITHOUT losing much relevance.
 
 - [x] W6: Spanish and English interface (web/i18n.js, "Interface" selector, remembered, defaults to the browser language; 82 strings each, node web/i18n_test.js); Spanish topic chips now use Spanish labels for all 304 topics (python -m lingualadder.topic_labels).
 - [x] W7: Flask UI in Spanish too (DONE: lingualadder/flask_i18n.py, EN/ES switch, Accept-Language default, Spanish topic labels, reader script text; the Hark Page runs the static web version, which already had the Spanish interface).
-- [ ] W8: wire looked-up words (Flask vocab table, web lookups) to the known-word set so the vocab-aware term (beta 0.5) is used in the UIs; port the term to web/ll.js with a parity check.
+- [x] W8: the vocab-aware term (beta 0.5) is now used in both UIs: known words = N most frequent words of the level (300/1,500/5,000) minus looked-up words (Flask vocab table); ported to web/ll.js with parity (45/45 incl. vocab cases) and a "Prefer snippets made of words I know" switch. Remaining: real lookups in the web reader (the web version links out to Wikipedia, so it has no looked-up words yet).
