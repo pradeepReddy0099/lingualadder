@@ -22,6 +22,7 @@ Goal: results that fit the learner's level better WITHOUT losing much relevance.
 - [ ] (umbrella) Static web version in `web/` that runs fully in the browser (no server): export a compact JSON index per language (doc ids, titles, snippets, difficulty, BM25 postings or precomputed term stats), JS BM25 + level-aware re-ranker identical to search.py, profile (language, level), results with level badges, reader view, BM25 comparison toggle.
 - [x] Keep exported data small enough to host (target < 15 MB total; trim text to a snippet + link to Wikipedia for full article).
 - [x] Publish/update it as a Hark Page (website_coding_agent) once it works locally.
+- [x] Flask parity step 1: placement test in the Flask app (en and es). Remaining Flask parity: recommended topics, ladder strip, read next.
 - [ ] Mobile-friendly layout, accessible colors, fast first load. (remembered profile + shareable ?q= links added)
 
 ## Search quality

@@ -12,7 +12,8 @@ from flask import Flask, g, jsonify, redirect, render_template, request, session
 from lingualadder.config import ALPHA, DATA_DIR, LANGUAGES, LEVELS, NATIVE_LANGUAGES, SIGMA
 from lingualadder.search import LinguaLadder
 from lingualadder.textproc import strip_headings
-from lingualadder import flask_i18n
+from lingualadder import flask_i18n, placement as PL
+import random
 from lingualadder.translate import translate
 
 app = Flask(__name__)
@@ -118,6 +119,63 @@ def search():
             baseline = ENGINE.search(p["target"], used_query, target, rerank=False)
     return render_template("search.html", q=q, used_query=used_query, results=results, baseline=baseline,
                            compare=compare, in_native=in_native, target=round(target_of(p), 2), lang=p["target"])
+
+
+# ---- Placement test: vocabulary checklist, then an adaptive cloze (same method as the web version)
+def _place_apply(p, lang, res, vocab, cloze):
+    from lingualadder.search import cefr_label
+    lvl = res["level"]
+    off = round(res["target"] - LEVELS[lvl]["target"], 3)
+    p.update({"level": lvl, "offset": off, "place": {"lang": lang, "cefr": cefr_label(res["target"], lang),
+              "vocab": round(vocab, 2), "cloze": round(cloze, 2), "target": round(res["target"], 3)}})
+    session["profile"] = p
+
+
+@app.route("/placement", methods=["GET", "POST"])
+def placement():
+    p = profile()
+    if not p:
+        return redirect(url_for("home"))
+    lang, st = p["target"], session.get("pl")
+    if request.method == "GET" and request.args.get("restart") == "1":
+        st = None
+        session.pop("pl", None)
+    if request.method == "POST":
+        act = request.form.get("act", "")
+        if act == "start" or not st:
+            st = {"seed": random.randrange(100000), "stage": "vocab", "n": 0}
+        elif act == "vocab" and st["stage"] == "vocab":
+            items = PL.vocab_items(ENGINE, lang, st["seed"])
+            ticked = set(request.form.getlist("w"))
+            st["vocab"] = PL.score_vocab(items, [it["word"] in ticked for it in items])
+            st["sc"] = PL.Staircase().to_dict()
+            st["used"], st["stage"] = [], "cloze"
+        elif act in ("answer", "skip") and st["stage"] == "cloze" and st.get("item"):
+            sc = PL.Staircase.from_dict(st["sc"])
+            sc.record(act == "answer" and request.form.get("o") == st["item"]["answer"])
+            st["sc"], st["item"] = sc.to_dict(), None
+        if st["stage"] == "cloze" and not st.get("item"):
+            sc = PL.Staircase.from_dict(st["sc"])
+            item = None if sc.done() else PL.cloze_item(ENGINE, lang, sc.q, random.Random(st["seed"] * 31 + len(sc.history)), set(st["used"]))
+            if item:
+                st["used"].append(item["doc"])
+                st["item"] = {k: item[k] for k in ("text", "options", "answer")}
+            else:
+                res = PL.combine(ENGINE, lang, st["vocab"], sc.estimate())
+                _place_apply(p, lang, res, st["vocab"], sc.estimate())
+                st["stage"] = "result"
+        session["pl"] = st
+        return redirect(url_for("placement"))
+    if not st:
+        return render_template("placement.html", stage="intro", lang=lang)
+    if st["stage"] == "vocab":
+        return render_template("placement.html", stage="vocab", lang=lang, items=PL.vocab_items(ENGINE, lang, st["seed"]), pct=5)
+    if st["stage"] == "cloze":
+        sc = PL.Staircase.from_dict(st["sc"])
+        return render_template("placement.html", stage="cloze", lang=lang, item=st["item"], i=len(sc.history) + 1, n=sc.n,
+                               pct=15 + round(75 * len(sc.history) / sc.n))
+    return render_template("placement.html", stage="result", lang=lang, place=p.get("place") or {}, pct=100,
+                           bands=["A1", "A2", "B1", "B2", "C1", "C2"])
 
 
 @app.route("/read/<lang>/<path:doc_id>")
