@@ -1,0 +1,780 @@
+{
+ "en/fixed/true-beginner/decl-beginner": {
+  "ndcg_all": 0.688,
+  "cov_all": 0.341,
+  "read_all": 0.0,
+  "ndcg_last": 0.69,
+  "cov_last": 0.332,
+  "read_last": 0.0,
+  "target_end": 0.2
+ },
+ "en/fixed/true-beginner/decl-intermediate": {
+  "ndcg_all": 0.7,
+  "cov_all": 0.324,
+  "read_all": 0.0,
+  "ndcg_last": 0.696,
+  "cov_last": 0.313,
+  "read_last": 0.0,
+  "target_end": 0.5
+ },
+ "en/fixed/true-beginner/decl-advanced": {
+  "ndcg_all": 0.715,
+  "cov_all": 0.296,
+  "read_all": 0.0,
+  "ndcg_last": 0.726,
+  "cov_last": 0.288,
+  "read_last": 0.0,
+  "target_end": 0.8
+ },
+ "en/fixed/true-intermediate/decl-beginner": {
+  "ndcg_all": 0.688,
+  "cov_all": 0.637,
+  "read_all": 0.026,
+  "ndcg_last": 0.69,
+  "cov_last": 0.642,
+  "read_last": 0.021,
+  "target_end": 0.2
+ },
+ "en/fixed/true-intermediate/decl-intermediate": {
+  "ndcg_all": 0.7,
+  "cov_all": 0.647,
+  "read_all": 0.029,
+  "ndcg_last": 0.696,
+  "cov_last": 0.647,
+  "read_last": 0.024,
+  "target_end": 0.5
+ },
+ "en/fixed/true-intermediate/decl-advanced": {
+  "ndcg_all": 0.715,
+  "cov_all": 0.61,
+  "read_all": 0.014,
+  "ndcg_last": 0.726,
+  "cov_last": 0.61,
+  "read_last": 0.009,
+  "target_end": 0.8
+ },
+ "en/fixed/true-advanced/decl-beginner": {
+  "ndcg_all": 0.688,
+  "cov_all": 0.835,
+  "read_all": 0.367,
+  "ndcg_last": 0.69,
+  "cov_last": 0.842,
+  "read_last": 0.394,
+  "target_end": 0.2
+ },
+ "en/fixed/true-advanced/decl-intermediate": {
+  "ndcg_all": 0.7,
+  "cov_all": 0.837,
+  "read_all": 0.38,
+  "ndcg_last": 0.696,
+  "cov_last": 0.834,
+  "read_last": 0.386,
+  "target_end": 0.5
+ },
+ "en/fixed/true-advanced/decl-advanced": {
+  "ndcg_all": 0.715,
+  "cov_all": 0.831,
+  "read_all": 0.334,
+  "ndcg_last": 0.726,
+  "cov_last": 0.832,
+  "read_last": 0.336,
+  "target_end": 0.8
+ },
+ "en/marks/true-beginner/decl-beginner": {
+  "ndcg_all": 0.688,
+  "cov_all": 0.341,
+  "read_all": 0.0,
+  "ndcg_last": 0.69,
+  "cov_last": 0.332,
+  "read_last": 0.0,
+  "target_end": 0.2
+ },
+ "en/marks/true-beginner/decl-intermediate": {
+  "ndcg_all": 0.703,
+  "cov_all": 0.324,
+  "read_all": 0.0,
+  "ndcg_last": 0.701,
+  "cov_last": 0.313,
+  "read_last": 0.0,
+  "target_end": 0.5
+ },
+ "en/marks/true-beginner/decl-advanced": {
+  "ndcg_all": 0.718,
+  "cov_all": 0.297,
+  "read_all": 0.0,
+  "ndcg_last": 0.732,
+  "cov_last": 0.289,
+  "read_last": 0.0,
+  "target_end": 0.8
+ },
+ "en/marks/true-intermediate/decl-beginner": {
+  "ndcg_all": 0.688,
+  "cov_all": 0.637,
+  "read_all": 0.026,
+  "ndcg_last": 0.69,
+  "cov_last": 0.642,
+  "read_last": 0.021,
+  "target_end": 0.2
+ },
+ "en/marks/true-intermediate/decl-intermediate": {
+  "ndcg_all": 0.7,
+  "cov_all": 0.647,
+  "read_all": 0.029,
+  "ndcg_last": 0.696,
+  "cov_last": 0.647,
+  "read_last": 0.024,
+  "target_end": 0.5
+ },
+ "en/marks/true-intermediate/decl-advanced": {
+  "ndcg_all": 0.716,
+  "cov_all": 0.611,
+  "read_all": 0.015,
+  "ndcg_last": 0.727,
+  "cov_last": 0.612,
+  "read_last": 0.01,
+  "target_end": 0.8
+ },
+ "en/marks/true-advanced/decl-beginner": {
+  "ndcg_all": 0.688,
+  "cov_all": 0.835,
+  "read_all": 0.367,
+  "ndcg_last": 0.69,
+  "cov_last": 0.842,
+  "read_last": 0.394,
+  "target_end": 0.2
+ },
+ "en/marks/true-advanced/decl-intermediate": {
+  "ndcg_all": 0.7,
+  "cov_all": 0.837,
+  "read_all": 0.38,
+  "ndcg_last": 0.696,
+  "cov_last": 0.834,
+  "read_last": 0.386,
+  "target_end": 0.5
+ },
+ "en/marks/true-advanced/decl-advanced": {
+  "ndcg_all": 0.715,
+  "cov_all": 0.831,
+  "read_all": 0.334,
+  "ndcg_last": 0.726,
+  "cov_last": 0.832,
+  "read_last": 0.336,
+  "target_end": 0.8
+ },
+ "en/hard/true-beginner/decl-beginner": {
+  "ndcg_all": 0.711,
+  "cov_all": 0.351,
+  "read_all": 0.0,
+  "ndcg_last": 0.721,
+  "cov_last": 0.343,
+  "read_last": 0.0,
+  "target_end": 0.0
+ },
+ "en/hard/true-beginner/decl-intermediate": {
+  "ndcg_all": 0.702,
+  "cov_all": 0.335,
+  "read_all": 0.0,
+  "ndcg_last": 0.713,
+  "cov_last": 0.33,
+  "read_last": 0.0,
+  "target_end": 0.0
+ },
+ "en/hard/true-beginner/decl-advanced": {
+  "ndcg_all": 0.701,
+  "cov_all": 0.322,
+  "read_all": 0.0,
+  "ndcg_last": 0.714,
+  "cov_last": 0.321,
+  "read_last": 0.0,
+  "target_end": 0.0
+ },
+ "en/hard/true-intermediate/decl-beginner": {
+  "ndcg_all": 0.71,
+  "cov_all": 0.645,
+  "read_all": 0.028,
+  "ndcg_last": 0.721,
+  "cov_last": 0.649,
+  "read_last": 0.022,
+  "target_end": 0.0
+ },
+ "en/hard/true-intermediate/decl-intermediate": {
+  "ndcg_all": 0.701,
+  "cov_all": 0.665,
+  "read_all": 0.031,
+  "ndcg_last": 0.718,
+  "cov_last": 0.671,
+  "read_last": 0.025,
+  "target_end": 0.0
+ },
+ "en/hard/true-intermediate/decl-advanced": {
+  "ndcg_all": 0.707,
+  "cov_all": 0.64,
+  "read_all": 0.023,
+  "ndcg_last": 0.724,
+  "cov_last": 0.653,
+  "read_last": 0.022,
+  "target_end": 0.0
+ },
+ "en/hard/true-advanced/decl-beginner": {
+  "ndcg_all": 0.701,
+  "cov_all": 0.838,
+  "read_all": 0.374,
+  "ndcg_last": 0.721,
+  "cov_last": 0.844,
+  "read_last": 0.397,
+  "target_end": 0.0
+ },
+ "en/hard/true-advanced/decl-intermediate": {
+  "ndcg_all": 0.69,
+  "cov_all": 0.843,
+  "read_all": 0.398,
+  "ndcg_last": 0.679,
+  "cov_last": 0.847,
+  "read_last": 0.42,
+  "target_end": 0.185
+ },
+ "en/hard/true-advanced/decl-advanced": {
+  "ndcg_all": 0.716,
+  "cov_all": 0.831,
+  "read_all": 0.345,
+  "ndcg_last": 0.722,
+  "cov_last": 0.835,
+  "read_last": 0.371,
+  "target_end": 0.564
+ },
+ "en/adapt/true-beginner/decl-beginner": {
+  "ndcg_all": 0.711,
+  "cov_all": 0.351,
+  "read_all": 0.0,
+  "ndcg_last": 0.721,
+  "cov_last": 0.343,
+  "read_last": 0.0,
+  "target_end": 0.0
+ },
+ "en/adapt/true-beginner/decl-intermediate": {
+  "ndcg_all": 0.702,
+  "cov_all": 0.335,
+  "read_all": 0.0,
+  "ndcg_last": 0.713,
+  "cov_last": 0.33,
+  "read_last": 0.0,
+  "target_end": 0.0
+ },
+ "en/adapt/true-beginner/decl-advanced": {
+  "ndcg_all": 0.701,
+  "cov_all": 0.322,
+  "read_all": 0.0,
+  "ndcg_last": 0.714,
+  "cov_last": 0.321,
+  "read_last": 0.0,
+  "target_end": 0.0
+ },
+ "en/adapt/true-intermediate/decl-beginner": {
+  "ndcg_all": 0.71,
+  "cov_all": 0.645,
+  "read_all": 0.028,
+  "ndcg_last": 0.721,
+  "cov_last": 0.649,
+  "read_last": 0.022,
+  "target_end": 0.0
+ },
+ "en/adapt/true-intermediate/decl-intermediate": {
+  "ndcg_all": 0.701,
+  "cov_all": 0.665,
+  "read_all": 0.031,
+  "ndcg_last": 0.718,
+  "cov_last": 0.671,
+  "read_last": 0.025,
+  "target_end": 0.0
+ },
+ "en/adapt/true-intermediate/decl-advanced": {
+  "ndcg_all": 0.707,
+  "cov_all": 0.64,
+  "read_all": 0.023,
+  "ndcg_last": 0.724,
+  "cov_last": 0.653,
+  "read_last": 0.022,
+  "target_end": 0.0
+ },
+ "en/adapt/true-advanced/decl-beginner": {
+  "ndcg_all": 0.703,
+  "cov_all": 0.836,
+  "read_all": 0.365,
+  "ndcg_last": 0.72,
+  "cov_last": 0.843,
+  "read_last": 0.396,
+  "target_end": 0.085
+ },
+ "en/adapt/true-advanced/decl-intermediate": {
+  "ndcg_all": 0.694,
+  "cov_all": 0.837,
+  "read_all": 0.377,
+  "ndcg_last": 0.692,
+  "cov_last": 0.834,
+  "read_last": 0.384,
+  "target_end": 0.474
+ },
+ "en/adapt/true-advanced/decl-advanced": {
+  "ndcg_all": 0.743,
+  "cov_all": 0.829,
+  "read_all": 0.339,
+  "ndcg_last": 0.757,
+  "cov_last": 0.829,
+  "read_last": 0.346,
+  "target_end": 0.855
+ },
+ "es/fixed/true-beginner/decl-beginner": {
+  "ndcg_all": 0.666,
+  "cov_all": 0.3,
+  "read_all": 0.0,
+  "ndcg_last": 0.666,
+  "cov_last": 0.299,
+  "read_last": 0.0,
+  "target_end": 0.2
+ },
+ "es/fixed/true-beginner/decl-intermediate": {
+  "ndcg_all": 0.636,
+  "cov_all": 0.283,
+  "read_all": 0.0,
+  "ndcg_last": 0.632,
+  "cov_last": 0.283,
+  "read_last": 0.0,
+  "target_end": 0.5
+ },
+ "es/fixed/true-beginner/decl-advanced": {
+  "ndcg_all": 0.677,
+  "cov_all": 0.265,
+  "read_all": 0.0,
+  "ndcg_last": 0.672,
+  "cov_last": 0.259,
+  "read_last": 0.0,
+  "target_end": 0.8
+ },
+ "es/fixed/true-intermediate/decl-beginner": {
+  "ndcg_all": 0.666,
+  "cov_all": 0.571,
+  "read_all": 0.014,
+  "ndcg_last": 0.666,
+  "cov_last": 0.575,
+  "read_last": 0.005,
+  "target_end": 0.2
+ },
+ "es/fixed/true-intermediate/decl-intermediate": {
+  "ndcg_all": 0.636,
+  "cov_all": 0.572,
+  "read_all": 0.014,
+  "ndcg_last": 0.632,
+  "cov_last": 0.576,
+  "read_last": 0.009,
+  "target_end": 0.5
+ },
+ "es/fixed/true-intermediate/decl-advanced": {
+  "ndcg_all": 0.677,
+  "cov_all": 0.545,
+  "read_all": 0.006,
+  "ndcg_last": 0.672,
+  "cov_last": 0.545,
+  "read_last": 0.005,
+  "target_end": 0.8
+ },
+ "es/fixed/true-advanced/decl-beginner": {
+  "ndcg_all": 0.666,
+  "cov_all": 0.781,
+  "read_all": 0.188,
+  "ndcg_last": 0.666,
+  "cov_last": 0.782,
+  "read_last": 0.17,
+  "target_end": 0.2
+ },
+ "es/fixed/true-advanced/decl-intermediate": {
+  "ndcg_all": 0.636,
+  "cov_all": 0.779,
+  "read_all": 0.199,
+  "ndcg_last": 0.632,
+  "cov_last": 0.78,
+  "read_last": 0.188,
+  "target_end": 0.5
+ },
+ "es/fixed/true-advanced/decl-advanced": {
+  "ndcg_all": 0.677,
+  "cov_all": 0.773,
+  "read_all": 0.172,
+  "ndcg_last": 0.672,
+  "cov_last": 0.774,
+  "read_last": 0.166,
+  "target_end": 0.8
+ },
+ "es/marks/true-beginner/decl-beginner": {
+  "ndcg_all": 0.666,
+  "cov_all": 0.3,
+  "read_all": 0.0,
+  "ndcg_last": 0.666,
+  "cov_last": 0.299,
+  "read_last": 0.0,
+  "target_end": 0.2
+ },
+ "es/marks/true-beginner/decl-intermediate": {
+  "ndcg_all": 0.637,
+  "cov_all": 0.283,
+  "read_all": 0.0,
+  "ndcg_last": 0.635,
+  "cov_last": 0.282,
+  "read_last": 0.0,
+  "target_end": 0.5
+ },
+ "es/marks/true-beginner/decl-advanced": {
+  "ndcg_all": 0.678,
+  "cov_all": 0.265,
+  "read_all": 0.0,
+  "ndcg_last": 0.674,
+  "cov_last": 0.259,
+  "read_last": 0.0,
+  "target_end": 0.8
+ },
+ "es/marks/true-intermediate/decl-beginner": {
+  "ndcg_all": 0.666,
+  "cov_all": 0.571,
+  "read_all": 0.014,
+  "ndcg_last": 0.666,
+  "cov_last": 0.575,
+  "read_last": 0.005,
+  "target_end": 0.2
+ },
+ "es/marks/true-intermediate/decl-intermediate": {
+  "ndcg_all": 0.636,
+  "cov_all": 0.572,
+  "read_all": 0.014,
+  "ndcg_last": 0.632,
+  "cov_last": 0.576,
+  "read_last": 0.009,
+  "target_end": 0.5
+ },
+ "es/marks/true-intermediate/decl-advanced": {
+  "ndcg_all": 0.677,
+  "cov_all": 0.544,
+  "read_all": 0.006,
+  "ndcg_last": 0.671,
+  "cov_last": 0.545,
+  "read_last": 0.005,
+  "target_end": 0.8
+ },
+ "es/marks/true-advanced/decl-beginner": {
+  "ndcg_all": 0.666,
+  "cov_all": 0.781,
+  "read_all": 0.188,
+  "ndcg_last": 0.666,
+  "cov_last": 0.782,
+  "read_last": 0.17,
+  "target_end": 0.2
+ },
+ "es/marks/true-advanced/decl-intermediate": {
+  "ndcg_all": 0.636,
+  "cov_all": 0.779,
+  "read_all": 0.199,
+  "ndcg_last": 0.632,
+  "cov_last": 0.78,
+  "read_last": 0.188,
+  "target_end": 0.5
+ },
+ "es/marks/true-advanced/decl-advanced": {
+  "ndcg_all": 0.677,
+  "cov_all": 0.773,
+  "read_all": 0.172,
+  "ndcg_last": 0.672,
+  "cov_last": 0.774,
+  "read_last": 0.166,
+  "target_end": 0.8
+ },
+ "es/hard/true-beginner/decl-beginner": {
+  "ndcg_all": 0.673,
+  "cov_all": 0.306,
+  "read_all": 0.0,
+  "ndcg_last": 0.665,
+  "cov_last": 0.305,
+  "read_last": 0.0,
+  "target_end": 0.0
+ },
+ "es/hard/true-beginner/decl-intermediate": {
+  "ndcg_all": 0.656,
+  "cov_all": 0.293,
+  "read_all": 0.0,
+  "ndcg_last": 0.659,
+  "cov_last": 0.293,
+  "read_last": 0.0,
+  "target_end": 0.0
+ },
+ "es/hard/true-beginner/decl-advanced": {
+  "ndcg_all": 0.663,
+  "cov_all": 0.28,
+  "read_all": 0.0,
+  "ndcg_last": 0.667,
+  "cov_last": 0.283,
+  "read_last": 0.0,
+  "target_end": 0.0
+ },
+ "es/hard/true-intermediate/decl-beginner": {
+  "ndcg_all": 0.673,
+  "cov_all": 0.576,
+  "read_all": 0.017,
+  "ndcg_last": 0.665,
+  "cov_last": 0.58,
+  "read_last": 0.006,
+  "target_end": 0.0
+ },
+ "es/hard/true-intermediate/decl-intermediate": {
+  "ndcg_all": 0.657,
+  "cov_all": 0.589,
+  "read_all": 0.016,
+  "ndcg_last": 0.659,
+  "cov_last": 0.595,
+  "read_last": 0.009,
+  "target_end": 0.0
+ },
+ "es/hard/true-intermediate/decl-advanced": {
+  "ndcg_all": 0.665,
+  "cov_all": 0.567,
+  "read_all": 0.01,
+  "ndcg_last": 0.668,
+  "cov_last": 0.579,
+  "read_last": 0.005,
+  "target_end": 0.0
+ },
+ "es/hard/true-advanced/decl-beginner": {
+  "ndcg_all": 0.668,
+  "cov_all": 0.783,
+  "read_all": 0.201,
+  "ndcg_last": 0.665,
+  "cov_last": 0.784,
+  "read_last": 0.196,
+  "target_end": 0.0
+ },
+ "es/hard/true-advanced/decl-intermediate": {
+  "ndcg_all": 0.648,
+  "cov_all": 0.789,
+  "read_all": 0.214,
+  "ndcg_last": 0.658,
+  "cov_last": 0.793,
+  "read_last": 0.209,
+  "target_end": 0.001
+ },
+ "es/hard/true-advanced/decl-advanced": {
+  "ndcg_all": 0.668,
+  "cov_all": 0.787,
+  "read_all": 0.203,
+  "ndcg_last": 0.673,
+  "cov_last": 0.798,
+  "read_last": 0.213,
+  "target_end": 0.084
+ },
+ "es/adapt/true-beginner/decl-beginner": {
+  "ndcg_all": 0.673,
+  "cov_all": 0.306,
+  "read_all": 0.0,
+  "ndcg_last": 0.665,
+  "cov_last": 0.305,
+  "read_last": 0.0,
+  "target_end": 0.0
+ },
+ "es/adapt/true-beginner/decl-intermediate": {
+  "ndcg_all": 0.656,
+  "cov_all": 0.293,
+  "read_all": 0.0,
+  "ndcg_last": 0.659,
+  "cov_last": 0.293,
+  "read_last": 0.0,
+  "target_end": 0.0
+ },
+ "es/adapt/true-beginner/decl-advanced": {
+  "ndcg_all": 0.663,
+  "cov_all": 0.28,
+  "read_all": 0.0,
+  "ndcg_last": 0.667,
+  "cov_last": 0.283,
+  "read_last": 0.0,
+  "target_end": 0.0
+ },
+ "es/adapt/true-intermediate/decl-beginner": {
+  "ndcg_all": 0.673,
+  "cov_all": 0.576,
+  "read_all": 0.017,
+  "ndcg_last": 0.665,
+  "cov_last": 0.58,
+  "read_last": 0.006,
+  "target_end": 0.0
+ },
+ "es/adapt/true-intermediate/decl-intermediate": {
+  "ndcg_all": 0.657,
+  "cov_all": 0.589,
+  "read_all": 0.016,
+  "ndcg_last": 0.659,
+  "cov_last": 0.595,
+  "read_last": 0.009,
+  "target_end": 0.0
+ },
+ "es/adapt/true-intermediate/decl-advanced": {
+  "ndcg_all": 0.665,
+  "cov_all": 0.567,
+  "read_all": 0.01,
+  "ndcg_last": 0.668,
+  "cov_last": 0.579,
+  "read_last": 0.005,
+  "target_end": 0.0
+ },
+ "es/adapt/true-advanced/decl-beginner": {
+  "ndcg_all": 0.668,
+  "cov_all": 0.783,
+  "read_all": 0.2,
+  "ndcg_last": 0.666,
+  "cov_last": 0.784,
+  "read_last": 0.194,
+  "target_end": 0.018
+ },
+ "es/adapt/true-advanced/decl-intermediate": {
+  "ndcg_all": 0.646,
+  "cov_all": 0.788,
+  "read_all": 0.212,
+  "ndcg_last": 0.657,
+  "cov_last": 0.793,
+  "read_last": 0.208,
+  "target_end": 0.029
+ },
+ "es/adapt/true-advanced/decl-advanced": {
+  "ndcg_all": 0.668,
+  "cov_all": 0.785,
+  "read_all": 0.199,
+  "ndcg_last": 0.659,
+  "cov_last": 0.794,
+  "read_last": 0.203,
+  "target_end": 0.227
+ },
+ "summary": {
+  "en/fixed/mismatched": {
+   "ndcg_all": 0.701,
+   "cov_all": 0.59,
+   "read_all": 0.131,
+   "ndcg_last": 0.704,
+   "cov_last": 0.588,
+   "read_last": 0.135
+  },
+  "en/fixed/matched": {
+   "ndcg_all": 0.701,
+   "cov_all": 0.606,
+   "read_all": 0.121,
+   "ndcg_last": 0.704,
+   "cov_last": 0.604,
+   "read_last": 0.12
+  },
+  "en/marks/mismatched": {
+   "ndcg_all": 0.702,
+   "cov_all": 0.59,
+   "read_all": 0.131,
+   "ndcg_last": 0.706,
+   "cov_last": 0.589,
+   "read_last": 0.135
+  },
+  "en/marks/matched": {
+   "ndcg_all": 0.701,
+   "cov_all": 0.606,
+   "read_all": 0.121,
+   "ndcg_last": 0.704,
+   "cov_last": 0.604,
+   "read_last": 0.12
+  },
+  "en/hard/mismatched": {
+   "ndcg_all": 0.702,
+   "cov_all": 0.604,
+   "read_all": 0.137,
+   "ndcg_last": 0.712,
+   "cov_last": 0.607,
+   "read_last": 0.143
+  },
+  "en/hard/matched": {
+   "ndcg_all": 0.709,
+   "cov_all": 0.616,
+   "read_all": 0.125,
+   "ndcg_last": 0.72,
+   "cov_last": 0.616,
+   "read_last": 0.132
+  },
+  "en/adapt/mismatched": {
+   "ndcg_all": 0.703,
+   "cov_all": 0.603,
+   "read_all": 0.132,
+   "ndcg_last": 0.714,
+   "cov_last": 0.605,
+   "read_last": 0.137
+  },
+  "en/adapt/matched": {
+   "ndcg_all": 0.718,
+   "cov_all": 0.615,
+   "read_all": 0.123,
+   "ndcg_last": 0.732,
+   "cov_last": 0.614,
+   "read_last": 0.124
+  },
+  "es/fixed/mismatched": {
+   "ndcg_all": 0.66,
+   "cov_all": 0.537,
+   "read_all": 0.068,
+   "ndcg_last": 0.657,
+   "cov_last": 0.537,
+   "read_last": 0.061
+  },
+  "es/fixed/matched": {
+   "ndcg_all": 0.66,
+   "cov_all": 0.548,
+   "read_all": 0.062,
+   "ndcg_last": 0.657,
+   "cov_last": 0.55,
+   "read_last": 0.058
+  },
+  "es/marks/mismatched": {
+   "ndcg_all": 0.66,
+   "cov_all": 0.537,
+   "read_all": 0.068,
+   "ndcg_last": 0.657,
+   "cov_last": 0.537,
+   "read_last": 0.061
+  },
+  "es/marks/matched": {
+   "ndcg_all": 0.66,
+   "cov_all": 0.548,
+   "read_all": 0.062,
+   "ndcg_last": 0.657,
+   "cov_last": 0.55,
+   "read_last": 0.058
+  },
+  "es/hard/mismatched": {
+   "ndcg_all": 0.662,
+   "cov_all": 0.548,
+   "read_all": 0.074,
+   "ndcg_last": 0.664,
+   "cov_last": 0.552,
+   "read_last": 0.069
+  },
+  "es/hard/matched": {
+   "ndcg_all": 0.666,
+   "cov_all": 0.561,
+   "read_all": 0.073,
+   "ndcg_last": 0.666,
+   "cov_last": 0.566,
+   "read_last": 0.074
+  },
+  "es/adapt/mismatched": {
+   "ndcg_all": 0.662,
+   "cov_all": 0.548,
+   "read_all": 0.073,
+   "ndcg_last": 0.664,
+   "cov_last": 0.552,
+   "read_last": 0.069
+  },
+  "es/adapt/matched": {
+   "ndcg_all": 0.666,
+   "cov_all": 0.56,
+   "read_all": 0.072,
+   "ndcg_last": 0.661,
+   "cov_last": 0.565,
+   "read_last": 0.071
+  }
+ }
+}
