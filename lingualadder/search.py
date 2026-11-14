@@ -13,7 +13,7 @@ from collections import Counter, defaultdict
 
 import numpy as np
 
-from .config import REORDER_MATCH, ALPHA, CANDIDATES, DATA_DIR, ON_TOPIC_FIRST, ON_TOPIC_MIN, SIGMA, TITLE_BONUS, TOPIC_WEIGHT, VOCAB_BETA
+from .config import REORDER_MATCH, PREFIX_MATCH, ALPHA, CANDIDATES, DATA_DIR, ON_TOPIC_FIRST, ON_TOPIC_MIN, SIGMA, TITLE_BONUS, TOPIC_WEIGHT, VOCAB_BETA
 from .textproc import index_tokens
 
 
@@ -114,6 +114,8 @@ class LinguaLadder:
             return 0.5
         if REORDER_MATCH and len(qtoks) >= 2 and sorted(bare) == sorted(qtoks):
             return REORDER_MATCH  # same title words in another order ("Revolution French")
+        if PREFIX_MATCH and len(qtoks) >= 2 and len(bare) > len(qtoks) and bare[:len(qtoks)] == qtoks:
+            return PREFIX_MATCH  # query is the start of a longer title
         return 0.0
 
     def search(self, lang, query, target, alpha=ALPHA, sigma=SIGMA, k=10, rerank=True, exclude=(), min_rel=0.0,

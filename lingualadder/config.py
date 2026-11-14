@@ -66,4 +66,5 @@ SEED_TOPICS = [
     "Pyramid", "Tiger", "Space exploration", "Music", "Bread",
 ]
 
+PREFIX_MATCH = float(__import__('os').environ.get('LL_PREFIX', '0.25'))  # title-match value when the query (2+ words) is the start of a longer title
 REORDER_MATCH = float(__import__('os').environ.get('LL_REORDER', '0.5'))  # title-match value when the query is the title words in another order
