@@ -299,3 +299,14 @@ English 5,500 articles cached; Spanish 3,620 of 5,500 cached. Collector resumes 
 - Other metrics unchanged: seed-title eval LinguaLadder nDCG@10 0.770, level match 0.434 (both languages); graduate eval nDCG@10 0.507, level match 0.778, gold-level 0.762.
 - Tests: pytest 49 pass; parity 81/81; app smoke and placement OK; Flask /search?q=volcano 200.
 - Next: title-prefix matches, or the CEFR-top display split. Hark Page still on older ranking.
+
+## Spanish interface text audit (website step, es)
+- Reviewed all Spanish interface strings against English: same keys, same placeholders, no untranslated strings; wording is natural, so no text changes were needed. Existing i18n test already enforces this. No ranking, data or web code change; metrics unchanged (en nDCG@10 0.792, es 0.748).
+- Next: fit step - title-prefix matches, or the CEFR-top display split. Hark Page still on older ranking.
+
+## Title-prefix queries (fit algorithm, en and es)
+- Partial-title step 2: a query of 2+ words that is the start of a longer article title gets a small title bonus (`PREFIX_MATCH`, 0.25; `LL_PREFIX` to change). Same rule in `web/ll.js` (default 0.25, no data re-export needed). New `python -m lingualadder.prefix_eval` (first two words of 250 3-5 word titles per language, data/prefix_eval.json).
+- Rank-1 / top-3, off -> on: English 0.432 / 0.600 -> 0.452 / 0.604; Spanish 0.356 / 0.520 -> 0.360 / 0.528. Small but positive in both languages.
+- Seed-title eval LinguaLadder nDCG@10 0.770 -> 0.771, level match 0.434 -> 0.433 (no relevance loss).
+- Tests: pytest 49 pass; parity 81/81; app smoke and placement OK; Flask /search?q=volcano 200.
+- Next: website step (mobile test, Hark Page update with new ranking), CEFR-top display split.
