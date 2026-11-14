@@ -12,7 +12,7 @@ from collections import Counter, defaultdict
 
 import numpy as np
 
-from .config import ALPHA, CANDIDATES, DATA_DIR, ON_TOPIC_FIRST, ON_TOPIC_MIN, SIGMA, TOPIC_WEIGHT
+from .config import ALPHA, CANDIDATES, DATA_DIR, ON_TOPIC_FIRST, ON_TOPIC_MIN, SIGMA, TOPIC_WEIGHT, VOCAB_BETA
 from .textproc import index_tokens
 
 
@@ -92,7 +92,9 @@ class LinguaLadder:
         return sum(idf[t] * (1.0 if t in title else 0.5 if t in lead else 0.0) for t in qterms) / tot
 
     def search(self, lang, query, target, alpha=ALPHA, sigma=SIGMA, k=10, rerank=True, exclude=(), min_rel=0.0,
-               known=None, beta=0.0, topic_weight=TOPIC_WEIGHT, on_topic_first=ON_TOPIC_FIRST):
+               known=None, beta=None, topic_weight=TOPIC_WEIGHT, on_topic_first=ON_TOPIC_FIRST):
+        if beta is None:
+            beta = VOCAB_BETA if known else 0.0  # vocab-aware term applies whenever a known-word set is given
         cands = self.bm25(lang, query)
         if not cands:
             return []
