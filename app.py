@@ -12,6 +12,7 @@ from flask import Flask, g, jsonify, redirect, render_template, request, session
 from lingualadder.config import ALPHA, DATA_DIR, LANGUAGES, LEVELS, NATIVE_LANGUAGES, SIGMA
 from lingualadder.search import LinguaLadder
 from lingualadder.textproc import strip_headings
+from lingualadder import flask_i18n
 from lingualadder.translate import translate
 
 app = Flask(__name__)
@@ -49,9 +50,29 @@ def target_of(p):
     return min(0.95, max(0.05, LEVELS[p["level"]]["target"] + p.get("offset", 0.0)))
 
 
+def ui_lang():
+    ui = session.get("ui")
+    if ui not in flask_i18n.UI_LANGS:
+        ui = flask_i18n.detect(request.headers.get("Accept-Language"))
+    return ui
+
+
 @app.context_processor
 def inject():
-    return {"LANGUAGES": LANGUAGES, "NATIVE": NATIVE_LANGUAGES, "LEVELS": LEVELS, "profile": session.get("profile")}
+    ui = ui_lang()
+    t = flask_i18n.make_t(ui)
+    return {"LANGUAGES": LANGUAGES, "NATIVE": NATIVE_LANGUAGES, "LEVELS": LEVELS, "profile": session.get("profile"),
+            "t": t, "ui": ui, "lname": lambda c, n=None: flask_i18n.lang_name(c, ui, n or NATIVE_LANGUAGES.get(c, c)), "UI_LANGS": flask_i18n.UI_LANGS,
+            "reader_t": {k: t(k) for k in flask_i18n.READER_KEYS}}
+
+
+@app.route("/ui/<lang>")
+def set_ui(lang):
+    if lang not in flask_i18n.UI_LANGS:
+        abort(404)
+    session["ui"] = lang
+    back = request.referrer or url_for("home")
+    return redirect(back)
 
 
 @app.route("/", methods=["GET", "POST"])
@@ -63,11 +84,14 @@ def home():
         nat = request.form.get("native", "")
         lvl = request.form.get("level", "")
         if tgt not in langs or nat not in langs | {"te", "en"} or lvl not in ("beginner", "intermediate", "advanced"):
-            return "Invalid profile: choose a supported language and level.", 400
+            return flask_i18n.make_t(ui_lang())("bad_profile"), 400
         session["profile"] = {"target": tgt, "native": nat, "level": lvl, "offset": 0.0}
         return redirect(url_for("search"))
     topics = sorted({d["topic"] for docs in ENGINE.docs.values() for d in docs if d.get("topic")})
     stats = {lang: len(docs) for lang, docs in ENGINE.docs.items()}
+    if ui_lang() == "es":
+        labels = flask_i18n.topic_labels_es()
+        topics = sorted(labels.get(x, x) for x in topics)
     return render_template("home.html", topics=topics, stats=stats)
 
 
@@ -169,12 +193,14 @@ def api_search():
 
 @app.errorhandler(404)
 def _not_found(e):
-    return "<!doctype html><title>Not found</title><h1>Page not found</h1><p><a href='/'>Back to LinguaLadder</a></p>", 404
+    t = flask_i18n.make_t(ui_lang())
+    return f"<!doctype html><html lang='{ui_lang()}'><title>{t('nf_title')}</title><h1>{t('nf_h')}</h1><p><a href='/'>{t('back')}</a></p>", 404
 
 
 @app.errorhandler(500)
 def _server_error(e):
-    return "<!doctype html><title>Error</title><h1>Something went wrong</h1><p><a href='/'>Back to LinguaLadder</a></p>", 500
+    t = flask_i18n.make_t(ui_lang())
+    return f"<!doctype html><html lang='{ui_lang()}'><title>{t('err_title')}</title><h1>{t('err_h')}</h1><p><a href='/'>{t('back')}</a></p>", 500
 
 
 if __name__ == "__main__":

@@ -49,4 +49,5 @@ Goal: results that fit the learner's level better WITHOUT losing much relevance.
 - [ ] E5 (step 2 done: targeted per-topic search terms closed every coverage gap, en 304/304 and es 304/304; step 1: GitHub sync of code and small files done; web data is 45 MB so it stays out of Pages, files over 25 MB cannot be web-uploaded): add a second easy Spanish source (children's encyclopedias) to close the 131 easy-article gap and fill the 10 remaining es gap topics.
 
 - [x] W6: Spanish and English interface (web/i18n.js, "Interface" selector, remembered, defaults to the browser language; 82 strings each, node web/i18n_test.js); Spanish topic chips now use Spanish labels for all 304 topics (python -m lingualadder.topic_labels).
-- [ ] W7: Flask UI in Spanish too (templates use English only), same i18n keys; publish the interface update on the Hark Page (needs a smaller data sample, the full single file is 41 MB).
+- [x] W7: Flask UI in Spanish too (DONE: lingualadder/flask_i18n.py, EN/ES switch, Accept-Language default, Spanish topic labels, reader script text; the Hark Page runs the static web version, which already had the Spanish interface).
+- [ ] W8: wire looked-up words (Flask vocab table, web lookups) to the known-word set so the vocab-aware term (beta 0.5) is used in the UIs; port the term to web/ll.js with a parity check.

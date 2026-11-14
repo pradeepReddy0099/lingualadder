@@ -194,3 +194,10 @@ English 5,500 articles cached; Spanish 3,620 of 5,500 cached. Collector resumes 
 - Decision: beta 0.5 is the default whenever a known-word set is passed to search() (new VOCAB_BETA); beyond 1.0 Spanish loses relevance. With no known-word set nothing changes, so the main metrics are unchanged (en nDCG@10 0.734, es 0.683). The effect is real but modest: snippets are short and a rare word is rarely the deciding factor; coverage is simulated, not measured with real learners.
 - Tests: pytest 20 pass (new test: default beta does not lower coverage, en and es); /search?q=volcano 200.
 - Next: wire looked-up words in the web UI and Flask to the known-word set, then port the term to web/ll.js with a parity check.
+
+## Flask UI in Spanish (W7)
+- The Flask app now has the same English / Spanish interface choice as the static web version. New `lingualadder/flask_i18n.py` holds 70+ strings per language (home, profile form, search, result cards, reader, My words, error pages, footer); a small EN / ES switch sits in the header, the choice is kept in the session and defaults to the browser's Accept-Language. The interface language is independent of the language being learned.
+- Spanish touches: level names (Principiante / Intermedio / Avanzado), language names in the selectors, MCER for CEFR, "Muy fácil / Muy difícil / Justo" buttons, the translate pop-up and feedback messages in the reader script, and the 304 topic names on the home page use the Spanish labels (e.g. Fotografía, Barco).
+- No ranking change, so retrieval metrics are unchanged (en nDCG@10 0.734, es 0.683 for LinguaLadder). Web data unchanged (41.3 MB), so the Hark Page sample is unchanged.
+- Tests: pytest 20 -> 27 pass (new: same keys and placeholders in both languages, every template key exists, Accept-Language detection, Spanish home/search/reader pages contain Spanish and no English button text, UI switch, translated error page); /search?q=volcano 200 with 10 results (en); Spanish search 200.
+- Next: wire looked-up words to the known-word set in the UIs (W8).
