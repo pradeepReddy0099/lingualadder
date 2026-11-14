@@ -65,6 +65,7 @@
     const onFirst = o.onTopicFirst ?? idx.on_topic_first ?? true;
     const tb = o.titleBonus ?? idx.title_bonus ?? 0.5;
     const qtoks = indexTokens(query, idx);
+    const sameSet = (a, b) => a.length === b.length && [...a].sort().join('\u0001') === [...b].sort().join('\u0001');
     const sameToks = (a, b) => a.length === b.length && a.every((x, i) => x === b[i]);
     const qterms = Array.from(new Set(indexTokens(query, idx))).filter(t => idx.terms[t]);
     const qidf = qterms.reduce((a, t) => a + idx.terms[t][0], 0) || 1;
@@ -80,7 +81,7 @@
         d._tt = low.includes('disambiguation') || low.includes('desambiguaci') ? null
           : [indexTokens(d[1], idx), indexTokens(d[1].replace(/\s*\([^()]*\)\s*$/, ''), idx)];
       }
-      const tmatch = !qtoks.length || !d._tt ? 0 : sameToks(d._tt[0], qtoks) ? 1 : (sameToks(d._tt[1], qtoks) && !sameToks(d._tt[1], d._tt[0])) ? 0.5 : 0;
+      const tmatch = !qtoks.length || !d._tt ? 0 : sameToks(d._tt[0], qtoks) ? 1 : (sameToks(d._tt[1], qtoks) && !sameToks(d._tt[1], d._tt[0])) ? 0.5 : ((idx.reorder_match ?? 0.5) && qtoks.length >= 2 && sameSet(d._tt[1], qtoks)) ? (idx.reorder_match ?? 0.5) : 0;
       const rel = o.rerank ? (1 - tw) * (s / top) + tw * topical : s / top;
       const diff = d[4];
       const fit = Math.exp(-((diff - o.target) ** 2) / (2 * o.sigma ** 2));
