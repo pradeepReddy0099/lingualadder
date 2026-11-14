@@ -170,7 +170,10 @@ li.ladder-strip h2 { font-size: 13px; text-transform: uppercase; letter-spacing:
   .words { grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); }
   #results > li:not(.col):not(.empty), .col ol > li { padding: 14px; }
   #results h3 { font-size: 17px; }
+  #results h3 a { display: inline-block; padding: 10px 0; }
+  .rung a { display: block; padding: 12px 0; }
 }
+@media (max-width: 480px) { .field-level { flex: 1 1 100%; } }
 
 /* Accessibility: visible keyboard focus everywhere, respect reduced motion */
 a:focus-visible, button:focus-visible, select:focus-visible, input:focus-visible, .topic:focus-visible, .opt:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
