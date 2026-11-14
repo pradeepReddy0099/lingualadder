@@ -333,3 +333,11 @@ English 5,500 articles cached; Spanish 3,620 of 5,500 cached. Collector resumes 
 - No ranking change: metrics unchanged (en nDCG@10 0.792, es 0.748; level match 0.465 / 0.403). Data unchanged; the "+" is not externally validated, only the base band is.
 - Tests: pytest 51 pass; parity 81/81; app smoke, placement, i18n, cefr, lookup OK; Flask /search?q=volcano 200 (en and es pages show the "+" bands).
 - Next: website step (Hark Page refresh with the "+" bands), then fit step on the Spanish CEFR head.
+
+## Web: small text and dialog close button (website step, en and es)
+- Extended the phone-width browser check (`python web/mobile_check.py`, English "volcano" and Spanish "volcán" at 320 and 390 px) to also open the placement-test dialog and flag any visible text under 12 px.
+- Found and fixed: the dialog close button was 34 px (now 44 px); the "picked for your level" note was 10.8 px, and the "None yet" line and "ladder" step captions 11.7 px (now 12-13 px).
+- Before / after on the four phone runs (en 320, en 390, es 320, es 390): 4 of 4 failed (close button too small, 2 tiny-text items on each) -> 0 of 4 failed; no horizontal overflow, no script errors, 11 result rows in each. English and Spanish behave the same.
+- No ranking change: metrics unchanged (en nDCG@10 0.792, es 0.748; level match 0.465 / 0.403). Data unchanged; public site CSS updated.
+- Tests: pytest 51 pass; parity 81/81; app smoke and placement OK; Flask /search?q=volcano 200.
+- Next: fit step - Spanish CEFR head needs more Spanish CEFR-labelled data; check what free labelled Spanish text exists.
