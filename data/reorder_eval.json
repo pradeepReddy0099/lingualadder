@@ -1,0 +1,30 @@
+{
+ "0.0": {
+  "en": {
+   "queries": 250,
+   "beginner": 0.744,
+   "intermediate": 0.708,
+   "advanced": 0.812
+  },
+  "es": {
+   "queries": 250,
+   "beginner": 0.768,
+   "intermediate": 0.72,
+   "advanced": 0.78
+  }
+ },
+ "0.5": {
+  "en": {
+   "queries": 250,
+   "beginner": 0.824,
+   "intermediate": 0.86,
+   "advanced": 0.988
+  },
+  "es": {
+   "queries": 250,
+   "beginner": 0.892,
+   "intermediate": 0.852,
+   "advanced": 0.968
+  }
+ }
+}
