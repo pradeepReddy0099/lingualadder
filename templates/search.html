@@ -11,6 +11,7 @@
 {% if all_topics %}<a class="chip more" href="{{ url_for('search', q=q) }}">{{ t('fewer_topics') }}</a>{% else %}<a class="chip more" href="{{ url_for('search', q=q, topics='all') }}">{{ t('all_topics', n=n_topics) }}</a>{% endif %}</div></section>{% endif %}
 {% if q %}
 <p class="meta">{{ t('target_diff') }} <b>{{target}}</b>{% if used_query != q %} · {{ t('searched_as') }} “{{used_query}}”{% endif %}</p>
+{% if ladder %}<section class="ladder-strip"><h3>{{ t('ladder_h') }}</h3><div class="rungs">{% for g in ladder %}<div class="rung {{ g.level }}"><span class="lvl {{ g.level }}">{{ t('lvl_' ~ g.level) }}</span>{% if g.doc %}<a href="{{ url_for('read', lang=lang, doc_id=g.doc.id) }}">{{ g.doc.title }}</a><small>{{ g.doc.difficulty|cefr(lang) }} · {{ g.doc.words }} {{ t('words') }}</small>{% else %}<small>{{ t('ladder_none') }}</small>{% endif %}</div>{% endfor %}</div></section>{% endif %}
 <div class="{% if compare %}cols{% endif %}">
 <div><h3>{% if compare %}{{ t('ll_ranking') }}{% endif %}</h3>
 {% for r in results %}{% include "_result.html" %}{% else %}<p>{{ t('no_results') }}{% if not in_native %}{{ t('or_tick') }}{% endif %}.</p>{% endfor %}</div>

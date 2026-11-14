@@ -6,6 +6,7 @@
  <p class="hint">{{ t('hint') }}</p>
  {% for kind, txt in blocks %}{% if kind=='h' %}<h3>{{txt}}</h3>{% else %}<p>{{txt}}</p>{% endif %}{% endfor %}
  <div class="feedback">{{ t('fb_prompt') }} <button data-v="too_easy">{{ t('too_easy') }}</button><button data-v="just_right">{{ t('just_right') }}</button><button data-v="too_hard">{{ t('too_hard') }}</button><span id="fbmsg"></span></div>
+<p class="next-up">{% if nxt %}{{ t('next_up') }} <a href="{{ url_for('read', lang=lang, doc_id=nxt.id) }}">{{ nxt.title }}</a> <span class="lvl {{ nxt.level }}">{{ t('lvl_' ~ nxt.level) }}</span> <span class="cefr">{{ nxt.difficulty|cefr(lang) }}</span>{% if not harder %} <small>{{ t('nothing_harder') }}</small>{% endif %}{% else %}{{ t('all_read') }}{% endif %}</p>
 </article>
 <aside class="card"><h3>{{ t('looked_up') }}</h3><ul id="vocab">{% for w,tr in vocab %}<li><b>{{w}}</b> {{tr}}</li>{% endfor %}</ul></aside>
 </div>
