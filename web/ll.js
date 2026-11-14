@@ -95,6 +95,18 @@
     return 'C2';
   }
 
-  const api = { indexTokens, bm25, search, knownWords, VOCAB_SIZES, cefr, CEFR_CUTS };
+  // Snippet text split into word and non-word pieces (for tap-to-look-up) and a Wiktionary link in the interface language.
+  function wordPieces(text) {
+    const out = []; let last = 0;
+    for (const m of String(text).matchAll(WORD)) { if (m.index > last) out.push({ w: false, t: text.slice(last, m.index) }); out.push({ w: true, t: m[0] }); last = m.index + m[0].length; }
+    if (last < text.length) out.push({ w: false, t: text.slice(last) });
+    return out;
+  }
+  const WIKT_ANCHOR = { en: { en: 'English', es: 'Spanish' }, es: { en: 'Inglés', es: 'Español' } };
+  function wiktionaryUrl(word, searchLang, uiLang) {
+    const ui = uiLang === 'es' ? 'es' : 'en';
+    return 'https://' + ui + '.wiktionary.org/wiki/' + encodeURIComponent(String(word).toLowerCase()) + '#' + encodeURIComponent((WIKT_ANCHOR[ui] || {})[searchLang] || '');
+  }
+  const api = { wordPieces, wiktionaryUrl, indexTokens, bm25, search, knownWords, VOCAB_SIZES, cefr, CEFR_CUTS };
   if (typeof module !== 'undefined' && module.exports) module.exports = api; else root.LL = api;
 })(typeof self !== 'undefined' ? self : this);

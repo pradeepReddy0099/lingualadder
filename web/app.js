@@ -25,7 +25,8 @@ const lvBadge = l => tr('b_' + l);
 
 // ---- Learner profile: language, level, placement result, reading history (kept in this browser only)
 const prof = (() => { try { return JSON.parse(localStorage.getItem('ll_profile') || '{}'); } catch (e) { return {}; } })();
-prof.read = prof.read || []; prof.place = prof.place || {};
+prof.read = prof.read || []; prof.place = prof.place || {}; prof.words = prof.words || {};
+const myWords = lang => prof.words[lang] || (prof.words[lang] = []);
 const save = () => { try { localStorage.setItem('ll_profile', JSON.stringify(prof)); } catch (e) {} };
 function sorted(idx) { return idx._sd || (idx._sd = idx.docs.map(d => d[4]).sort((a, b) => a - b)); }
 function quantileOf(idx, t) { const s = sorted(idx); let i = 0; while (i < s.length && s[i] < t) i++; return i / Math.max(s.length - 1, 1); }
@@ -40,6 +41,33 @@ function showChip() {
   else { chip.hidden = true; if (opt) opt.hidden = true; if ($('level').value === 'custom') $('level').value = 'intermediate'; }
 }
 
+// ---- Word lookups: tap a snippet word to look it up (Wiktionary in the interface language) and mark it as new.
+// Marked words leave the assumed-known set, so snippets made of fewer new words rank higher (same term as the Python app).
+function snippetHtml(text, lang) {
+  const mine = new Set(myWords(lang));
+  return LL.wordPieces(text).map(p => p.w ? `<span class="w${mine.has(p.t.toLowerCase()) ? ' mine' : ''}" role="button" tabindex="0" data-w="${esc(p.t)}">${esc(p.t)}</span>` : esc(p.t)).join('');
+}
+function openWord(el) {
+  const li = el.closest('li'), pop = li && li.querySelector('.wordpop'); if (!pop) return;
+  const lang = $('lang').value, w = el.dataset.w, lw = w.toLowerCase(), has = myWords(lang).includes(lw);
+  pop.hidden = false;
+  pop.innerHTML = `<b>${esc(w)}</b> <a href="${esc(LL.wiktionaryUrl(w, lang, LLI18n.get()))}" target="_blank" rel="noopener">${tr('word_look')} &rarr;</a> <button type="button" class="mini" data-markword="${esc(lw)}" data-mark="${has ? 0 : 1}">${tr(has ? 'word_unmark' : 'word_mark')}</button>`;
+}
+function setWord(w, on) {
+  const lang = $('lang').value, list = myWords(lang), i = list.indexOf(w);
+  if (on && i < 0) list.push(w); else if (!on && i >= 0) list.splice(i, 1);
+  prof.words[lang] = list.slice(-300); save(); renderMyWords();
+  $('status').textContent = tr(on ? 'word_added' : 'word_removed', { w });
+  const keep = $('status').textContent;
+  if ($('q').value.trim()) run().then(() => { $('status').textContent = keep + ' ' + $('status').textContent; });
+}
+function renderMyWords() {
+  const box = $('mywords'); if (!box) return;
+  const list = myWords($('lang').value);
+  box.innerHTML = list.length ? list.map(w => `<button type="button" class="topic" data-markword="${esc(w)}" data-mark="0" title="${esc(tr('word_unmark'))}">${esc(w)} &times;</button>`).join('') : `<small class="muted">${tr('mywords_none')}</small>`;
+  if ($('mywords-clear')) $('mywords-clear').hidden = !list.length;
+}
+
 // ---- Search
 async function run() {
   const q = $('q').value.trim();
@@ -52,7 +80,7 @@ async function run() {
   const target = targetFor(idx, lang);
   const t0 = performance.now();
   const place = prof.place[lang], vlevel = level === 'custom' ? (place && place.level) || 'intermediate' : level;
-  const known = $('vocab') && $('vocab').checked ? LL.knownWords(idx, vlevel) : null;  // words a learner at this level is assumed to know
+  const known = $('vocab') && $('vocab').checked ? LL.knownWords(idx, vlevel, myWords(lang)) : null;  // words a learner at this level is assumed to know
   const res = LL.search(idx, q, { target, rerank: !$('plain').checked, known });
   const ms = Math.round(performance.now() - t0);
   if (!res.length) { $('results').innerHTML = '<li class="empty">' + esc(tr('empty')) + '</li>'; $('status').textContent = tr('no_results'); return; }
@@ -64,7 +92,7 @@ async function run() {
   }
   const card = r => `
     <li class="lv-${esc(r.level)}${r.onTopic === false ? ' off-topic' : ''}" data-id="${esc(r.id)}"><h3><a href="${esc(r.url)}" target="_blank" rel="noopener" data-read="${esc(r.id)}">${esc(r.title)}</a></h3>
-      <p>${esc(r.snippet)}</p>
+      <p class="snip" title="${esc(tr('word_tap'))}">${snippetHtml(r.snippet, lang)}</p><div class="wordpop" hidden></div>
       <div class="meta"><span class="badge ${esc(r.level)}">${esc(lvBadge(r.level))}</span> <span class="badge">${cefr(r.difficulty)}</span>${r.onTopic === false ? ` <span class="badge mention" title="${esc(tr('mentions_title'))}">${tr('mentions')}</span>` : ''}${prof.read.includes(r.id) ? ` <span class="badge">${tr('read_badge')}</span>` : ''}
         <span>${tr('relevance')} <span class="bar"><i style="width:${pct(r.relevance)}%"></i></span></span>
         <span>${tr('level_fit')} <span class="bar"><i style="width:${pct(r.fit)}%"></i></span></span>
@@ -186,7 +214,7 @@ function testResult() {
 // ---- Wiring
 $('f').addEventListener('submit', e => { e.preventDefault(); run(); });
 $('reader').addEventListener('change', () => document.body.classList.toggle('reader', $('reader').checked));
-for (const id of ['lang', 'level', 'plain', 'cmp']) $(id).addEventListener('change', () => { if (id === 'lang') { showChip(); } if (id === 'lang' || id === 'level') renderTopics(); $('q').value.trim() && run(); });
+for (const id of ['lang', 'level', 'plain', 'cmp']) $(id).addEventListener('change', () => { if (id === 'lang') { showChip(); renderMyWords(); } if (id === 'lang' || id === 'level') renderTopics(); $('q').value.trim() && run(); });
 if ($('take-test')) $('take-test').addEventListener('click', startTest);
 document.addEventListener('click', async e => {
   const t = e.target; if (!t || !t.closest) return;
@@ -195,10 +223,13 @@ document.addEventListener('click', async e => {
   const all = t.closest('.more-topics'); if (all) { const b = $('topics'); b.dataset.all = b.dataset.all === '1' ? '0' : '1'; renderTopics(); }
   const nx = t.closest('[data-next]'); if (nx) readNext(await loadIndex($('lang').value), nx.dataset.next, nx.closest('li').querySelector('.next'));
   const fb = t.closest('[data-fb]'); if (fb) feedback(fb.dataset.fb);
+  const wd = t.closest('.w'); if (wd) openWord(wd);
+  const mk = t.closest('[data-markword]'); if (mk) setWord(mk.dataset.markword, mk.dataset.mark === '1');
+  if (t.closest('#mywords-clear')) { prof.words[$('lang').value] = []; save(); renderMyWords(); $('q').value.trim() && run(); }
 });
 // Interface language (independent of the search language): saved choice, else the browser's language
 function setUI(l, rerun) {
-  LLI18n.set(l); $('ui').value = LLI18n.get(); LLI18n.apply(document); showChip(); renderTopics();
+  LLI18n.set(l); $('ui').value = LLI18n.get(); LLI18n.apply(document); showChip(); renderTopics(); renderMyWords();
   const opt = document.getElementById('custom-opt'); if (opt && opt.hidden) opt.textContent = tr('lv_custom_plain');
   if (rerun && $('q').value.trim()) run();
 }
@@ -213,7 +244,7 @@ $('ui').addEventListener('change', () => { prof.ui = $('ui').value; save(); setU
     showChip();
     for (const id of ['lang', 'level']) $(id).addEventListener('change', () => { prof[id] = $(id).value; save(); });
     $('f').addEventListener('submit', () => { const u = new URL(location); u.searchParams.set('q', $('q').value.trim()); history.replaceState(null, '', u); });
-    renderTopics();
+    renderTopics(); renderMyWords();
     if (p.get('q')) { $('q').value = p.get('q'); run(); }
   } catch (e) {}
 })();
@@ -222,4 +253,5 @@ document.addEventListener('keydown', e => {
   const t = e.target.tagName;
   if (e.key === '/' && t !== 'INPUT' && t !== 'SELECT') { e.preventDefault(); $('q').focus(); $('q').select(); }
   else if (e.key === 'Escape' && e.target === $('q')) { $('q').value = ''; }
+  else if ((e.key === 'Enter' || e.key === ' ') && e.target.classList && e.target.classList.contains('w')) { e.preventDefault(); openWord(e.target); }
 });
