@@ -1,0 +1,192 @@
+{
+ "0.0": {
+  "en": {
+   "queries": 247,
+   "beginner": {
+    "rank1": 0.198,
+    "top3": 0.462,
+    "level_match": 0.406
+   },
+   "intermediate": {
+    "rank1": 0.227,
+    "top3": 0.474,
+    "level_match": 0.366
+   },
+   "advanced": {
+    "rank1": 0.109,
+    "top3": 0.279,
+    "level_match": 0.764
+   }
+  },
+  "es": {
+   "queries": 279,
+   "beginner": {
+    "rank1": 0.373,
+    "top3": 0.624,
+    "level_match": 0.284
+   },
+   "intermediate": {
+    "rank1": 0.226,
+    "top3": 0.448,
+    "level_match": 0.312
+   },
+   "advanced": {
+    "rank1": 0.151,
+    "top3": 0.326,
+    "level_match": 0.722
+   }
+  }
+ },
+ "0.1": {
+  "en": {
+   "queries": 247,
+   "beginner": {
+    "rank1": 0.36,
+    "top3": 0.623,
+    "level_match": 0.405
+   },
+   "intermediate": {
+    "rank1": 0.372,
+    "top3": 0.632,
+    "level_match": 0.365
+   },
+   "advanced": {
+    "rank1": 0.308,
+    "top3": 0.583,
+    "level_match": 0.754
+   }
+  },
+  "es": {
+   "queries": 279,
+   "beginner": {
+    "rank1": 0.523,
+    "top3": 0.781,
+    "level_match": 0.283
+   },
+   "intermediate": {
+    "rank1": 0.333,
+    "top3": 0.588,
+    "level_match": 0.311
+   },
+   "advanced": {
+    "rank1": 0.344,
+    "top3": 0.591,
+    "level_match": 0.709
+   }
+  }
+ },
+ "0.2": {
+  "en": {
+   "queries": 247,
+   "beginner": {
+    "rank1": 0.494,
+    "top3": 0.741,
+    "level_match": 0.402
+   },
+   "intermediate": {
+    "rank1": 0.47,
+    "top3": 0.749,
+    "level_match": 0.362
+   },
+   "advanced": {
+    "rank1": 0.603,
+    "top3": 0.725,
+    "level_match": 0.743
+   }
+  },
+  "es": {
+   "queries": 279,
+   "beginner": {
+    "rank1": 0.599,
+    "top3": 0.842,
+    "level_match": 0.282
+   },
+   "intermediate": {
+    "rank1": 0.409,
+    "top3": 0.713,
+    "level_match": 0.308
+   },
+   "advanced": {
+    "rank1": 0.613,
+    "top3": 0.781,
+    "level_match": 0.695
+   }
+  }
+ },
+ "0.3": {
+  "en": {
+   "queries": 247,
+   "beginner": {
+    "rank1": 0.567,
+    "top3": 0.862,
+    "level_match": 0.399
+   },
+   "intermediate": {
+    "rank1": 0.607,
+    "top3": 0.883,
+    "level_match": 0.358
+   },
+   "advanced": {
+    "rank1": 0.741,
+    "top3": 0.802,
+    "level_match": 0.73
+   }
+  },
+  "es": {
+   "queries": 279,
+   "beginner": {
+    "rank1": 0.717,
+    "top3": 0.903,
+    "level_match": 0.277
+   },
+   "intermediate": {
+    "rank1": 0.556,
+    "top3": 0.882,
+    "level_match": 0.307
+   },
+   "advanced": {
+    "rank1": 0.821,
+    "top3": 0.896,
+    "level_match": 0.689
+   }
+  }
+ },
+ "0.5": {
+  "en": {
+   "queries": 247,
+   "beginner": {
+    "rank1": 0.947,
+    "top3": 0.992,
+    "level_match": 0.395
+   },
+   "intermediate": {
+    "rank1": 0.927,
+    "top3": 0.992,
+    "level_match": 0.356
+   },
+   "advanced": {
+    "rank1": 0.891,
+    "top3": 0.976,
+    "level_match": 0.71
+   }
+  },
+  "es": {
+   "queries": 279,
+   "beginner": {
+    "rank1": 0.964,
+    "top3": 0.993,
+    "level_match": 0.274
+   },
+   "intermediate": {
+    "rank1": 0.964,
+    "top3": 1.0,
+    "level_match": 0.304
+   },
+   "advanced": {
+    "rank1": 0.939,
+    "top3": 0.996,
+    "level_match": 0.675
+   }
+  }
+ }
+}

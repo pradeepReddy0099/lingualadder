@@ -60,25 +60,25 @@
     "bm25_p10": 0.801,
     "bm25_ndcg10": 0.819,
     "bm25_level_match": 0.113,
-    "lingualadder_p10": 0.718,
-    "lingualadder_ndcg10": 0.723,
-    "lingualadder_level_match": 0.375
+    "lingualadder_p10": 0.739,
+    "lingualadder_ndcg10": 0.784,
+    "lingualadder_level_match": 0.362
    },
    "intermediate": {
     "bm25_p10": 0.801,
     "bm25_ndcg10": 0.819,
     "bm25_level_match": 0.131,
-    "lingualadder_p10": 0.726,
-    "lingualadder_ndcg10": 0.735,
-    "lingualadder_level_match": 0.346
+    "lingualadder_p10": 0.747,
+    "lingualadder_ndcg10": 0.79,
+    "lingualadder_level_match": 0.334
    },
    "advanced": {
     "bm25_p10": 0.801,
     "bm25_ndcg10": 0.819,
     "bm25_level_match": 0.41,
-    "lingualadder_p10": 0.73,
-    "lingualadder_ndcg10": 0.745,
-    "lingualadder_level_match": 0.757
+    "lingualadder_p10": 0.755,
+    "lingualadder_ndcg10": 0.803,
+    "lingualadder_level_match": 0.7
    }
   },
   "es": {
@@ -87,25 +87,25 @@
     "bm25_p10": 0.731,
     "bm25_ndcg10": 0.764,
     "bm25_level_match": 0.096,
-    "lingualadder_p10": 0.678,
-    "lingualadder_ndcg10": 0.695,
-    "lingualadder_level_match": 0.28
+    "lingualadder_p10": 0.694,
+    "lingualadder_ndcg10": 0.75,
+    "lingualadder_level_match": 0.268
    },
    "intermediate": {
     "bm25_p10": 0.731,
     "bm25_ndcg10": 0.764,
     "bm25_level_match": 0.124,
-    "lingualadder_p10": 0.653,
-    "lingualadder_ndcg10": 0.668,
-    "lingualadder_level_match": 0.293
+    "lingualadder_p10": 0.678,
+    "lingualadder_ndcg10": 0.738,
+    "lingualadder_level_match": 0.285
    },
    "advanced": {
     "bm25_p10": 0.731,
     "bm25_ndcg10": 0.764,
     "bm25_level_match": 0.457,
-    "lingualadder_p10": 0.666,
-    "lingualadder_ndcg10": 0.687,
-    "lingualadder_level_match": 0.708
+    "lingualadder_p10": 0.698,
+    "lingualadder_ndcg10": 0.756,
+    "lingualadder_level_match": 0.655
    }
   }
  },
@@ -113,46 +113,46 @@
   "bm25_p10": 0.766,
   "bm25_ndcg10": 0.792,
   "bm25_level_match": 0.222,
-  "lingualadder_p10": 0.695,
-  "lingualadder_ndcg10": 0.709,
-  "lingualadder_level_match": 0.46
+  "lingualadder_p10": 0.719,
+  "lingualadder_ndcg10": 0.77,
+  "lingualadder_level_match": 0.434
  },
  "alpha_sweep": [
   {
    "alpha": 1.0,
-   "p10": 0.776,
-   "ndcg10": 0.804,
-   "level_match": 0.225
+   "p10": 0.78,
+   "ndcg10": 0.824,
+   "level_match": 0.226
   },
   {
    "alpha": 0.8,
-   "p10": 0.758,
-   "ndcg10": 0.781,
-   "level_match": 0.35
+   "p10": 0.766,
+   "ndcg10": 0.811,
+   "level_match": 0.339
   },
   {
    "alpha": 0.6,
-   "p10": 0.709,
-   "ndcg10": 0.727,
-   "level_match": 0.445
+   "p10": 0.73,
+   "ndcg10": 0.781,
+   "level_match": 0.42
   },
   {
    "alpha": 0.5,
-   "p10": 0.695,
-   "ndcg10": 0.709,
-   "level_match": 0.46
+   "p10": 0.719,
+   "ndcg10": 0.77,
+   "level_match": 0.434
   },
   {
    "alpha": 0.4,
-   "p10": 0.686,
-   "ndcg10": 0.695,
-   "level_match": 0.467
+   "p10": 0.71,
+   "ndcg10": 0.756,
+   "level_match": 0.441
   },
   {
    "alpha": 0.2,
-   "p10": 0.667,
-   "ndcg10": 0.673,
-   "level_match": 0.475
+   "p10": 0.692,
+   "ndcg10": 0.723,
+   "level_match": 0.458
   }
  ],
  "corpus": {
