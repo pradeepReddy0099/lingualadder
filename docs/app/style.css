@@ -141,3 +141,4 @@ li.ladder-strip h2 { font-size: 13px; text-transform: uppercase; letter-spacing:
 .rung small { color: var(--muted); }
 .rung .badge { align-self: flex-start; }
 @media (max-width: 720px) { .rungs { grid-template-columns: 1fr; } }
+.switch .sw { font-weight: 400; }
