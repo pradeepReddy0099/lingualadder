@@ -18,6 +18,7 @@ async function loadIndex(lang) {
   return cache[lang];
 }
 const cefr = (d, lang) => LL.cefr(d, lang || ($('lang') && $('lang').value) || 'en');
+const cefrD = (d, lang) => LL.cefrDisplay(d, lang || ($('lang') && $('lang').value) || 'en');  // display only: top band split with '+'
 const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 const pct = x => Math.round(x * 100);
 const LEVEL_NAMES = { get beginner() { return tr('lvl_beginner'); }, get intermediate() { return tr('lvl_intermediate'); }, get advanced() { return tr('lvl_advanced'); } };
@@ -84,7 +85,7 @@ async function run() {
   const res = LL.search(idx, q, { target, rerank: !$('plain').checked, known });
   const ms = Math.round(performance.now() - t0);
   if (!res.length) { $('results').innerHTML = '<li class="empty">' + esc(tr('empty')) + '</li>'; $('status').textContent = tr('no_results'); return; }
-   $('status').textContent = tr('results_in', { n: res.length, ms }) + ' (' + Object.entries(res.reduce((a,r)=>{const c=cefr(r.difficulty);a[c]=(a[c]||0)+1;return a;},{})).sort().map(([k,v])=>k+' ×'+v).join(', ') + ')' + ($('plain').checked ? tr('plain_tag') : tr('fitted', { level: level === 'custom' ? tr('fitted_custom') : LEVEL_NAMES[level].toLowerCase() }));
+   $('status').textContent = tr('results_in', { n: res.length, ms }) + ' (' + Object.entries(res.reduce((a,r)=>{const c=cefrD(r.difficulty);a[c]=(a[c]||0)+1;return a;},{})).sort().map(([k,v])=>k+' ×'+v).join(', ') + ')' + ($('plain').checked ? tr('plain_tag') : tr('fitted', { level: level === 'custom' ? tr('fitted_custom') : LEVEL_NAMES[level].toLowerCase() }));
   if (!$('plain').checked) {
     const off = res.filter(r => !r.onTopic).length;
     if (off === res.length) $('status').textContent += tr('all_mention');
@@ -93,7 +94,7 @@ async function run() {
   const card = r => `
     <li class="lv-${esc(r.level)}${r.onTopic === false ? ' off-topic' : ''}" data-id="${esc(r.id)}"><h3><a href="${esc(r.url)}" target="_blank" rel="noopener" data-read="${esc(r.id)}">${esc(r.title)}</a></h3>
       <p class="snip" title="${esc(tr('word_tap'))}">${snippetHtml(r.snippet, lang)}</p><div class="wordpop" hidden></div>
-      <div class="meta"><span class="badge ${esc(r.level)}">${esc(lvBadge(r.level))}</span> <span class="badge">${cefr(r.difficulty)}</span>${r.onTopic === false ? ` <span class="badge mention" title="${esc(tr('mentions_title'))}">${tr('mentions')}</span>` : ''}${prof.read.includes(r.id) ? ` <span class="badge">${tr('read_badge')}</span>` : ''}
+      <div class="meta"><span class="badge ${esc(r.level)}">${esc(lvBadge(r.level))}</span> <span class="badge">${cefrD(r.difficulty)}</span>${r.onTopic === false ? ` <span class="badge mention" title="${esc(tr('mentions_title'))}">${tr('mentions')}</span>` : ''}${prof.read.includes(r.id) ? ` <span class="badge">${tr('read_badge')}</span>` : ''}
         <span>${tr('relevance')} <span class="bar"><i style="width:${pct(r.relevance)}%"></i></span></span>
         <span>${tr('level_fit')} <span class="bar"><i style="width:${pct(r.fit)}%"></i></span></span>
         <span>${tr('words', { n: r.words })}</span>
@@ -114,7 +115,7 @@ function ladderStrip(idx, q, target) {
   const all = LL.search(idx, q, { target, k: 100 }).filter(r => r.onTopic);
   if (!all.length) return '';
   const rung = lv => { const r = all.filter(x => x.level === lv).sort((a, b) => b.relevance - a.relevance)[0];
-    return `<div class="rung ${lv}"><span class="badge ${lv}">${LEVEL_NAMES[lv]}</span>${r ? `<a href="${esc(r.url)}" target="_blank" rel="noopener" data-read="${esc(r.id)}">${esc(r.title)}</a><small>${cefr(r.difficulty)} · ${tr('words', { n: r.words })}</small>` : `<small>${tr('ladder_none')}</small>`}</div>`; };
+    return `<div class="rung ${lv}"><span class="badge ${lv}">${LEVEL_NAMES[lv]}</span>${r ? `<a href="${esc(r.url)}" target="_blank" rel="noopener" data-read="${esc(r.id)}">${esc(r.title)}</a><small>${cefrD(r.difficulty)} · ${tr('words', { n: r.words })}</small>` : `<small>${tr('ladder_none')}</small>`}</div>`; };
   return `<li class="ladder-strip"><h2>${tr('ladder_h')}</h2><div class="rungs">${['beginner', 'intermediate', 'advanced'].map(rung).join('')}</div></li>`;
 }
 
@@ -140,7 +141,7 @@ function readNext(idx, id, box) {
   const up = pool.filter(x => x[4] > d[4]).sort((a, b) => a[4] - b[4]);
   const n = up[0] || pool.sort((a, b) => Math.abs(a[4] - d[4]) - Math.abs(b[4] - d[4]))[0];
   box.hidden = false;
-  box.innerHTML = n ? `${tr('next_up')} <a href="${esc(n[2])}" target="_blank" rel="noopener" data-read="${esc(n[0])}">${esc(n[1])}</a> <span class="badge ${esc(n[5])}">${esc(lvBadge(n[5]))}</span> <span class="badge">${cefr(n[4])}</span>${up[0] ? '' : ` <small>${tr('nothing_harder')}</small>`}`
+  box.innerHTML = n ? `${tr('next_up')} <a href="${esc(n[2])}" target="_blank" rel="noopener" data-read="${esc(n[0])}">${esc(n[1])}</a> <span class="badge ${esc(n[5])}">${esc(lvBadge(n[5]))}</span> <span class="badge">${cefrD(n[4])}</span>${up[0] ? '' : ` <small>${tr('nothing_harder')}</small>`}`
     : tr('all_read');
 }
 

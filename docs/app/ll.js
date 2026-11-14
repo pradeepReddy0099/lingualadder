@@ -106,6 +106,12 @@
     for (let i = 0; i < cuts.length; i++) if (d < cuts[i]) return CEFR_NAMES[i];
     return 'C2';
   }
+  // Display-only split of the crowded top band (same as search.py CEFR_SPLIT / cefr_display): upper half gets a '+'.
+  const CEFR_SPLIT = { en: ['C2', 0.9496], es: ['C1', 0.8696] };
+  function cefrDisplay(d, lang) {
+    const lab = cefr(d, lang), sp = CEFR_SPLIT[lang] || CEFR_SPLIT.en;
+    return lab === sp[0] && +d >= sp[1] ? lab + '+' : lab;
+  }
 
   // Snippet text split into word and non-word pieces (for tap-to-look-up) and a Wiktionary link in the interface language.
   function wordPieces(text) {
@@ -119,6 +125,6 @@
     const ui = uiLang === 'es' ? 'es' : 'en';
     return 'https://' + ui + '.wiktionary.org/wiki/' + encodeURIComponent(String(word).toLowerCase()) + '#' + encodeURIComponent((WIKT_ANCHOR[ui] || {})[searchLang] || '');
   }
-  const api = { wordPieces, wiktionaryUrl, indexTokens, bm25, search, knownWords, VOCAB_SIZES, cefr, CEFR_CUTS };
+  const api = { wordPieces, wiktionaryUrl, indexTokens, bm25, search, knownWords, VOCAB_SIZES, cefr, cefrDisplay, CEFR_CUTS, CEFR_SPLIT };
   if (typeof module !== 'undefined' && module.exports) module.exports = api; else root.LL = api;
 })(typeof self !== 'undefined' ? self : this);
