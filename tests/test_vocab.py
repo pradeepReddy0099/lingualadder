@@ -31,3 +31,22 @@ def test_vocab_default_beta_raises_coverage_en_es():
         aware = ll.search(lang, q, 0.5, k=10, known=known)  # default beta applies when known is given
         assert len(aware) == 10
         assert _coverage(aware, known, lang) >= _coverage(plain, known, lang)
+
+
+def test_known_words_sizes_and_looked_up_removed():
+    from lingualadder.search import LinguaLadder
+    ll = LinguaLadder()
+    for lang in ("en", "es"):
+        b, i, a = (ll.known_words(lang, lv) for lv in ("beginner", "intermediate", "advanced"))
+        assert len(b) == 300 and b < i < a
+        w = sorted(b)[0]
+        assert w not in ll.known_words(lang, "beginner", [w])
+
+
+def test_flask_search_uses_looked_up_words_without_error():
+    from app import app
+    for lang in ("en", "es"):
+        c = app.test_client()
+        c.post('/', data={'target': lang, 'native': 'te', 'level': 'beginner'})
+        r = c.get('/search?q=volcan' if lang == 'es' else '/search?q=volcano')
+        assert r.status_code == 200
