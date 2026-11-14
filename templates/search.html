@@ -1,4 +1,5 @@
 {% extends "base.html" %}{% block body %}
+{% if profile %}<p class="meta">{% if profile.place %}{{ t('place_chip') }}: <b>{{ profile.place.cefr }}</b> · <a href="{{ url_for('placement', restart=1) }}">{{ t('place_again') }}</a>{% else %}<a href="{{ url_for('placement', restart=1) }}">{{ t('place_link') }}</a>{% endif %}</p>{% endif %}
 <form class="searchbar" method="get">
  <input name="q" value="{{q}}" placeholder="{{ t('search_ph') }}" autofocus>
  <label class="chk"><input type="checkbox" name="native" value="1" {% if in_native %}checked{% endif %}> {{ t('typed_native') }}</label>

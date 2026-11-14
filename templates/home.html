@@ -7,6 +7,7 @@
  <label>{{ t('native') }} <select name="native">{% for c,n in NATIVE.items() %}<option value="{{c}}" {% if (profile and profile.native==c) or (not profile and c==ui) %}selected{% endif %}>{{ lname(c,n) }}</option>{% endfor %}</select></label>
  <label>{{ t('level') }} <select name="level">{% for k,v in LEVELS.items() %}<option value="{{k}}" {% if profile and profile.level==k %}selected{% endif %}>{{ t('lv_' ~ k) }}</option>{% endfor %}</select></label>
  <button>{{ t('save') }}</button>
+ {% if profile %}<a class="btn" style="margin-left:8px;background:#eef3f8;color:#1f4e79" href="{{ url_for('placement', restart=1) }}">{{ t('place_link') }}</a>{% endif %}
 </form>
 <section class="card"><h2>{{ t('topics_h') }}</h2><p class="topics">{% for tp in topics %}<span>{{tp}}</span>{% endfor %}</p></section>
 {% endblock %}

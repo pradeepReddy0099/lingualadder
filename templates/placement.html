@@ -1,0 +1,25 @@
+{% extends "base.html" %}{% block body %}
+<section class="card place">
+<div class="bar" role="progressbar" aria-valuenow="{{ pct|default(0) }}" aria-valuemin="0" aria-valuemax="100"><i style="width:{{ pct|default(0) }}%"></i></div>
+{% if stage == "intro" %}
+ <h2>{{ t('t_intro_h', lang=lname(lang)) }}</h2><p class="meta">{{ t('t_intro_p') }}</p>
+ <form method="post"><input type="hidden" name="act" value="start"><button>{{ t('t_start') }}</button></form>
+{% elif stage == "vocab" %}
+ <h2>{{ t('t_vocab_h') }}</h2><p class="meta">{{ t('t_vocab_p') }}</p>
+ <form method="post"><input type="hidden" name="act" value="vocab">
+ <div class="words">{% for it in items %}<label class="word"><input type="checkbox" name="w" value="{{ it.word }}"><span>{{ it.word }}</span></label>{% endfor %}</div>
+ <button>{{ t('t_continue') }}</button></form>
+{% elif stage == "cloze" %}
+ <h2>{{ t('t_cloze_h') }} <small class="meta">· {{ t('t_of', i=i, n=n) }}</small></h2>
+ {% set parts = item.text.partition('_____') %}<p class="passage">{{ parts[0] }}<span class="blank">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>{{ parts[2] }}</p>
+ <form method="post"><input type="hidden" name="act" value="answer"><div class="opts">{% for o in item.options %}<button name="o" value="{{ o }}">{{ o }}</button>{% endfor %}</div></form>
+ <form method="post"><input type="hidden" name="act" value="skip"><button class="skip">{{ t('t_skip') }}</button></form>
+{% else %}
+ <p class="meta">{{ t('t_res_lead', lang=lname(lang)) }}</p>
+ <div class="big">{{ place.cefr }}</div>
+ <div class="ladder">{% for b in bands %}<span {% if b == place.cefr %}class="on"{% endif %}>{{ b }}</span>{% endfor %}</div>
+ <p class="meta">{{ t('t_res_detail', level=t('lvl_' ~ profile.level), vocab=(place.vocab*100)|round|int, pct=(place.cloze*100)|round|int) }}</p>
+ <a class="btn" href="{{ url_for('search') }}">{{ t('t_done') }}</a>
+{% endif %}
+</section>
+{% endblock %}
