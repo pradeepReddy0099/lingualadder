@@ -1,0 +1,114 @@
+[
+ {
+  "alpha": 0.4,
+  "sigma": 0.1,
+  "en": {
+   "lingualadder_p10": 0.745,
+   "lingualadder_ndcg10": 0.782,
+   "lingualadder_level_match": 0.476
+  },
+  "es": {
+   "lingualadder_p10": 0.691,
+   "lingualadder_ndcg10": 0.74,
+   "lingualadder_level_match": 0.411
+  }
+ },
+ {
+  "alpha": 0.4,
+  "sigma": 0.15,
+  "en": {
+   "lingualadder_p10": 0.737,
+   "lingualadder_ndcg10": 0.778,
+   "lingualadder_level_match": 0.474
+  },
+  "es": {
+   "lingualadder_p10": 0.683,
+   "lingualadder_ndcg10": 0.735,
+   "lingualadder_level_match": 0.409
+  }
+ },
+ {
+  "alpha": 0.5,
+  "sigma": 0.1,
+  "en": {
+   "lingualadder_p10": 0.753,
+   "lingualadder_ndcg10": 0.796,
+   "lingualadder_level_match": 0.469
+  },
+  "es": {
+   "lingualadder_p10": 0.697,
+   "lingualadder_ndcg10": 0.753,
+   "lingualadder_level_match": 0.405
+  }
+ },
+ {
+  "alpha": 0.5,
+  "sigma": 0.15,
+  "en": {
+   "lingualadder_p10": 0.747,
+   "lingualadder_ndcg10": 0.792,
+   "lingualadder_level_match": 0.465
+  },
+  "es": {
+   "lingualadder_p10": 0.69,
+   "lingualadder_ndcg10": 0.748,
+   "lingualadder_level_match": 0.403
+  }
+ },
+ {
+  "alpha": 0.6,
+  "sigma": 0.1,
+  "en": {
+   "lingualadder_p10": 0.766,
+   "lingualadder_ndcg10": 0.807,
+   "lingualadder_level_match": 0.45
+  },
+  "es": {
+   "lingualadder_p10": 0.707,
+   "lingualadder_ndcg10": 0.762,
+   "lingualadder_level_match": 0.391
+  }
+ },
+ {
+  "alpha": 0.6,
+  "sigma": 0.15,
+  "en": {
+   "lingualadder_p10": 0.763,
+   "lingualadder_ndcg10": 0.805,
+   "lingualadder_level_match": 0.448
+  },
+  "es": {
+   "lingualadder_p10": 0.697,
+   "lingualadder_ndcg10": 0.756,
+   "lingualadder_level_match": 0.391
+  }
+ },
+ {
+  "alpha": 0.7,
+  "sigma": 0.1,
+  "en": {
+   "lingualadder_p10": 0.782,
+   "lingualadder_ndcg10": 0.82,
+   "lingualadder_level_match": 0.421
+  },
+  "es": {
+   "lingualadder_p10": 0.72,
+   "lingualadder_ndcg10": 0.774,
+   "lingualadder_level_match": 0.361
+  }
+ },
+ {
+  "alpha": 0.7,
+  "sigma": 0.15,
+  "en": {
+   "lingualadder_p10": 0.778,
+   "lingualadder_ndcg10": 0.819,
+   "lingualadder_level_match": 0.422
+  },
+  "es": {
+   "lingualadder_p10": 0.713,
+   "lingualadder_ndcg10": 0.769,
+   "lingualadder_level_match": 0.364
+  }
+ }
+]
