@@ -14,6 +14,7 @@ from lingualadder.search import LinguaLadder
 from lingualadder.textproc import strip_headings
 from lingualadder import flask_i18n, placement as PL
 from lingualadder.recommend import recommended
+from lingualadder.ladder import ladder_strip, read_next
 import random
 from lingualadder.translate import translate
 
@@ -106,7 +107,7 @@ def search():
     q = request.args.get("q", "").strip()
     in_native = request.args.get("native") == "1"
     results, used_query, compare = [], q, request.args.get("compare") == "1"
-    baseline = []
+    baseline, ladder = [], []
     if q:
         if in_native and p["native"] != p["target"]:
             tr = translate(q, p["native"], p["target"])
@@ -119,11 +120,13 @@ def search():
         results = ENGINE.search(p["target"], used_query, target, known=known)
         if compare:
             baseline = ENGINE.search(p["target"], used_query, target, rerank=False)
+        else:  # one on-topic pick per level, so every topic shows its easier and harder rungs
+            ladder = ladder_strip(ENGINE.search(p["target"], used_query, target, k=100))
     read_ids = [r[0] for r in db().execute("SELECT doc_id FROM reads WHERE uid=? AND lang=?", (session["uid"], p["target"])).fetchall()]
     chips, n_topics = recommended(ENGINE.docs[p["target"]], p["target"], target_of(p), read_ids, n=None if request.args.get("topics") == "all" else 14)
     return render_template("search.html", q=q, used_query=used_query, results=results, baseline=baseline,
                            compare=compare, in_native=in_native, target=round(target_of(p), 2), lang=p["target"],
-                           chips=chips, n_topics=n_topics, all_topics=request.args.get("topics") == "all")
+                           chips=chips, n_topics=n_topics, ladder=ladder, all_topics=request.args.get("topics") == "all")
 
 
 # ---- Placement test: vocabulary checklist, then an adaptive cloze (same method as the web version)
@@ -198,11 +201,13 @@ def read(lang, doc_id):
             blocks.append(("h", x.strip("= ").strip()))
         else:
             blocks.append(("p", x))
+    read_ids = [r[0] for r in db().execute("SELECT doc_id FROM reads WHERE uid=? AND lang=?", (session["uid"], lang)).fetchall()]
+    nxt, harder = read_next(ENGINE.docs[lang], d, read_ids)
     db().execute("INSERT OR REPLACE INTO reads VALUES (?,?,?,?)", (session["uid"], lang, d["id"], time.time()))
     db().commit()
     vocab = db().execute("SELECT term, translation FROM vocab WHERE uid=? AND lang=? ORDER BY ts DESC LIMIT 30",
                          (session["uid"], lang)).fetchall()
-    return render_template("read.html", d=d, blocks=blocks, vocab=vocab, lang=lang)
+    return render_template("read.html", d=d, blocks=blocks, vocab=vocab, lang=lang, nxt=nxt, harder=harder)
 
 
 @app.post("/api/translate")
