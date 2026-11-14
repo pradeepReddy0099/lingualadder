@@ -11,6 +11,9 @@ JS = """()=>{const bad=[];document.querySelectorAll('a,button,select,.topic').fo
  if(r.width>0&&r.height>0&&r.height<40&&!e.closest('.snip'))bad.push(e.tagName+' '+(e.textContent||'').trim().slice(0,20)+' '+Math.round(r.height))});
  let over=0;document.querySelectorAll('body *').forEach(e=>{const r=e.getBoundingClientRect();if(r.width>0&&r.right>innerWidth+1)over++});
  return {sw:document.documentElement.scrollWidth,iw:innerWidth,bad,over,n:document.querySelectorAll('#results > li').length}}"""
+TINY = """()=>{const out=new Set();document.querySelectorAll('body *').forEach(e=>{if(e.closest('dialog:not([open])')||e.tagName=='SCRIPT'||e.tagName=='STYLE')return;
+ const own=[...e.childNodes].some(n=>n.nodeType==3&&n.textContent.trim());const r=e.getBoundingClientRect();
+ if(own&&r.width>0&&parseFloat(getComputedStyle(e).fontSize)<11.9)out.add(e.tagName+'.'+e.className+' '+getComputedStyle(e).fontSize)});return [...out]}"""
 try:
     with sync_playwright() as p:
         b = p.chromium.launch()
@@ -22,7 +25,12 @@ try:
                 pg.goto(f'http://localhost:{port}/index.html'); pg.wait_for_timeout(1000)
                 pg.select_option('#lang', lang); pg.fill('#q', q); pg.keyboard.press('Enter'); pg.wait_for_timeout(2500)
                 r = pg.evaluate(JS)
-                ok = r['sw'] <= r['iw'] and not errs and not r['bad'] and r['over'] == 0 and r['n'] >= 10
+                r['tiny'] = pg.evaluate(TINY)
+                pg.click('#take-test'); pg.wait_for_timeout(500)
+                r['x'] = pg.evaluate("()=>{const e=document.querySelector('dialog .x');const b=e.getBoundingClientRect();return Math.round(Math.min(b.width,b.height))}")
+                r['tiny'] += pg.evaluate(TINY)
+                pg.keyboard.press('Escape')
+                ok = r['x'] >= 44 and not r['tiny'] and r['sw'] <= r['iw'] and not errs and not r['bad'] and r['over'] == 0 and r['n'] >= 10
                 print(lang, w, 'OK' if ok else 'FAIL', json.dumps(r)[:200], errs[:2])
                 if not ok: fails.append((lang, w))
         b.close()
