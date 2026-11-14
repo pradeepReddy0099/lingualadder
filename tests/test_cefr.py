@@ -28,3 +28,23 @@ def test_external_validation_report_en_and_es():
     for lang in (en, es):  # new bands beat the old corpus-quantile bands on held-out external texts
         h = lang["heldout_mean_of_10_splits"]
         assert h["quantile"]["exact"] > h["old"]["exact"] and h["quantile"]["within1"] > h["old"]["within1"]
+
+
+def test_cefr_display_split_only_halves_the_crowded_band():
+    from lingualadder.search import CEFR_SPLIT, cefr_display
+    for lang, (band, med) in CEFR_SPLIT.items():
+        for x in range(101):
+            d = x / 100
+            lab, disp = cefr_label(d, lang), cefr_display(d, lang)
+            assert disp.rstrip("+") == lab  # validated band never changes
+            assert disp.endswith("+") == (lab == band and d >= med)
+    assert cefr_display(0.99, "en") == "C2+" and cefr_display(0.9, "en") == "C2"
+    assert cefr_display(0.9, "es") == "C1+" and cefr_display(0.99, "es") == "C2"
+
+
+def test_cefr_split_report_matches_shipped_median():
+    p = Path(__file__).resolve().parent.parent / "data" / "cefr_split.json"
+    r = json.loads(p.read_text())
+    for lang in ("en", "es"):
+        assert abs(r[lang]["median_in_band"] - r[lang]["shipped_median"]) < 1e-9
+        assert max(r[lang]["after"].values()) < 0.55 * r[lang]["n"]
