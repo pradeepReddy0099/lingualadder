@@ -203,3 +203,15 @@ def cefr_label(difficulty, lang="en"):
         if d < hi:
             return lab
     return "C2"
+
+
+# Display-only split of the crowded top band (python -m lingualadder.cefr_split): the part of the band at or above
+# the corpus median of that band is shown with a "+" (en: C2+, es: C1+). Validated bands are untouched.
+CEFR_SPLIT = {"en": ("C2", 0.9496), "es": ("C1", 0.8696)}
+
+
+def cefr_display(difficulty, lang="en"):
+    """cefr_label, plus a '+' for the upper half of the language's crowded band (display only)."""
+    lab = cefr_label(difficulty, lang)
+    band, med = CEFR_SPLIT.get(lang, CEFR_SPLIT["en"])
+    return lab + "+" if lab == band and float(difficulty) >= med else lab
