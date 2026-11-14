@@ -12,7 +12,7 @@ The JS side recomputes BM25 exactly as search.py does, then applies the same rer
 import json
 import sys
 
-from .config import ALPHA, CANDIDATES, DATA_DIR, LEVELS, ON_TOPIC_FIRST, ON_TOPIC_MIN, SIGMA, TOPIC_WEIGHT
+from .config import ALPHA, CANDIDATES, DATA_DIR, LEVELS, ON_TOPIC_FIRST, ON_TOPIC_MIN, SIGMA, TOPIC_WEIGHT, TITLE_BONUS
 from .search import LinguaLadder
 from .textproc import STOP, is_cjk
 
@@ -35,7 +35,7 @@ def export_lang(ll, lang):
         terms[t] = flat
     out = {
         "lang": lang, "n": len(docs), "avgdl": round(ix.avgdl, 3), "k1": ix.k1, "b": ix.b,
-        "cjk": is_cjk(lang), "stop": sorted(STOP.get(lang, ())), "candidates": CANDIDATES, "alpha": ALPHA, "sigma": SIGMA, "topic_weight": TOPIC_WEIGHT, "on_topic_min": ON_TOPIC_MIN, "on_topic_first": ON_TOPIC_FIRST, "targets": {k: v["target"] for k, v in LEVELS.items()},
+        "cjk": is_cjk(lang), "stop": sorted(STOP.get(lang, ())), "candidates": CANDIDATES, "alpha": ALPHA, "sigma": SIGMA, "topic_weight": TOPIC_WEIGHT, "on_topic_min": ON_TOPIC_MIN, "on_topic_first": ON_TOPIC_FIRST, "title_bonus": TITLE_BONUS, "targets": {k: v["target"] for k, v in LEVELS.items()},
         # Display label for each seed topic in this language: the seed article's own title there.
         "topics": topic_labels(docs, lang),
         "docs": [[d["id"], d["title"], d["url"], d["snippet"], round(d["difficulty"], 4), d["level"],

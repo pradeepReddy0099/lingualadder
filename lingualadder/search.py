@@ -8,11 +8,12 @@ learner's target level.
 import json
 import math
 import pickle
+import re
 from collections import Counter, defaultdict
 
 import numpy as np
 
-from .config import ALPHA, CANDIDATES, DATA_DIR, ON_TOPIC_FIRST, ON_TOPIC_MIN, SIGMA, TOPIC_WEIGHT, VOCAB_BETA
+from .config import ALPHA, CANDIDATES, DATA_DIR, ON_TOPIC_FIRST, ON_TOPIC_MIN, SIGMA, TITLE_BONUS, TOPIC_WEIGHT, VOCAB_BETA
 from .textproc import index_tokens
 
 
@@ -91,8 +92,26 @@ class LinguaLadder:
         tot = sum(idf[t] for t in qterms) or 1.0
         return sum(idf[t] * (1.0 if t in title else 0.5 if t in lead else 0.0) for t in qterms) / tot
 
+    def _title_match(self, lang, d, qtoks):
+        """1.0 when the query is exactly the article's title, 0.5 when it is the title without a trailing
+        "(...)" qualifier, else 0. Disambiguation pages never match (navigational queries want the article)."""
+        if not qtoks:
+            return 0.0
+        key = "_tt"
+        if key not in d:
+            t = d["title"]
+            low = t.lower()
+            if "disambiguation" in low or "desambiguaci" in low:
+                d[key] = (None, None)
+            else:
+                d[key] = (index_tokens(t, lang), index_tokens(re.sub(r"\s*\([^()]*\)\s*$", "", t), lang))
+        full, bare = d[key]
+        if full is None:
+            return 0.0
+        return 1.0 if full == qtoks else 0.5 if bare == qtoks and bare != full else 0.0
+
     def search(self, lang, query, target, alpha=ALPHA, sigma=SIGMA, k=10, rerank=True, exclude=(), min_rel=0.0,
-               known=None, beta=None, topic_weight=TOPIC_WEIGHT, on_topic_first=ON_TOPIC_FIRST):
+               known=None, beta=None, topic_weight=TOPIC_WEIGHT, on_topic_first=ON_TOPIC_FIRST, title_bonus=TITLE_BONUS):
         if beta is None:
             beta = VOCAB_BETA if known else 0.0  # vocab-aware term applies whenever a known-word set is given
         cands = self.bm25(lang, query)
@@ -100,7 +119,8 @@ class LinguaLadder:
             return []
         top = cands[0][1] or 1.0
         idx = self.indexes[lang]
-        qterms = {t for t in index_tokens(query, lang) if t in idx.postings}
+        qtoks = index_tokens(query, lang)
+        qterms = {t for t in qtoks if t in idx.postings}
         results = []
         for i, s in cands:
             d = self.docs[lang][i]
@@ -114,6 +134,8 @@ class LinguaLadder:
                 toks = index_tokens(d["snippet"], lang)
                 if toks:
                     final += beta * (sum(t in known for t in toks) / len(toks) - 0.5)
+            if rerank and title_bonus:  # navigational query: the article named exactly like the query goes first
+                final += title_bonus * self._title_match(lang, d, qtoks)
             if rerank and rel < min_rel:
                 final -= 1.0  # below the relevance floor: only after every on-topic doc
             if rerank and on_topic_first and topical < ON_TOPIC_MIN:

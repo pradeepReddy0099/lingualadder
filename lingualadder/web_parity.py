@@ -5,7 +5,8 @@ from .config import DATA_DIR, LEVELS
 from .search import LinguaLadder
 
 CASES = [("en", "volcano eruption"), ("en", "how do airplanes fly"), ("en", "Albert Einstein relativity"),
-         ("es", "frida kahlo pintora"), ("es", "sistema solar planetas")]
+         ("es", "frida kahlo pintora"), ("es", "sistema solar planetas"),
+         ("en", "Albert Einstein"), ("en", "Amazon River"), ("es", "Río Amazonas"), ("es", "Mitología griega")]  # last four: exact-title queries
 
 
 def main():
