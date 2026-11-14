@@ -63,6 +63,9 @@
     const top = cands[0][1] || 1;
     const tw = o.topicWeight ?? idx.topic_weight ?? 0.4, tmin = idx.on_topic_min ?? 0.5;
     const onFirst = o.onTopicFirst ?? idx.on_topic_first ?? true;
+    const tb = o.titleBonus ?? idx.title_bonus ?? 0.5;
+    const qtoks = indexTokens(query, idx);
+    const sameToks = (a, b) => a.length === b.length && a.every((x, i) => x === b[i]);
     const qterms = Array.from(new Set(indexTokens(query, idx))).filter(t => idx.terms[t]);
     const qidf = qterms.reduce((a, t) => a + idx.terms[t][0], 0) || 1;
     const out = cands.map(([i, s]) => {
@@ -71,11 +74,19 @@
       if (!d._tl) d._tl = [new Set(indexTokens(d[1], idx)), new Set(indexTokens(d[3] || '', idx))];
       const topical = qterms.reduce((a, t) => a + idx.terms[t][0] * (d._tl[0].has(t) ? 1 : d._tl[1].has(t) ? 0.5 : 0), 0) / qidf;
       const onTopic = topical >= tmin;
+      // Navigational query: an article named exactly like the query (1.0), or without a trailing "(...)" (0.5); never a disambiguation page.
+      if (d._tt === undefined) {
+        const low = d[1].toLowerCase();
+        d._tt = low.includes('disambiguation') || low.includes('desambiguaci') ? null
+          : [indexTokens(d[1], idx), indexTokens(d[1].replace(/\s*\([^()]*\)\s*$/, ''), idx)];
+      }
+      const tmatch = !qtoks.length || !d._tt ? 0 : sameToks(d._tt[0], qtoks) ? 1 : (sameToks(d._tt[1], qtoks) && !sameToks(d._tt[1], d._tt[0])) ? 0.5 : 0;
       const rel = o.rerank ? (1 - tw) * (s / top) + tw * topical : s / top;
       const diff = d[4];
       const fit = Math.exp(-((diff - o.target) ** 2) / (2 * o.sigma ** 2));
       let final = o.rerank ? o.alpha * rel + (1 - o.alpha) * fit : rel;
       if (o.rerank && beta) { const tk = indexTokens(d[3] || '', idx); if (tk.length) final += beta * (tk.filter(t => o.known.has(t)).length / tk.length - 0.5); }
+      if (o.rerank && tb) final += tb * tmatch;
       if (o.rerank && rel < o.minRel) final -= 1;
       if (o.rerank && onFirst && !onTopic) final = rel - 2;
       return { id: d[0], title: d[1], url: d[2], snippet: d[3], difficulty: d[4], level: d[5], words: d[6],
