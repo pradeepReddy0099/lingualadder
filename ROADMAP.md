@@ -16,7 +16,7 @@ Goal: results that fit the learner's level better WITHOUT losing much relevance.
   - [x] W1: `python -m lingualadder.export_web` writes web/data/<lang>.json (id, title, url, 300-char snippet, difficulty, level, term postings for top-N terms) for en and es; check size.
   - [x] W2 (done early; parity 27/27 with Python via `node web/parity_test.js`): web/index.html + web/app.js: profile (language, level), BM25 + reranker in JS matching search.py; verify top-10 matches Python for 5 queries.
   - [x] W3 (side-by-side compare done; full-article link done; badges + plain-BM25 toggle already in; reader view DONE): link to full Wikipedia article.
-  - [ ] W4: ("/" focus shortcut + empty-results message added) (aria-live status + select labels added) (mobile CSS + focus styles added) en/es only now (web data 6.3 MB raw); remaining: browser test on mobile width, publish as Hark Page.
+  - [ ] W4: ("/" focus shortcut + empty-results message added) (aria-live status + select labels added) (mobile CSS + focus styles added) en/es only now (web data 6.3 MB raw); mobile browser test DONE (web/mobile_check.py, 320/390 px en+es, tap targets fixed); Hark Page refresh with the new CSS pending.
   - [x] W5a: single-file build (python -m lingualadder.build_single [langs]) embeds chosen languages; Hark Pages allow one HTML file only (hi = 0.75 MB).
   - [x] W5b (published as Hark Page "LinguaLadder", en+es, 6.5 MB; later runs use edit): publish dist/lingualadder.html (hi, maybe en trimmed) as Hark Page; original W5: publish web/ as Hark Page "LinguaLadder" (size check passed: ~14.7 MB raw; load only the selected language).
 - [ ] (umbrella) Static web version in `web/` that runs fully in the browser (no server): export a compact JSON index per language (doc ids, titles, snippets, difficulty, BM25 postings or precomputed term stats), JS BM25 + level-aware re-ranker identical to search.py, profile (language, level), results with level badges, reader view, BM25 comparison toggle.
@@ -40,7 +40,7 @@ Goal: results that fit the learner's level better WITHOUT losing much relevance.
 
 - [x] CEFR: validate bands against externally CEFR-labelled texts instead of corpus quantiles (DONE: lingualadder.cefr_validate, per-language cuts; en works, es weak).
 - [ ] CEFR-es: the Spanish difficulty score barely tracks CEFR (Spearman 0.18 on Kwiziq; a ridge head on the 15 features reaches 0.51 in cross-validation but does not transfer to long articles). Needs more Spanish CEFR-labelled documents (A1-C2, esp. C2) or a Spanish-specific head; then re-fit the es cuts.
-- [ ] CEFR-top: en/es corpus articles pile into the top bands (en 67% C2, es 83% C1); consider splitting the upper range by within-corpus quantile for display.
+- [ ] CEFR-top (step 1 done: measured band counts, see CHANGELOG; step 2: display-only C1/C2 split by within-corpus quantile, keep validated cuts for filtering; step 3: mirror in web/ll.js + parity test): en/es corpus articles pile into the top bands (en 67% C2, es 83% C1); consider splitting the upper range by within-corpus quantile for display.
 - [x] Adaptive target step/tolerance sweep done (see CHANGELOG; step 0.07 kept).
 - [x] Adaptive target: decaying step and noisy learner simulated (see CHANGELOG). Follow-up: try default step 0.10-0.15 with decay 0.95.
 

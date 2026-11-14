@@ -310,3 +310,19 @@ English 5,500 articles cached; Spanish 3,620 of 5,500 cached. Collector resumes 
 - Seed-title eval LinguaLadder nDCG@10 0.770 -> 0.771, level match 0.434 -> 0.433 (no relevance loss).
 - Tests: pytest 49 pass; parity 81/81; app smoke and placement OK; Flask /search?q=volcano 200.
 - Next: website step (mobile test, Hark Page update with new ranking), CEFR-top display split.
+
+## Hark Page refreshed (website step)
+- Hark Page updated to the sample build with the reordered-title and title-prefix ranking. No metric change (en nDCG@10 0.792, es 0.748). GitHub synced.
+- Next: fit step - CEFR-top display split.
+
+## CEFR-top measurement (fit step 1, en and es)
+- Counted corpus articles per band with the current cuts. English: A1 47, A2 262, B1 800, B2 860, C1 799, C2 5,640. Spanish: A1 70, A2 65, B1 186, B2 366, C1 6,972, C2 1,141. Both pile into the top, Spanish at C1 and English at C2.
+- No code or metric change. Next: display-only split of the crowded top band by within-corpus quantile, keeping validated cuts for filtering, then mirror it in the web version.
+
+## Web: real mobile-width browser test and tap-target fixes (website step, en and es)
+- First actual browser run of the web version at phone widths (320 and 390 px, plus 768 px tablet), searching "volcano" in English and "volcán" in Spanish, with a headless Chromium: no horizontal overflow, no script errors, 10 results in both languages. New `python web/mobile_check.py` repeats it (needs playwright; not part of pytest).
+- Found and fixed: result titles and the three links in the "ladder for this topic" strip were only about 21 px tall (below a comfortable tap size); they are now 42-45 px on phones. The "Your level" menu cut its text ("Intermediate (") on a 390 px screen; it now takes a full row under 480 px.
+- Before / after on the phone widths (links, buttons, menus under 40 px high, excluding words inside snippets and the switches): 4 on every phone width before the fix, 0 after at 320 and 390 px (both languages). The Spanish and English pages behave the same.
+- No ranking change: metrics unchanged (en nDCG@10 0.792, es 0.748; level match 0.465 / 0.403). Data unchanged; public site CSS and HTML updated.
+- Tests: pytest 49 pass; parity 81/81; app smoke, placement, i18n, cefr, lookup OK; Flask /search?q=volcano 200.
+- Next: fit step - CEFR-top display split (step 2).
