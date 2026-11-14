@@ -49,6 +49,10 @@ STRINGS = {
         "place_link": "Take the placement test",
         "place_again": "Retake the test",
         "place_chip": "Placement result",
+        "rec_h": "Recommended topics",
+        "rec_sub": "picked for your level",
+        "all_topics": "All {n} topics",
+        "fewer_topics": "Show fewer",
     },
     "es": {
         "tagline": "Wikipedia a tu nivel de lectura",
@@ -95,6 +99,10 @@ STRINGS = {
         "place_link": "Haz la prueba de nivel",
         "place_again": "Repetir la prueba",
         "place_chip": "Resultado de la prueba",
+        "rec_h": "Temas recomendados",
+        "rec_sub": "elegidos para tu nivel",
+        "all_topics": "Los {n} temas",
+        "fewer_topics": "Ver menos",
     },
 }
 UI_LANGS = tuple(STRINGS)
