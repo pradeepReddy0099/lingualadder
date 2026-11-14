@@ -57,3 +57,5 @@ Goal: results that fit the learner's level better WITHOUT losing much relevance.
 - [x] W8: the vocab-aware term (beta 0.5) is now used in both UIs: known words = N most frequent words of the level (300/1,500/5,000) minus looked-up words (Flask vocab table); ported to web/ll.js with parity (45/45 incl. vocab cases) and a "Prefer snippets made of words I know" switch. Remaining: real lookups in the web reader (the web version links out to Wikipedia, so it has no looked-up words yet).
 
 - [x] Fit: effect of looked-up words on the adaptive target evaluated for en and es (lookup_eval, see CHANGELOG): small gain (+0.01 coverage), not wired in; remaining idea: auto 'too hard' nudge when a learner marks 3+ words in one snippet (web and Flask).
+
+- [x] Placement guessing bias: guessing-aware (posterior mean) estimate in Python and JS, evaluated with simulated learners in en and es (see CHANGELOG). Open idea: 12 cloze items (error 0.108 -> 0.090 simulated).
