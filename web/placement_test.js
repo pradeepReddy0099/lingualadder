@@ -21,4 +21,9 @@ for (const lang of ['en', 'es']) {
   const byA = [0.15, 0.5, 0.85].map(a => (errs.filter(e => e.ability === a).reduce((s, e) => s + e.est, 0) / 40).toFixed(2));
   ok(mae < 0.2 && byA[0] < byA[1] && byA[1] < byA[2], `${lang} simulated learners: mean abs error ${mae.toFixed(3)} in quantile; mean estimate for ability 0.15/0.50/0.85 = ${byA.join('/')}`);
 }
+// EAP estimate: fixed histories (values must equal lingualadder.placement.eap_estimate; checked in tests/test_placement.py)
+const H1 = [{q:0.5,correct:true},{q:0.75,correct:false},{q:0.6,correct:true},{q:0.55,correct:false},{q:0.57,correct:true},{q:0.6,correct:false},{q:0.58,correct:true},{q:0.59,correct:false}];
+const H2 = [{q:0.5,correct:false},{q:0.25,correct:false},{q:0.1,correct:true},{q:0.2,correct:false},{q:0.15,correct:false},{q:0.1,correct:true},{q:0.1,correct:false},{q:0.06,correct:false}];
+console.log('EAP', P.eapEstimate(H1).toFixed(6), P.eapEstimate(H2).toFixed(6));
+ok(Math.abs(P.eapEstimate(H1) - 0.447294) < 1e-5 && Math.abs(P.eapEstimate(H2) - 0.082269) < 1e-5 && P.eapEstimate([]) > 0.45 && P.eapEstimate([]) < 0.55, 'eap estimate equals the Python value on two fixed histories (0.447294, 0.082269); empty history = prior');
 process.exit(fails ? 1 : 0);

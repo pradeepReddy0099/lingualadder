@@ -106,11 +106,28 @@
     this.step = Math.max(0.06, this.step * 0.6);
   };
   Staircase.prototype.done = function () { return this.history.length >= this.n; };
-  // Estimate: mean of the last few quantiles visited, which is where the staircase settles.
-  Staircase.prototype.estimate = function () {
+  // Old estimate: mean of the last few quantiles visited (biased up for weak learners by lucky guesses).
+  Staircase.prototype.estimateMean4 = function () {
     const qs = this.history.map(h => h.q).concat([this.q]).slice(-4);
     return qs.reduce((a, b) => a + b, 0) / qs.length;
   };
+  // Guessing-aware estimate: posterior mean of ability on a grid; P(correct) = floor + (1-floor)*sigmoid(slope*(a-q)),
+  // wide normal prior (mean 0.5, sd 0.5). Same as eap_estimate in lingualadder/placement.py.
+  function eapEstimate(history, slope = 8, floor = 0.25, priorMean = 0.5, priorSd = 0.5) {
+    let num = 0, den = 0;
+    for (let i = 1; i < 100; i++) {
+      const a = i / 100;
+      let lp = -0.5 * Math.pow((a - priorMean) / priorSd, 2);
+      for (const h of history) {
+        const p = floor + (1 - floor) / (1 + Math.exp(-slope * (a - h.q)));
+        lp += Math.log(h.correct ? p : 1 - p);
+      }
+      const w = Math.exp(lp);
+      num += w * a; den += w;
+    }
+    return num / den;
+  }
+  Staircase.prototype.estimate = function () { return eapEstimate(this.history); };
 
   function combine(idx, vocabScore, clozeQ) {
     const q = Math.min(0.97, Math.max(0.03, 0.6 * clozeQ + 0.4 * vocabScore));
@@ -119,6 +136,6 @@
     return { quantile: q, target, level };
   }
 
-  const api = { rng, vocabItems, scoreVocab, clozeItem, Staircase, combine, quantileToTarget, wordList };
+  const api = { rng, vocabItems, scoreVocab, clozeItem, Staircase, combine, quantileToTarget, wordList, eapEstimate };
   if (typeof module !== 'undefined' && module.exports) module.exports = api; else root.LLPlace = api;
 })(typeof self !== 'undefined' ? self : this);
