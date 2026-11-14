@@ -8,6 +8,7 @@ Part 2 (reading): adaptive cloze. Each item is the opening of a real article at 
   correct answer and down after a wrong one, with a shrinking step.
 The two parts combine into a difficulty quantile, turned into a per-language target difficulty.
 """
+import math
 import random
 import re
 
@@ -167,10 +168,14 @@ class Staircase:
     def done(self):
         return len(self.history) >= self.n
 
-    def estimate(self):
-        """Mean of the last few quantiles visited, which is where the staircase settles."""
+    def estimate_mean4(self):
+        """Old estimate: mean of the last few quantiles visited (biased up for weak learners by lucky guesses)."""
         qs = ([h["q"] for h in self.history] + [self.q])[-4:]
         return sum(qs) / len(qs)
+
+    def estimate(self):
+        """Guessing-aware estimate (posterior mean over all answers, see eap_estimate)."""
+        return eap_estimate(self.history)
 
     def to_dict(self):
         return {"q": self.q, "step": self.step, "n": self.n, "history": self.history}
@@ -178,6 +183,28 @@ class Staircase:
     @classmethod
     def from_dict(cls, d):
         return cls(d["n"], d["q"], d["step"], list(d["history"]))
+
+
+_GRID = [i / 100 for i in range(1, 100)]
+
+
+def eap_estimate(history, slope=8.0, floor=0.25, prior_mean=0.5, prior_sd=0.5):
+    """Guessing-aware ability estimate: posterior mean on a grid of abilities.
+
+    Each answer is modelled as P(correct) = floor + (1 - floor) * sigmoid(slope * (ability - item quantile)),
+    so a correct answer on a hard item counts for less when guessing could explain it. A wide normal prior
+    keeps the estimate finite when every answer is right or wrong. Needs only the visited quantiles and results.
+    """
+    num = den = 0.0
+    for a in _GRID:
+        lp = -0.5 * ((a - prior_mean) / prior_sd) ** 2
+        for h in history:
+            p = floor + (1 - floor) / (1 + math.exp(-slope * (a - h["q"])))
+            lp += math.log(p if h["correct"] else 1 - p)
+        w = math.exp(lp)
+        num += w * a
+        den += w
+    return num / den
 
 
 def combine(engine, lang, vocab_score, cloze_q):
