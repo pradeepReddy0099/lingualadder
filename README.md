@@ -42,8 +42,8 @@ The copy in `docs/app/` is what GitHub Pages serves.
 
 ## Data
 
-1,748 articles collected from Wikipedia through the MediaWiki API on 50 seed topics (volcanoes, football, chocolate,
-Frida Kahlo, chess, ...): **992 English** and **756 Spanish**. The easy examples come from Simple English Wikipedia
+17,208 articles collected from Wikipedia through the MediaWiki API on 304 topics (volcanoes, football, chocolate,
+Frida Kahlo, chess, ...): **8,408 English** (2,114 easy) and **8,800 Spanish** (2,086 easy). The easy examples come from Simple English Wikipedia
 and Vikidia; the regular ones from English and Spanish Wikipedia. The raw JSONL files are in `data/raw/`; re-collect
 with `python -m lingualadder.collect` (~15 minutes). Text is CC BY-SA.
 
@@ -69,24 +69,28 @@ query ─► BM25 over the language's index (top 100 candidates)
 
 Levels: Beginner < 0.35 ≤ Intermediate < 0.65 ≤ Advanced, targets 0.20 / 0.50 / 0.80.
 
-## Results (English + Spanish, 94 queries × 3 levels)
+## Results (English + Spanish: 152 English and 179 Spanish queries, each at 3 levels)
 
-| System | P@10 | nDCG@10 | Level match (±0.15 of target) |
-|---|---|---|---|
-| Plain BM25 | 0.865 | 0.919 | 0.162 |
-| Readability re-rank baseline (no topic guard) | 0.744 | 0.786 | 0.210 |
-| LinguaLadder, no topic guard (a = 0.5) | 0.730 | 0.771 | 0.359 |
-| **LinguaLadder + topic guard (default)** | **0.852** | **0.898** | 0.201 |
+Corpus: 8,408 English articles (2,114 easy) and 8,800 Spanish articles (2,086 easy). Every one of the 304 topics has
+at least one beginner, one intermediate and one advanced article in both languages. Top 10 results, default settings
+(topic guard on, a = 0.5).
 
-- Difficulty model: 0.888 accuracy (5-fold CV) vs 0.776 for sentence and word length alone; trained on one language
-  and tested on the other it still reaches 0.827 (es) and 0.884 (en).
-- Topic guard (default): articles whose title or opening lead doesn't contain the query words (idf-weighted) are
-  treated as passing mentions and ranked after on-topic articles; the level re-rank works within each group. This
-  recovers most of the relevance (nDCG@10 0.771 → 0.898) but keeps less of the level gain (0.359 → 0.201), because
-  each topic has few on-topic articles at every level in the small corpus. Without the guard, re-ranking more than
-  doubles level match for a drop of about 0.15 nDCG@10.
-  All differences vs BM25 are significant (paired permutation and Wilcoxon tests, p < 0.001). The weight `a` moves
-  along this trade-off (alpha sweep in `data/eval_report.md`).
+| Language | System | P@10 | nDCG@10 | Level match (±0.15 of target) |
+|---|---|---|---|---|
+| English | Plain BM25 | 0.801 | 0.819 | 0.218 |
+| English | **LinguaLadder** | 0.725 | 0.734 | 0.493 |
+| Spanish | Plain BM25 | 0.731 | 0.764 | 0.226 |
+| Spanish | **LinguaLadder** | 0.666 | 0.683 | 0.427 |
+| Both | Plain BM25 | 0.766 | 0.792 | 0.222 |
+| Both | **LinguaLadder** | 0.695 | 0.709 | 0.460 |
+
+- Level match roughly doubles for a cost of about 0.08 nDCG@10. The weight `a` moves along this trade-off
+  (alpha sweep in `data/eval_report.md`: a = 0.8 gives nDCG@10 0.781 and level match 0.350).
+- Difficulty model: 0.860 accuracy (5-fold CV) vs 0.772 for sentence and word length alone; trained on one language
+  and tested on the other it reaches 0.804 (es) and 0.879 (en).
+- Second evaluation (`data/grad_eval.json`, 331 queries, source-label level fit with paired significance tests):
+  level fit by source label 0.500 (BM25) -> 0.762 (LinguaLadder). It uses a different relevance judgement, so its
+  nDCG@10 values (0.789 -> 0.507) are not comparable with the table above.
 - Adaptive level: in simulation, "too easy / too hard" feedback cut the gap to a learner's ideal difficulty from
   0.264 to 0.136.
 - Relevance labels are automatic (an article is relevant if it was collected for the query's topic), so true
@@ -95,4 +99,4 @@ Levels: Beginner < 0.35 ≤ Intermediate < 0.65 ≤ Advanced, targets 0.20 / 0.5
 ## Limitations
 
 Automatic relevance labels; level match judged with our own difficulty scores (we also report a source-label
-measure); simulated rather than real learners; a small corpus with few easy articles on some topics.
+measure); simulated rather than real learners; easy articles are still fewer than regular ones on many topics.

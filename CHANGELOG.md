@@ -169,3 +169,13 @@ English 5,500 articles cached; Spanish 3,620 of 5,500 cached. Collector resumes 
 
 ## Coverage report test
 - Added a test that the en and es coverage reports are consistent (complete + gaps = 304 topics, at least 290 complete). No ranking change. Tests: 18 pass.
+
+## Coverage closed: every topic, every level, both languages
+- New `python -m lingualadder.coverage_extra`: hand-picked related search terms per stubborn topic (e.g. Inca Empire -> Machu Picchu, Tahuantinsuyo; Martial arts -> Judo, Capoeira), fetched from Vikidia / Simple English and short regular articles. Because difficulty is z-scored within a language, each rebuild shifts levels slightly, so it was run in rounds (four builds) until both languages were complete.
+- Coverage: en 302/304 -> 304/304 topics with beginner, intermediate and advanced; es 294/304 -> 304/304.
+- Corpus: en 8,282 -> 8,408 docs (2,039 -> 2,114 easy); es 8,109 -> 8,800 docs (1,908 -> 2,086 easy). Spanish now has more articles than English (+392) and trails English by 28 easy articles.
+- Levels (beginner / intermediate / advanced): en 1,266 / 885 / 6,131 -> 1,264 / 947 / 6,197; es 1,040 / 1,020 / 6,049 -> 1,114 / 1,174 / 6,512.
+- evaluate.py, English and Spanish separately (nDCG@10 BM25 -> LinguaLadder, averaged over levels): en 0.819 -> 0.734, es 0.764 -> 0.683; level match en 0.218 -> 0.493, es 0.226 -> 0.427. Overall P@10 0.774 -> 0.766 (BM25), 0.707 -> 0.695 (LL); nDCG@10 0.800 -> 0.792 (BM25), 0.720 -> 0.709 (LL); level match 0.441 -> 0.460 (LL). grad_eval: LinguaLadder gold level fit 0.757 -> 0.762, nDCG@10 0.516 -> 0.507.
+- Web data re-exported: en 27.1 MB (3 parts), es 24.0 MB (3 parts), 41.3 MB total (was 45 MB).
+- README and docs/index.html now show these numbers (they still had the old 1,748-article results). Tests: pytest 18 pass; parity 15/15; app smoke, placement tests pass; /search?q=volcano 200 (en) and es 200.
+- Next: remaining easy-article gap in Spanish (28), then Better fit algorithm items.
