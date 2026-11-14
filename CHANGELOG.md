@@ -292,3 +292,10 @@ English 5,500 articles cached; Spanish 3,620 of 5,500 cached. Collector resumes 
 - No ranking change: metrics unchanged (en nDCG@10 0.792, es 0.748; level match 0.465 / 0.403). Data unchanged; the Hark Page is unchanged (styling only, update with the next ranking edit).
 - Tests: pytest, parity (81 cases), app smoke, placement all pass; Flask /search?q=volcano 200.
 - Next: fit step - partial-title matches or CEFR-top display split.
+
+## Reordered-title queries find the article (fit algorithm, en and es)
+- Partial-title step 1: a query made of the same words as an article title in another order (e.g. "Revolution French") now gets a title bonus of half the exact-match value (`REORDER_MATCH`, 0.5; `LL_REORDER` to change). Same rule in `web/ll.js` (defaults to 0.5, no data re-export needed). New `python -m lingualadder.reorder_eval` (250 reversed 2-3 word titles per language, data/reorder_eval.json).
+- Rank-1 share, off -> on (beginner / intermediate / advanced): English 0.744 / 0.708 / 0.812 -> 0.824 / 0.860 / 0.988; Spanish 0.768 / 0.720 / 0.780 -> 0.892 / 0.852 / 0.968.
+- Other metrics unchanged: seed-title eval LinguaLadder nDCG@10 0.770, level match 0.434 (both languages); graduate eval nDCG@10 0.507, level match 0.778, gold-level 0.762.
+- Tests: pytest 49 pass; parity 81/81; app smoke and placement OK; Flask /search?q=volcano 200.
+- Next: title-prefix matches, or the CEFR-top display split. Hark Page still on older ranking.
