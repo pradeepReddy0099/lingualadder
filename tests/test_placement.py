@@ -97,3 +97,19 @@ def test_spanish_texts_and_guards():
     # answering out of order must not crash
     assert c.post("/placement", data={"act": "answer", "o": "x"}).status_code == 302
     assert c.get("/placement").status_code == 200
+
+
+def _hist(pairs):
+    return [{"q": q, "correct": bool(c)} for q, c in pairs]
+
+
+def test_eap_matches_js_values_and_reduces_guessing_bias():
+    h1 = _hist([(0.5, 1), (0.75, 0), (0.6, 1), (0.55, 0), (0.57, 1), (0.6, 0), (0.58, 1), (0.59, 0)])
+    h2 = _hist([(0.5, 0), (0.25, 0), (0.1, 1), (0.2, 0), (0.15, 0), (0.1, 1), (0.1, 0), (0.06, 0)])
+    assert abs(PL.eap_estimate(h1) - 0.447294) < 1e-5 and abs(PL.eap_estimate(h2) - 0.082269) < 1e-5   # same as web/placement.js
+    assert 0.45 < PL.eap_estimate([]) < 0.55
+    from lingualadder import placement_eval as PE
+    sim = PE.simulate(8, 8, 60)
+    old, new = PE.summarize(sim["mean4"]), PE.summarize(sim["eap"])
+    assert new["mae"] < old["mae"] and new["mae_weak"] < old["mae_weak"]
+    assert abs(new["bias"]["0.1"]) < abs(old["bias"]["0.1"])
