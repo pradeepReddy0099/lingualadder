@@ -65,3 +65,5 @@ SEED_TOPICS = [
     "Human brain", "Vaccine", "Bird", "Rainbow", "Yoga", "Chess", "Honey bee",
     "Pyramid", "Tiger", "Space exploration", "Music", "Bread",
 ]
+
+REORDER_MATCH = float(__import__('os').environ.get('LL_REORDER', '0.5'))  # title-match value when the query is the title words in another order
