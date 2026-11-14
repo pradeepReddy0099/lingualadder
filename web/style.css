@@ -171,3 +171,7 @@ li.ladder-strip h2 { font-size: 13px; text-transform: uppercase; letter-spacing:
   #results > li:not(.col):not(.empty), .col ol > li { padding: 14px; }
   #results h3 { font-size: 17px; }
 }
+
+/* Accessibility: visible keyboard focus everywhere, respect reduced motion */
+a:focus-visible, button:focus-visible, select:focus-visible, input:focus-visible, .topic:focus-visible, .opt:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+@media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; scroll-behavior: auto !important; } }
