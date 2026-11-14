@@ -179,3 +179,11 @@ English 5,500 articles cached; Spanish 3,620 of 5,500 cached. Collector resumes 
 - Web data re-exported: en 27.1 MB (3 parts), es 24.0 MB (3 parts), 41.3 MB total (was 45 MB).
 - README and docs/index.html now show these numbers (they still had the old 1,748-article results). Tests: pytest 18 pass; parity 15/15; app smoke, placement tests pass; /search?q=volcano 200 (en) and es 200.
 - Next: remaining easy-article gap in Spanish (28), then Better fit algorithm items.
+
+## Web: Spanish interface and Spanish topic labels (W6)
+- New `web/i18n.js`: all interface text (search page, status line, result cards, ladder strip, read next, too easy / too hard, recommended topics, the whole placement test) in English and Spanish, 82 strings each. An "Interface" selector sits next to the level picker, is remembered in the browser, defaults to the browser language and accepts `?ui=es`. The interface language is independent of the search language, so a Spanish speaker can learn English and an English speaker can learn Spanish.
+- Quality bug fixed: the recommended-topic chips for Spanish showed English names for 125 of 304 topics (Ship, Mexico City, Photography ...). New `python -m lingualadder.topic_labels` reads the Spanish title of every topic from Wikipedia language links; export_web uses it as fallback. Spanish topic labels: 179 -> 304 of 304 (e.g. Barco, Ciudad de México, Fotografía).
+- No ranking change, so retrieval metrics are unchanged (en nDCG@10 0.734, es 0.683 for LinguaLadder). Web data 41.3 MB (unchanged size; es.json re-exported with the labels).
+- build_single now inlines placement.js and i18n.js too (the single-file page was missing the placement test).
+- Tests: pytest 19 pass; parity 15/15; app smoke test (en/en, es/es, mixed) OK; placement test OK; new i18n test (same keys and placeholders in both languages, every key used by the page exists) OK; /search?q=volcano 200 (en), es 200.
+- Next: Flask UI in Spanish; the Hark Page needs a smaller data sample because the full single file is 41 MB.
