@@ -1,14 +1,16 @@
 const $ = id => document.getElementById(id);
+const tr = (k, v) => LLI18n.t(k, v);
+const langName = l => tr(l === 'es' ? 'lang_es' : 'lang_en');
 const cache = {};
 async function loadIndex(lang) {
   if (!cache[lang] && window.LL_EMBEDDED && window.LL_EMBEDDED[lang]) cache[lang] = window.LL_EMBEDDED[lang];
   if (!cache[lang]) {
     const r = await fetch(`data/${lang}.json`);
-    if (!r.ok) throw new Error('Could not load the ' + lang + ' index');
+    if (!r.ok) throw new Error(tr('load_err', { lang: langName(lang) }));
     const idx = await r.json();
     for (let i = 2; i <= (idx.parts || 0) + 1; i++) {
       const rp = await fetch(`data/${lang}.p${i}.json`);
-      if (!rp.ok) throw new Error('Could not load the ' + lang + ' index part ' + i);
+      if (!rp.ok) throw new Error(tr('load_err', { lang: langName(lang) }) + ' (' + i + ')');
       Object.assign(idx.terms, await rp.json());
     }
     cache[lang] = idx;
@@ -18,7 +20,8 @@ async function loadIndex(lang) {
 const cefr = d => { d=Math.min(Math.max(+d,0),1); const b=[[.2,'A1'],[.61,'A2'],[.87,'B1'],[.94,'B2'],[.98,'C1']]; for (const [h,l] of b) if (d<h) return l; return 'C2'; };
 const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 const pct = x => Math.round(x * 100);
-const LEVEL_NAMES = { beginner: 'Beginner', intermediate: 'Intermediate', advanced: 'Advanced' };
+const LEVEL_NAMES = { get beginner() { return tr('lvl_beginner'); }, get intermediate() { return tr('lvl_intermediate'); }, get advanced() { return tr('lvl_advanced'); } };
+const lvBadge = l => tr('b_' + l);
 
 // ---- Learner profile: language, level, placement result, reading history (kept in this browser only)
 const prof = (() => { try { return JSON.parse(localStorage.getItem('ll_profile') || '{}'); } catch (e) { return {}; } })();
@@ -33,7 +36,7 @@ function targetFor(idx, lang) {
 }
 function showChip() {
   const p = prof.place[$('lang').value], chip = $('level-chip'), opt = $('custom-opt');
-  if (p) { chip.hidden = false; chip.textContent = `Your level: ${p.cefr} · ${LEVEL_NAMES[p.level]}`; opt.hidden = false; opt.textContent = `My placement result (${p.cefr})`; }
+  if (p) { chip.hidden = false; chip.textContent = tr('chip', { cefr: p.cefr, level: LEVEL_NAMES[p.level] }); opt.hidden = false; opt.textContent = tr('lv_custom_opt', { cefr: p.cefr }); }
   else { chip.hidden = true; if (opt) opt.hidden = true; if ($('level').value === 'custom') $('level').value = 'intermediate'; }
 }
 
@@ -42,7 +45,7 @@ async function run() {
   const q = $('q').value.trim();
   if (!q) return;
   const lang = $('lang').value, level = $('level').value;
-  $('status').textContent = 'Loading index…';
+  $('status').textContent = tr('loading');
   let idx;
   try { idx = await loadIndex(lang); } catch (e) { $('status').textContent = e.message; return; }
   if (document.body.classList) document.body.classList.add('searched');
@@ -50,28 +53,28 @@ async function run() {
   const t0 = performance.now();
   const res = LL.search(idx, q, { target, rerank: !$('plain').checked });
   const ms = Math.round(performance.now() - t0);
-  if (!res.length) { $('results').innerHTML = '<li class="empty">No matches. Try a simpler or different word, or pick a recommended topic.</li>'; $('status').textContent = 'No results'; return; }
-  $('status').textContent = `${res.length} results in ${ms} ms (` + Object.entries(res.reduce((a,r)=>{const c=cefr(r.difficulty);a[c]=(a[c]||0)+1;return a;},{})).sort().map(([k,v])=>k+' ×'+v).join(', ') + `)` + ($('plain').checked ? ' (plain BM25)' : ` fitted to ${level === 'custom' ? 'your placement level' : level}`);
+  if (!res.length) { $('results').innerHTML = '<li class="empty">' + esc(tr('empty')) + '</li>'; $('status').textContent = tr('no_results'); return; }
+   $('status').textContent = tr('results_in', { n: res.length, ms }) + ' (' + Object.entries(res.reduce((a,r)=>{const c=cefr(r.difficulty);a[c]=(a[c]||0)+1;return a;},{})).sort().map(([k,v])=>k+' ×'+v).join(', ') + ')' + ($('plain').checked ? tr('plain_tag') : tr('fitted', { level: level === 'custom' ? tr('fitted_custom') : LEVEL_NAMES[level].toLowerCase() }));
   if (!$('plain').checked) {
     const off = res.filter(r => !r.onTopic).length;
-    if (off === res.length) $('status').textContent += ' · No articles are mainly about this yet; these only mention it.';
-    else if (off) $('status').textContent += ` · ${res.length - off} about this topic, then ${off} that only mention it.`;
+    if (off === res.length) $('status').textContent += tr('all_mention');
+    else if (off) $('status').textContent += tr('some_mention', { on: res.length - off, off });
   }
   const card = r => `
     <li class="lv-${esc(r.level)}${r.onTopic === false ? ' off-topic' : ''}" data-id="${esc(r.id)}"><h3><a href="${esc(r.url)}" target="_blank" rel="noopener" data-read="${esc(r.id)}">${esc(r.title)}</a></h3>
       <p>${esc(r.snippet)}</p>
-      <div class="meta"><span class="badge ${esc(r.level)}">${esc(r.level)}</span> <span class="badge">${cefr(r.difficulty)}</span>${r.onTopic === false ? ' <span class="badge mention" title="Mentions the search words but is not mainly about them">mentions</span>' : ''}${prof.read.includes(r.id) ? ' <span class="badge">read</span>' : ''}
-        <span>relevance <span class="bar"><i style="width:${pct(r.relevance)}%"></i></span></span>
-        <span>level fit <span class="bar"><i style="width:${pct(r.fit)}%"></i></span></span>
-        <span>${r.words} words</span>
-        <a class="full" href="${esc(r.url)}" target="_blank" rel="noopener" data-read="${esc(r.id)}">Read on Wikipedia &rarr;</a></div>
-      <div class="actions"><button type="button" class="mini" data-next="${esc(r.id)}">Read next ↑</button><button type="button" class="mini" data-fb="too_easy">Too easy</button><button type="button" class="mini" data-fb="too_hard">Too hard</button></div>
+      <div class="meta"><span class="badge ${esc(r.level)}">${esc(lvBadge(r.level))}</span> <span class="badge">${cefr(r.difficulty)}</span>${r.onTopic === false ? ` <span class="badge mention" title="${esc(tr('mentions_title'))}">${tr('mentions')}</span>` : ''}${prof.read.includes(r.id) ? ` <span class="badge">${tr('read_badge')}</span>` : ''}
+        <span>${tr('relevance')} <span class="bar"><i style="width:${pct(r.relevance)}%"></i></span></span>
+        <span>${tr('level_fit')} <span class="bar"><i style="width:${pct(r.fit)}%"></i></span></span>
+        <span>${tr('words', { n: r.words })}</span>
+        <a class="full" href="${esc(r.url)}" target="_blank" rel="noopener" data-read="${esc(r.id)}">${tr('read_on')} &rarr;</a></div>
+      <div class="actions"><button type="button" class="mini" data-next="${esc(r.id)}">${tr('read_next')}</button><button type="button" class="mini" data-fb="too_easy">${tr('too_easy')}</button><button type="button" class="mini" data-fb="too_hard">${tr('too_hard')}</button></div>
       <div class="next" hidden></div></li>`;
   const ladder = ladderStrip(idx, q, target);
   if ($('cmp').checked) {
     const base = LL.search(idx, q, { target, rerank: false });
     $('results').className = 'cols';
-    $('results').innerHTML = `<li class="col"><h2>Plain BM25</h2><ol>${base.map(card).join('')}</ol></li><li class="col"><h2>LinguaLadder (${esc(level)})</h2><ol>${res.map(card).join('')}</ol></li>`;
+    $('results').innerHTML = `<li class="col"><h2>${tr('plain_bm25')}</h2><ol>${base.map(card).join('')}</ol></li><li class="col"><h2>${esc(tr('ll_col', { level: level === 'custom' ? tr('lv_custom_plain') : LEVEL_NAMES[level] }))}</h2><ol>${res.map(card).join('')}</ol></li>`;
   } else { $('results').className = ''; $('results').innerHTML = ladder + res.map(card).join(''); }
 }
 
@@ -81,8 +84,8 @@ function ladderStrip(idx, q, target) {
   const all = LL.search(idx, q, { target, k: 100 }).filter(r => r.onTopic);
   if (!all.length) return '';
   const rung = lv => { const r = all.filter(x => x.level === lv).sort((a, b) => b.relevance - a.relevance)[0];
-    return `<div class="rung ${lv}"><span class="badge ${lv}">${LEVEL_NAMES[lv]}</span>${r ? `<a href="${esc(r.url)}" target="_blank" rel="noopener" data-read="${esc(r.id)}">${esc(r.title)}</a><small>${cefr(r.difficulty)} · ${r.words} words</small>` : '<small>No article at this level yet</small>'}</div>`; };
-  return `<li class="ladder-strip"><h2>The ladder for this topic</h2><div class="rungs">${['beginner', 'intermediate', 'advanced'].map(rung).join('')}</div></li>`;
+    return `<div class="rung ${lv}"><span class="badge ${lv}">${LEVEL_NAMES[lv]}</span>${r ? `<a href="${esc(r.url)}" target="_blank" rel="noopener" data-read="${esc(r.id)}">${esc(r.title)}</a><small>${cefr(r.difficulty)} · ${tr('words', { n: r.words })}</small>` : `<small>${tr('ladder_none')}</small>`}</div>`; };
+  return `<li class="ladder-strip"><h2>${tr('ladder_h')}</h2><div class="rungs">${['beginner', 'intermediate', 'advanced'].map(rung).join('')}</div></li>`;
 }
 
 // ---- Recommendations
@@ -98,7 +101,7 @@ async function renderTopics() {
     .map(([t, s]) => [t, s.near + 0.05 * s.n - 0.5 * s.read]).sort((a, b) => b[1] - a[1] || (a[0] < b[0] ? -1 : 1));
   const showAll = box.dataset.all === '1', list = showAll ? ranked.slice().sort((a, b) => label(a[0]).localeCompare(label(b[0]))) : ranked.slice(0, 14);
   box.innerHTML = list.map(([t]) => `<button type="button" class="topic" data-topic="${esc(label(t))}">${esc(label(t))}</button>`).join('') +
-    `<button type="button" class="topic more-topics" data-all="1">${showAll ? 'Show fewer' : `All ${ranked.length} topics`}</button>`;
+    `<button type="button" class="topic more-topics" data-all="1">${showAll ? tr('fewer_topics') : tr('all_topics', { n: ranked.length })}</button>`;
 }
 
 function readNext(idx, id, box) {
@@ -107,8 +110,8 @@ function readNext(idx, id, box) {
   const up = pool.filter(x => x[4] > d[4]).sort((a, b) => a[4] - b[4]);
   const n = up[0] || pool.sort((a, b) => Math.abs(a[4] - d[4]) - Math.abs(b[4] - d[4]))[0];
   box.hidden = false;
-  box.innerHTML = n ? `Next up: <a href="${esc(n[2])}" target="_blank" rel="noopener" data-read="${esc(n[0])}">${esc(n[1])}</a> <span class="badge ${esc(n[5])}">${esc(n[5])}</span> <span class="badge">${cefr(n[4])}</span>${up[0] ? '' : ' <small>(nothing harder left on this topic)</small>'}`
-    : 'You have read everything on this topic. Try a recommended topic.';
+  box.innerHTML = n ? `${tr('next_up')} <a href="${esc(n[2])}" target="_blank" rel="noopener" data-read="${esc(n[0])}">${esc(n[1])}</a> <span class="badge ${esc(n[5])}">${esc(lvBadge(n[5]))}</span> <span class="badge">${cefr(n[4])}</span>${up[0] ? '' : ` <small>${tr('nothing_harder')}</small>`}`
+    : tr('all_read');
 }
 
 // Feedback nudges the personal target (as a difficulty quantile) and switches to it.
@@ -118,7 +121,7 @@ async function feedback(kind) {
   p.q = Math.min(0.97, Math.max(0.03, p.q + (kind === 'too_easy' ? 0.07 : -0.07)));
   const t = LLPlace.quantileToTarget(idx, p.q); p.cefr = cefr(t); p.level = t < 0.35 ? 'beginner' : t < 0.65 ? 'intermediate' : 'advanced';
   prof.place[lang] = p; save(); showChip(); $('level').value = 'custom'; prof.level = 'custom'; save();
-  $('status').textContent = kind === 'too_easy' ? 'Got it, stepping your level up.' : 'Got it, stepping your level down.';
+  $('status').textContent = tr(kind === 'too_easy' ? 'fb_up' : 'fb_down');
   run(); renderTopics();
 }
 
@@ -135,16 +138,16 @@ async function startTest() {
 const prog = f => { $('test-progress').style.width = Math.round(f * 100) + '%'; };
 function testIntro() {
   prog(0);
-  $('test-body').innerHTML = `<h3>${T.lang === 'es' ? 'Spanish' : 'English'} placement · about 3 minutes</h3>
-    <p class="muted">Two short parts. First, tap the words you know. Some are made up, so only tap the ones you're sure of. Then fill the blank in a few passages. They get harder or easier as you go.</p>
-    <div class="row-end"><button class="primary" id="t-go">Start</button></div>`;
+  $('test-body').innerHTML = `<h3>${esc(tr('t_intro_h', { lang: langName(T.lang) }))}</h3>
+    <p class="muted">${esc(tr('t_intro_p'))}</p>
+    <div class="row-end"><button class="primary" id="t-go">${tr('t_start')}</button></div>`;
   $('t-go').onclick = testVocab;
 }
 function testVocab() {
   prog(0.05);
-  $('test-body').innerHTML = `<h3>Which of these words do you know?</h3><p class="muted">Tap every word you could explain or translate. Leave the rest.</p>
+  $('test-body').innerHTML = `<h3>${tr('t_vocab_h')}</h3><p class="muted">${tr('t_vocab_p')}</p>
     <div class="words">${T.items.map((it, i) => `<button type="button" class="word" aria-pressed="false" data-i="${i}">${esc(it.word)}</button>`).join('')}</div>
-    <div class="row-end"><button class="primary" id="t-next">Continue</button></div>`;
+    <div class="row-end"><button class="primary" id="t-next">${tr('t_continue')}</button></div>`;
   $('test-body').querySelectorAll('.word').forEach(b => b.onclick = () => { const i = +b.dataset.i; T.ans[i] = !T.ans[i]; b.setAttribute('aria-pressed', String(T.ans[i])); });
   $('t-next').onclick = () => { T.vocab = LLPlace.scoreVocab(T.items, T.ans); testCloze(); };
 }
@@ -153,10 +156,10 @@ function testCloze() {
   prog(0.15 + 0.75 * T.st.history.length / T.st.n);
   const c = LLPlace.clozeItem(T.idx, T.st.q, T.r, T.used);
   if (!c) return testResult();
-  $('test-body').innerHTML = `<h3>Fill the blank <small class="muted">· ${T.st.history.length + 1} of ${T.st.n}</small></h3>
+  $('test-body').innerHTML = `<h3>${tr('t_cloze_h')} <small class="muted">· ${tr('t_of', { i: T.st.history.length + 1, n: T.st.n })}</small></h3>
     <p class="passage">${esc(c.text).replace('_____', '<span class="blank">&nbsp;</span>')}</p>
     <div class="opts">${c.options.map(o => `<button type="button" class="opt" data-o="${esc(o)}">${esc(o)}</button>`).join('')}</div>
-    <button type="button" class="skip" id="t-skip">I don't know</button>`;
+    <button type="button" class="skip" id="t-skip">${tr('t_skip')}</button>`;
   const answer = o => {
     const ok = o === c.answer;
     $('test-body').querySelectorAll('.opt').forEach(b => { b.disabled = true; if (b.dataset.o === c.answer) b.classList.add('right'); else if (b.dataset.o === o) b.classList.add('wrong'); });
@@ -171,10 +174,10 @@ function testResult() {
   prof.place[T.lang] = { q: r.quantile, cefr: band, level: r.level, vocab: +T.vocab.toFixed(2), cloze: +T.st.estimate().toFixed(2), source: 'test' };
   save();
   const bands = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
-  $('test-body').innerHTML = `<div class="result"><p class="muted">Your reading level in ${T.lang === 'es' ? 'Spanish' : 'English'}</p>
+  $('test-body').innerHTML = `<div class="result"><p class="muted">${esc(tr('t_res_lead', { lang: langName(T.lang) }))}</p>
     <div class="big">${band}</div><div class="ladder">${bands.map(b => `<span class="${b === band ? 'on' : ''}">${b}</span>`).join('')}</div>
-    <p class="muted">${LEVEL_NAMES[r.level]} · vocabulary ${pct(T.vocab)}% · reading at the ${pct(T.st.estimate())}th percentile of articles. Results now aim at this level, and "Too easy" or "Too hard" on any article fine-tunes it.</p>
-    <div class="row-end"><button class="primary" id="t-done">Start reading</button></div></div>`;
+    <p class="muted">${esc(tr('t_res_detail', { level: LEVEL_NAMES[r.level], vocab: pct(T.vocab), pct: pct(T.st.estimate()) }))}</p>
+    <div class="row-end"><button class="primary" id="t-done">${tr('t_done')}</button></div></div>`;
   $('t-done').onclick = () => { $('test').close ? $('test').close() : $('test').removeAttribute('open'); showChip(); $('level').value = 'custom'; prof.level = 'custom'; save(); renderTopics(); run(); };
 }
 
@@ -191,9 +194,18 @@ document.addEventListener('click', async e => {
   const nx = t.closest('[data-next]'); if (nx) readNext(await loadIndex($('lang').value), nx.dataset.next, nx.closest('li').querySelector('.next'));
   const fb = t.closest('[data-fb]'); if (fb) feedback(fb.dataset.fb);
 });
+// Interface language (independent of the search language): saved choice, else the browser's language
+function setUI(l, rerun) {
+  LLI18n.set(l); $('ui').value = LLI18n.get(); LLI18n.apply(document); showChip(); renderTopics();
+  const opt = document.getElementById('custom-opt'); if (opt && opt.hidden) opt.textContent = tr('lv_custom_plain');
+  if (rerun && $('q').value.trim()) run();
+}
+$('ui').addEventListener('change', () => { prof.ui = $('ui').value; save(); setUI($('ui').value, true); });
 // Remember profile choices and support shareable ?q= links
 (function () {
   try {
+    const up = new URLSearchParams(location.search).get('ui');
+    LLI18n.set(up || prof.ui || LLI18n.detect(typeof navigator !== 'undefined' ? navigator.language : 'en')); $('ui').value = LLI18n.get(); LLI18n.apply(document);
     const p = new URLSearchParams(location.search);
     for (const id of ['lang', 'level']) { const v = p.get(id) || prof[id]; if (v && [...$(id).options].some(o => o.value === v)) $(id).value = v; }
     showChip();
