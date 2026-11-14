@@ -16,6 +16,15 @@ def main():
             res = ll.search(lang, q, v["target"], k=10)
             out.append({"lang": lang, "query": q, "level": lvl, "target": v["target"],
                         "ids": [r["id"] for r in res], "scores": [r["score"] for r in res]})
+    # vocabulary-aware cases: known set from the level, and the same minus looked-up words
+    unknown = {"en": ["eruption", "magma"], "es": ["pintora", "planetas"]}
+    for lang, q in CASES:
+        for lvl, v in LEVELS.items():
+            for unk in ([], unknown[lang]):
+                known = ll.known_words(lang, lvl, unk)
+                res = ll.search(lang, q, v["target"], k=10, known=known)
+                out.append({"lang": lang, "query": q, "level": lvl, "target": v["target"], "vocab": True,
+                            "unknown": unk, "ids": [r["id"] for r in res], "scores": [r["score"] for r in res]})
     p = DATA_DIR.parent / "web" / "parity_expected.json"
     p.write_text(json.dumps(out, ensure_ascii=False))
     print(len(out), "cases ->", p)

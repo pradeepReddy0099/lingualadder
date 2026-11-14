@@ -16,16 +16,11 @@ from .evaluate import build_queries, ndcg
 from .search import LinguaLadder
 from .textproc import index_tokens
 
-VOCAB = {"beginner": 300, "intermediate": 1500, "advanced": 5000}
 BETAS = (0.0, 0.1, 0.3, 0.5, 1.0, 2.0)
 
 
 def known_sets(eng, lang):
-    df = Counter()
-    for d in eng.docs[lang]:
-        df.update(set(index_tokens(d["snippet"], lang)))
-    ranked = [w for w, _ in df.most_common()]
-    return {lvl: set(ranked[:n]) for lvl, n in VOCAB.items()}
+    return {lvl: eng.known_words(lang, lvl) for lvl in LEVELS}
 
 
 def run(eng=None):

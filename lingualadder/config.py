@@ -49,6 +49,7 @@ SIGMA = 0.15    # width of the level-fit curve
 CANDIDATES = 100
 TOPIC_WEIGHT = 0.4      # share of relevance from query words in the title / lead (vs. body BM25)
 ON_TOPIC_MIN = 0.5      # topical share needed to count as on-topic
+VOCAB_SIZES = {"beginner": 300, "intermediate": 1500, "advanced": 5000}  # assumed known words per level
 VOCAB_BETA = 0.5       # weight of the known-word share when a learner vocabulary is supplied (see vocab_eval)
 ON_TOPIC_FIRST = True   # articles that only mention the query in passing rank after on-topic ones
 

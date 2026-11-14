@@ -126,6 +126,14 @@ class LinguaLadder:
         results.sort(key=lambda r: -r["score"])
         return results[:k]
 
+    def known_words(self, lang, level, unknown_terms=()):
+        """Estimated known-word set for a learner level, minus words they looked up (see vocab.py)."""
+        from .vocab import known_set, ranked_words
+        cache = self.__dict__.setdefault("_ranked", {})
+        if lang not in cache:
+            cache[lang] = ranked_words(self.docs[lang], lang)
+        return known_set(cache[lang], level, unknown_terms, lang)
+
     def get(self, lang, doc_id):
         for d in self.docs[lang]:
             if d["id"] == doc_id:
