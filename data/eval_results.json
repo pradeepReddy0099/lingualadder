@@ -1,162 +1,162 @@
 {
  "classifier": {
-  "n": 16391,
+  "n": 17208,
   "per_language": {
-   "es": 8109,
-   "en": 8282
+   "en": 8408,
+   "es": 8800
   },
   "cv_full": {
-   "accuracy": 0.866,
-   "f1": 0.914
+   "accuracy": 0.86,
+   "f1": 0.91
   },
   "cv_baseline": {
-   "accuracy": 0.777,
-   "f1": 0.865
+   "accuracy": 0.772,
+   "f1": 0.862
   },
   "leave_one_language_out": {
-   "es": {
-    "full": {
-     "accuracy": 0.814,
-     "f1": 0.881
-    },
-    "baseline": {
-     "accuracy": 0.745,
-     "f1": 0.843
-    }
-   },
    "en": {
     "full": {
-     "accuracy": 0.882,
-     "f1": 0.925
+     "accuracy": 0.879,
+     "f1": 0.923
     },
     "baseline": {
-     "accuracy": 0.765,
-     "f1": 0.862
+     "accuracy": 0.758,
+     "f1": 0.859
+    }
+   },
+   "es": {
+    "full": {
+     "accuracy": 0.804,
+     "f1": 0.874
+    },
+    "baseline": {
+     "accuracy": 0.739,
+     "f1": 0.839
     }
    }
   },
   "feature_weights": {
-   "core_vocab_share": -2.088,
-   "rare_word_share": -1.266,
-   "mid_band_share": -1.127,
-   "log_length": 1.101,
-   "avg_sentence_len": 0.629,
-   "sentence_len_std": 0.511,
-   "long_word_share": 0.435,
-   "digit_rate": 0.423,
-   "avg_word_len": -0.411,
-   "long_sentence_share": 0.389,
-   "syllables_per_word": 0.231,
-   "commas_per_sentence": -0.178,
-   "parens_per_sentence": 0.1,
-   "subord_per_sentence": -0.028,
-   "type_token_ratio": -0.019
+   "core_vocab_share": -2.058,
+   "rare_word_share": -1.217,
+   "mid_band_share": -1.094,
+   "log_length": 1.025,
+   "avg_sentence_len": 0.63,
+   "sentence_len_std": 0.54,
+   "long_word_share": 0.44,
+   "avg_word_len": -0.416,
+   "digit_rate": 0.397,
+   "long_sentence_share": 0.374,
+   "syllables_per_word": 0.209,
+   "commas_per_sentence": -0.202,
+   "parens_per_sentence": 0.088,
+   "subord_per_sentence": -0.056,
+   "type_token_ratio": -0.03
   }
  },
  "retrieval": {
   "en": {
    "queries": 152,
    "beginner": {
-    "bm25_p10": 0.805,
-    "bm25_ndcg10": 0.824,
-    "bm25_level_match": 0.115,
-    "lingualadder_p10": 0.724,
-    "lingualadder_ndcg10": 0.73,
-    "lingualadder_level_match": 0.374
+    "bm25_p10": 0.801,
+    "bm25_ndcg10": 0.819,
+    "bm25_level_match": 0.113,
+    "lingualadder_p10": 0.718,
+    "lingualadder_ndcg10": 0.723,
+    "lingualadder_level_match": 0.375
    },
    "intermediate": {
-    "bm25_p10": 0.805,
-    "bm25_ndcg10": 0.824,
-    "bm25_level_match": 0.125,
-    "lingualadder_p10": 0.73,
-    "lingualadder_ndcg10": 0.741,
-    "lingualadder_level_match": 0.328
+    "bm25_p10": 0.801,
+    "bm25_ndcg10": 0.819,
+    "bm25_level_match": 0.131,
+    "lingualadder_p10": 0.726,
+    "lingualadder_ndcg10": 0.735,
+    "lingualadder_level_match": 0.346
    },
    "advanced": {
-    "bm25_p10": 0.805,
-    "bm25_ndcg10": 0.824,
-    "bm25_level_match": 0.375,
-    "lingualadder_p10": 0.733,
-    "lingualadder_ndcg10": 0.747,
-    "lingualadder_level_match": 0.716
+    "bm25_p10": 0.801,
+    "bm25_ndcg10": 0.819,
+    "bm25_level_match": 0.41,
+    "lingualadder_p10": 0.73,
+    "lingualadder_ndcg10": 0.745,
+    "lingualadder_level_match": 0.757
    }
   },
   "es": {
    "queries": 179,
    "beginner": {
-    "bm25_p10": 0.744,
-    "bm25_ndcg10": 0.777,
+    "bm25_p10": 0.731,
+    "bm25_ndcg10": 0.764,
     "bm25_level_match": 0.096,
-    "lingualadder_p10": 0.694,
-    "lingualadder_ndcg10": 0.71,
-    "lingualadder_level_match": 0.259
+    "lingualadder_p10": 0.678,
+    "lingualadder_ndcg10": 0.695,
+    "lingualadder_level_match": 0.28
    },
    "intermediate": {
-    "bm25_p10": 0.744,
-    "bm25_ndcg10": 0.777,
-    "bm25_level_match": 0.122,
-    "lingualadder_p10": 0.672,
-    "lingualadder_ndcg10": 0.687,
-    "lingualadder_level_match": 0.289
+    "bm25_p10": 0.731,
+    "bm25_ndcg10": 0.764,
+    "bm25_level_match": 0.124,
+    "lingualadder_p10": 0.653,
+    "lingualadder_ndcg10": 0.668,
+    "lingualadder_level_match": 0.293
    },
    "advanced": {
-    "bm25_p10": 0.744,
-    "bm25_ndcg10": 0.777,
-    "bm25_level_match": 0.434,
-    "lingualadder_p10": 0.687,
-    "lingualadder_ndcg10": 0.704,
-    "lingualadder_level_match": 0.682
+    "bm25_p10": 0.731,
+    "bm25_ndcg10": 0.764,
+    "bm25_level_match": 0.457,
+    "lingualadder_p10": 0.666,
+    "lingualadder_ndcg10": 0.687,
+    "lingualadder_level_match": 0.708
    }
   }
  },
  "retrieval_summary": {
-  "bm25_p10": 0.774,
-  "bm25_ndcg10": 0.8,
-  "bm25_level_match": 0.211,
-  "lingualadder_p10": 0.707,
-  "lingualadder_ndcg10": 0.72,
-  "lingualadder_level_match": 0.441
+  "bm25_p10": 0.766,
+  "bm25_ndcg10": 0.792,
+  "bm25_level_match": 0.222,
+  "lingualadder_p10": 0.695,
+  "lingualadder_ndcg10": 0.709,
+  "lingualadder_level_match": 0.46
  },
  "alpha_sweep": [
   {
    "alpha": 1.0,
-   "p10": 0.785,
-   "ndcg10": 0.814,
-   "level_match": 0.214
+   "p10": 0.776,
+   "ndcg10": 0.804,
+   "level_match": 0.225
   },
   {
    "alpha": 0.8,
-   "p10": 0.767,
-   "ndcg10": 0.791,
-   "level_match": 0.337
+   "p10": 0.758,
+   "ndcg10": 0.781,
+   "level_match": 0.35
   },
   {
    "alpha": 0.6,
-   "p10": 0.722,
-   "ndcg10": 0.739,
-   "level_match": 0.426
+   "p10": 0.709,
+   "ndcg10": 0.727,
+   "level_match": 0.445
   },
   {
    "alpha": 0.5,
-   "p10": 0.707,
-   "ndcg10": 0.72,
-   "level_match": 0.441
+   "p10": 0.695,
+   "ndcg10": 0.709,
+   "level_match": 0.46
   },
   {
    "alpha": 0.4,
-   "p10": 0.696,
-   "ndcg10": 0.708,
-   "level_match": 0.449
+   "p10": 0.686,
+   "ndcg10": 0.695,
+   "level_match": 0.467
   },
   {
    "alpha": 0.2,
-   "p10": 0.679,
-   "ndcg10": 0.686,
-   "level_match": 0.456
+   "p10": 0.667,
+   "ndcg10": 0.673,
+   "level_match": 0.475
   }
  ],
  "corpus": {
-  "en": 8282,
-  "es": 8109
+  "en": 8408,
+  "es": 8800
  }
 }

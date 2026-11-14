@@ -1,67 +1,14 @@
 {
  "en": {
   "topics": 304,
-  "complete": 302,
-  "gaps": {
-   "Gabriel García Márquez": [
-    "beginner"
-   ],
-   "Photography": [
-    "intermediate"
-   ]
-  },
-  "labels": {
-   "Gabriel García Márquez": "Gabriel García Márquez",
-   "Photography": "Photography"
-  }
+  "complete": 304,
+  "gaps": {},
+  "labels": {}
  },
  "es": {
   "topics": 304,
-  "complete": 294,
-  "gaps": {
-   "Inca Empire": [
-    "beginner"
-   ],
-   "Colombia": [
-    "intermediate"
-   ],
-   "Barcelona": [
-    "beginner"
-   ],
-   "Vegetable": [
-    "beginner"
-   ],
-   "Tourism": [
-    "beginner",
-    "intermediate"
-   ],
-   "Painting": [
-    "intermediate"
-   ],
-   "Magnetism": [
-    "beginner"
-   ],
-   "Carnival": [
-    "beginner"
-   ],
-   "Corn": [
-    "beginner"
-   ],
-   "Martial arts": [
-    "intermediate"
-   ]
-  },
-  "labels": {
-   "Inca Empire": "Inca Empire",
-   "Colombia": "Colombia",
-   "Barcelona": "Barcelona",
-   "Vegetable": "Vegetable",
-   "Tourism": "Turismo",
-   "Painting": "Pintura",
-   "Magnetism": "Magnetism",
-   "Carnival": "Carnival",
-   "Corn": "Zea mays",
-   "Martial arts": "Arte marcial"
-  }
+  "complete": 304,
+  "gaps": {},
+  "labels": {}
  }
 }
