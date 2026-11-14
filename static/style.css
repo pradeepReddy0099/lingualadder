@@ -30,3 +30,6 @@ table{border-collapse:collapse;width:100%}td,th{border-bottom:1px solid #eee;pad
 .place .ladder{display:flex;gap:6px;margin:6px 0 14px}.place .ladder span{padding:4px 12px;border-radius:12px;background:#eef3f8;color:#667}.place .ladder .on{background:#1f4e79;color:#fff;font-weight:700}
 .btn{display:inline-block;background:#1f4e79;color:#fff;border-radius:8px;padding:11px 18px;text-decoration:none}.btn:hover{background:#2c6aa3}
 @media(max-width:600px){.place .opts{grid-template-columns:1fr}}
+.rec{margin:18px 0 6px}.rec h3{font-size:13px;text-transform:uppercase;letter-spacing:.06em;color:#555;margin:0 0 8px}.rec h3 small{text-transform:none;letter-spacing:0;font-weight:500}
+.chips{display:flex;flex-wrap:wrap;gap:8px}.chip{display:inline-flex;align-items:center;min-height:44px;padding:0 14px;border:1px solid #ccd;border-radius:22px;background:#fff;color:#1f4e79;text-decoration:none;font-weight:600;font-size:14px}
+.chip:hover{background:#eef3f8}.chip.seen{opacity:.65}.chip.more{background:#eef3f8}
