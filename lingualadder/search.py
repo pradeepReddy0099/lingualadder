@@ -155,13 +155,21 @@ def adapt_target(target, feedback, step=0.05, lo=0.0, hi=1.0):
     return min(hi, max(lo, target))
 
 
-CEFR_BANDS = [(0.20, "A1"), (0.61, "A2"), (0.87, "B1"), (0.94, "B2"), (0.98, "C1"), (1.01, "C2")]  # corpus-quantile cutoffs (10/25/45/65/85%)
+# Upper cut-offs of A1..C1 on the 0-1 difficulty score, one set per language. Fitted by distribution matching
+# on externally CEFR-labelled texts (python -m lingualadder.cefr_validate): English = Cambridge exam texts + ELG
+# (1,043 texts, A1-C2), Spanish = Kwiziq reading texts (206 texts, A1-C1). Spanish has no C2 texts, so its C2
+# cut (0.98) is the old corpus-quantile value and is NOT validated. Everything above the last cut is C2.
+CEFR_CUTS = {
+    "en": [0.016, 0.076, 0.292, 0.582, 0.774],
+    "es": [0.036, 0.060, 0.111, 0.220, 0.980],
+}
+CEFR_NAMES = ["A1", "A2", "B1", "B2", "C1", "C2"]
 
 
-def cefr_label(difficulty):
-    """Map a 0-1 difficulty score to an approximate CEFR band (A1-C2)."""
+def cefr_label(difficulty, lang="en"):
+    """Map a 0-1 difficulty score to an approximate CEFR band (A1-C2) for the language."""
     d = min(max(float(difficulty), 0.0), 1.0)
-    for hi, lab in CEFR_BANDS:
+    for hi, lab in zip(CEFR_CUTS.get(lang, CEFR_CUTS["en"]), CEFR_NAMES):
         if d < hi:
             return lab
     return "C2"
