@@ -99,7 +99,7 @@
   }
 
   // Adaptive staircase over difficulty quantiles.
-  function Staircase(n = 8) { this.q = 0.5; this.step = 0.25; this.n = n; this.history = []; }
+  function Staircase(n = 8) { this.q = 0.5; this.step = 0.15; this.n = n; this.history = []; }
   Staircase.prototype.record = function (correct) {
     this.history.push({ q: this.q, correct });
     this.q = Math.min(0.97, Math.max(0.03, this.q + (correct ? this.step : -this.step)));
