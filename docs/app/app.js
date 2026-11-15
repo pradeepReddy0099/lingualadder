@@ -85,7 +85,7 @@ async function run() {
   const res = LL.search(idx, q, { target, rerank: !$('plain').checked, known });
   const ms = Math.round(performance.now() - t0);
   if (!res.length) { $('results').innerHTML = '<li class="empty">' + esc(tr('empty')) + '</li>'; $('status').textContent = tr('no_results'); return; }
-   $('status').textContent = tr('results_in', { n: res.length, ms }) + ' (' + Object.entries(res.reduce((a,r)=>{const c=cefrD(r.difficulty);a[c]=(a[c]||0)+1;return a;},{})).sort().map(([k,v])=>k+' ×'+v).join(', ') + ')' + ($('plain').checked ? tr('plain_tag') : tr('fitted', { level: level === 'custom' ? tr('fitted_custom') : LEVEL_NAMES[level].toLowerCase() }));
+   $('status').textContent = tr('results_in', { n: res.length, ms }) + ' (' + Object.entries(res.reduce((a,r)=>{const c=cefrD(r.difficulty);a[c]=(a[c]||0)+1;return a;},{})).sort().map(([k,v])=>k+' ×'+v).join(', ') + ')' + ($('plain').checked ? tr('plain_tag') : tr('fitted', { level: level === 'custom' ? tr('fitted_custom') : LEVEL_NAMES[level].toLowerCase() })) + (idx.sample ? tr('sample_tag', { n: idx.n.toLocaleString('en-US') }) : '');
   if (!$('plain').checked) {
     const off = res.filter(r => !r.onTopic).length;
     if (off === res.length) $('status').textContent += tr('all_mention');
