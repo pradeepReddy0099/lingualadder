@@ -1,0 +1,38 @@
+{
+ "en": {
+  "nearest": {
+   "start_articles": 8279,
+   "has_harder": 0.963,
+   "median_step": 0.0096,
+   "mean_step": 0.0346,
+   "share_step_0.02_0.15": 0.294,
+   "share_step_lt_0.005": 0.352
+  },
+  "goal": {
+   "start_articles": 8279,
+   "has_harder": 0.963,
+   "median_step": 0.0649,
+   "mean_step": 0.0678,
+   "share_step_0.02_0.15": 0.766,
+   "share_step_lt_0.005": 0.036
+  }
+ },
+ "es": {
+  "nearest": {
+   "start_articles": 8586,
+   "has_harder": 0.965,
+   "median_step": 0.0098,
+   "mean_step": 0.0323,
+   "share_step_0.02_0.15": 0.295,
+   "share_step_lt_0.005": 0.342
+  },
+  "goal": {
+   "start_articles": 8586,
+   "has_harder": 0.965,
+   "median_step": 0.0714,
+   "mean_step": 0.0692,
+   "share_step_0.02_0.15": 0.796,
+   "share_step_lt_0.005": 0.038
+  }
+ }
+}
