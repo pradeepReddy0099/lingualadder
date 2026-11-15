@@ -59,7 +59,7 @@ Goal: results that fit the learner's level better WITHOUT losing much relevance.
 
 - [x] Fit: effect of looked-up words on the adaptive target evaluated for en and es (lookup_eval, see CHANGELOG): small gain (+0.01 coverage), not wired in; remaining idea: auto 'too hard' nudge when a learner marks 3+ words in one snippet (web and Flask).
 - [x] Web: "show easier results" hint after 3 new words marked in one snippet (button does the Too hard step; no automatic change).
-- [ ] Fit: evaluate read-next ordering per language (en and es).
+- [x] Fit: read-next ordering evaluated per language (en and es) and changed to a +0.08 step (see CHANGELOG).
 
 - [x] Placement guessing bias: guessing-aware (posterior mean) estimate in Python and JS, evaluated with simulated learners in en and es (see CHANGELOG). Open idea: 12 cloze items (error 0.108 -> 0.090 simulated).
 

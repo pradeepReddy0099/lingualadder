@@ -374,3 +374,13 @@ English 5,500 articles cached; Spanish 3,620 of 5,500 cached. Collector resumes 
 - No ranking or data change: metrics unchanged (en nDCG@10 0.792, es 0.748; level match 0.465 / 0.403). This is a web-only behaviour; the Flask pages only look words up on the reader page, so they have no per-snippet marks.
 - Tests: pytest 54 pass; parity 81/81; app smoke (new check: hint appears after three marks, English and Spanish texts), placement, i18n, cefr, lookup (3 new checks) OK; Flask /search?q=volcano 200.
 - Next: fit step - read-next ordering per language (en and es).
+
+## Read-next step size (fit step)
+Read next used the nearest harder article, which is often a near-duplicate in difficulty. Now it picks the harder article closest to a +0.08 step (within 0.02 to 0.20), in Flask and the web version.
+| | en before | en after | es before | es after |
+|---|---|---|---|---|
+| median step | 0.0096 | 0.0649 | 0.0098 | 0.0714 |
+| steps under 0.005 | 35.2% | 3.6% | 34.2% | 3.8% |
+| steps in 0.02-0.15 | 29.4% | 76.6% | 29.5% | 79.6% |
+| has a harder article | 96.3% | 96.3% | 96.5% | 96.5% |
+No search metric change. Tests pass.
