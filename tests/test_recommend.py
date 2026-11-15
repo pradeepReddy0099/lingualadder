@@ -36,3 +36,23 @@ def test_chips_and_reading_history_in_flask():
         assert c.get("/search?topics=all").get_data(as_text=True).count('class="chip') > 200
         first = html.split('class="chip" href="')[1].split('"')[0]
         assert c.get(first).status_code == 200
+
+
+def test_share_rule_and_ladder_bonus():
+    # a small topic that is all near beats a big topic that is mostly far; a climbable ladder gets a bonus
+    docs = _docs(4, "small", 0.5) + _docs(1, "small", 0.1) + _docs(1, "small", 0.9)
+    docs += _docs(2, "big", 0.5) + _docs(30, "big", 0.95)
+    r = {x[0]: x for x in rank_topics(docs, 0.5)}
+    assert r["small"][1] > r["big"][1]
+    assert abs(r["small"][1] - (4 / 6 + 0.002 * 6 + 0.3)) < 1e-9   # near share + size term + ladder bonus
+    assert abs(r["big"][1] - (2 / 32 + 0.002 * 32)) < 1e-9          # no easier article: no bonus
+
+
+def test_chips_vary_with_level_in_both_languages():
+    from app import ENGINE
+    for lang in ("en", "es"):
+        docs = ENGINE.docs[lang]
+        seen = set()
+        for t in (0.2, 0.35, 0.5, 0.65, 0.8):
+            seen.update(c["topic"] for c in recommended(docs, lang, t)[0])
+        assert len(seen) >= 30   # the old rule showed only 23 (es) different topics over nine levels
