@@ -78,6 +78,9 @@ def main():
 
     with open(DATA_DIR / "index.pkl", "wb") as f:
         pickle.dump({"docs": dict(docs_out), "indexes": indexes}, f)
+    for lg in docs_out:  # one file per language, for lazy loading
+        with open(DATA_DIR / f"index_{lg}.pkl", "wb") as f:
+            pickle.dump({"docs": {lg: docs_out[lg]}, "indexes": {lg: indexes[lg]}}, f)
     print("Build complete.")
 
 

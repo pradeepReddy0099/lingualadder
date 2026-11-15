@@ -55,10 +55,51 @@ import os
 CALIBRATE = os.environ.get("LL_CALIBRATE", "0") == "1"
 
 
+LAZY_LANGS = ("en", "es")
+
+
+class _LazyLangs(dict):
+    """Dict of per-language data that reads data/index_<lang>.pkl the first time a language is used."""
+
+    def __init__(self, owner, part):
+        super().__init__()
+        self.owner, self.part = owner, part
+
+    def _load(self, lang):
+        if lang in LAZY_LANGS and not dict.__contains__(self, lang):
+            with open(DATA_DIR / f"index_{lang}.pkl", "rb") as f:
+                blob = pickle.load(f)
+            self.owner.docs[lang] = blob["docs"][lang]
+            self.owner.indexes[lang] = blob["indexes"][lang]
+
+    def __missing__(self, lang):
+        self._load(lang)
+        return dict.__getitem__(self, lang)
+
+    def __contains__(self, lang):
+        return lang in LAZY_LANGS
+
+    def __iter__(self):
+        return iter(LAZY_LANGS)
+
+    def keys(self):
+        return list(LAZY_LANGS)
+
+    def items(self):
+        return [(l, self[l]) for l in LAZY_LANGS]
+
+    def values(self):
+        return [self[l] for l in LAZY_LANGS]
+
+
 class LinguaLadder:
     """Holds one BM25 index and document table per language."""
 
-    def __init__(self, path=DATA_DIR / "index.pkl"):
+    def __init__(self, path=DATA_DIR / "index.pkl", lazy=False):
+        if lazy:
+            self.docs = _LazyLangs(self, "docs")
+            self.indexes = _LazyLangs(self, "indexes")
+            return
         with open(path, "rb") as f:
             blob = pickle.load(f)
         self.docs = blob["docs"]          # {lang: [doc dicts]}
@@ -71,7 +112,7 @@ class LinguaLadder:
                     d["difficulty"] = float((r + 0.5) / len(docs))
 
     def languages(self):
-        return sorted(self.docs)
+        return sorted(self.docs.keys())
 
     def bm25(self, lang, query, k=CANDIDATES):
         scores = self.indexes[lang].score(index_tokens(query, lang))
