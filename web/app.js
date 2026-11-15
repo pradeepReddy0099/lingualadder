@@ -250,7 +250,7 @@ $('ui').addEventListener('change', () => { prof.ui = $('ui').value; save(); setU
     for (const id of ['lang', 'level']) { const v = p.get(id) || prof[id]; if (v && [...$(id).options].some(o => o.value === v)) $(id).value = v; }
     showChip();
     for (const id of ['lang', 'level']) $(id).addEventListener('change', () => { prof[id] = $(id).value; save(); });
-    $('f').addEventListener('submit', () => { const u = new URL(location); u.searchParams.set('q', $('q').value.trim()); history.replaceState(null, '', u); });
+    $('f').addEventListener('submit', () => { const u = new URL(location); u.searchParams.set('q', $('q').value.trim()); u.searchParams.set('lang', $('lang').value); u.searchParams.set('level', $('level').value); history.replaceState(null, '', u); });
     renderTopics(); renderMyWords();
     if (p.get('q')) { $('q').value = p.get('q'); run(); }
   } catch (e) {}
