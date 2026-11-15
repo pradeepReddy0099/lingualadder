@@ -7,6 +7,9 @@ ok(p.map(x => x.t).join('') === "Volcán: l'état d'un mont—it's 3 km.", 'piec
 ok(p.filter(x => x.w).map(x => x.t).join('|') === "Volcán|l'état|d'un|mont|it's|km", 'word pieces keep accents and apostrophes, skip digits');
 ok(LL.wiktionaryUrl('Volcán', 'es', 'en') === 'https://en.wiktionary.org/wiki/volc%C3%A1n#Spanish', 'Spanish word, English interface');
 ok(LL.wiktionaryUrl('volcano', 'en', 'es') === 'https://es.wiktionary.org/wiki/volcano#Ingl%C3%A9s', 'English word, Spanish interface');
+ok(LL.NUDGE_MIN === 3, 'nudge threshold is 3 new words');
+ok(LL.newWordCount('The volcano erupted; the Volcano slept and erupted again.', ['volcano', 'erupted', 'slept']) === 3, 'counts distinct marked words, case-insensitive');
+ok(LL.newWordCount('Un volcán duerme.', new Set(['volcán'])) === 1 && LL.newWordCount('Nothing here', []) === 0, 'Spanish accents count; empty set gives 0');
 for (const lang of ['en', 'es']) {
   const idx = JSON.parse(fs.readFileSync(__dirname + '/data/' + lang + '.json'));
   if (idx.parts) { /* parts are merged by the page loader; the first part is enough for the known-word list */ }
