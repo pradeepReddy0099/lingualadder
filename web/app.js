@@ -144,7 +144,8 @@ function readNext(idx, id, box) {
   const d = idx.docs.find(x => x[0] === id); if (!d) return;
   const pool = idx.docs.filter(x => x[7] === d[7] && x[0] !== id && !prof.read.includes(x[0]));
   const up = pool.filter(x => x[4] > d[4]).sort((a, b) => a[4] - b[4]);
-  const n = up[0] || pool.sort((a, b) => Math.abs(a[4] - d[4]) - Math.abs(b[4] - d[4]))[0];
+  const cand = up.filter(x => x[4] - d[4] >= 0.02 && x[4] - d[4] <= 0.20), best = (cand.length ? cand : up).slice().sort((a, b) => Math.abs(a[4] - d[4] - 0.08) - Math.abs(b[4] - d[4] - 0.08))[0];
+  const n = best || pool.sort((a, b) => Math.abs(a[4] - d[4]) - Math.abs(b[4] - d[4]))[0];
   box.hidden = false;
   box.innerHTML = n ? `${tr('next_up')} <a href="${esc(n[2])}" target="_blank" rel="noopener" data-read="${esc(n[0])}">${esc(n[1])}</a> <span class="badge ${esc(n[5])}">${esc(lvBadge(n[5]))}</span> <span class="badge">${cefrD(n[4])}</span>${up[0] ? '' : ` <small>${tr('nothing_harder')}</small>`}`
     : tr('all_read');
