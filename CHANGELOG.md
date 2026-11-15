@@ -384,3 +384,8 @@ Read next used the nearest harder article, which is often a near-duplicate in di
 | steps in 0.02-0.15 | 29.4% | 76.6% | 29.5% | 79.6% |
 | has a harder article | 96.3% | 96.3% | 96.5% | 96.5% |
 No search metric change. Tests pass.
+
+## Web: shared links carry language and level (website step)
+- A shared search link now includes the language and level (?q=...&lang=es&level=beginner), so the person opening it sees the same results. Before, only the query was in the link and the receiver's own saved profile decided. No ranking or data change: metrics unchanged (en nDCG@10 0.792, es 0.748).
+- Tests: pytest, parity, app smoke, placement pass.
+- Next: fit step (placement test adaptive step per language).
