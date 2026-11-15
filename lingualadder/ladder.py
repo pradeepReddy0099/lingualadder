@@ -17,13 +17,15 @@ def ladder_strip(results):
 
 
 def read_next(docs, doc, read_ids=()):
-    """The next article on the same topic: the nearest harder unread one, else the nearest unread one.
+    """The next article on the same topic: the harder unread one closest to a +0.08 step, else the nearest unread one.
     Returns (doc or None, harder: bool)."""
     read = set(read_ids)
     pool = [x for x in docs if x.get("topic") == doc.get("topic") and x["id"] != doc["id"] and x["id"] not in read]
     up = sorted((x for x in pool if x["difficulty"] > doc["difficulty"]), key=lambda x: x["difficulty"])
     if up:
-        return up[0], True
+        # aim for a step of about +0.08 (within 0.02..0.20) instead of near-duplicates of the same difficulty
+        c = [x for x in up if 0.02 <= x["difficulty"] - doc["difficulty"] <= 0.20] or up
+        return min(c, key=lambda x: abs(x["difficulty"] - doc["difficulty"] - 0.08)), True
     if pool:
         return min(pool, key=lambda x: abs(x["difficulty"] - doc["difficulty"])), False
     return None, False
