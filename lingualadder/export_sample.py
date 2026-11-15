@@ -44,6 +44,12 @@ def sample(d):
 
 def main(langs):
     emb = {l: sample(load_full(l)) for l in langs}
+    if os.environ.get('LL_LITE_JSON'):  # also write the sample as plain data/<lang>.json files for static hosting (GitHub Pages)
+        out = os.environ['LL_LITE_JSON']; os.makedirs(out, exist_ok=True)
+        for l, o in emb.items():
+            f = os.path.join(out, l + '.json')
+            json.dump(o, open(f, 'w', encoding='utf-8'), ensure_ascii=False, separators=(',', ':'))
+            print(f, round(os.path.getsize(f) / 1e6, 2), 'MB')
     for l, o in emb.items():
         print(l, o['n'], 'docs,', len(o['terms']), 'terms')
     rd = lambda f: open(os.path.join(W, f), encoding='utf-8').read()
