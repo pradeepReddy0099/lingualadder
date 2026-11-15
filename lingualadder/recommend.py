@@ -1,7 +1,9 @@
 """Recommended topics: the same rule as the browser version (web/app.js renderTopics).
 
-A topic scores (articles within 0.15 of the learner's target difficulty) + 0.05 * (all its articles)
-- 0.5 * (articles already read). Topics with fewer than 3 articles are skipped."""
+A topic scores the share of its articles within 0.15 of the learner's target difficulty, a small size term,
+a bonus for a climbable ladder (3+ near articles plus an easier and a harder one) and a small penalty per
+article already read. Topics with fewer than 3 articles are skipped. (Replaced the old raw near-count rule,
+which always picked the biggest topics; see recommend_eval.py.)"""
 import json
 
 from .config import DATA_DIR
@@ -21,20 +23,34 @@ def topic_labels(docs, lang):
 
 
 def rank_topics(docs, target, read_ids=()):
-    """[(topic, score, near, n, read)] best first (ties by topic name)."""
+    """[(topic, score, near, n, read)] best first (ties by topic name).
+
+    score = share of the topic's articles within NEAR of the target + 0.002 * min(n, 40)
+            + 0.3 if the topic has 3+ near articles plus an easier and a harder one (a climbable ladder)
+            - 0.05 * articles already read."""
     read = set(read_ids)
     stat = {}
     for d in docs:
         t = d.get("topic")
         if not t:
             continue
-        s = stat.setdefault(t, [0, 0, 0])
+        s = stat.setdefault(t, [0, 0, 0, 0, 0])   # n, near, read, below, above
         s[0] += 1
-        if abs(d["difficulty"] - target) <= NEAR:
+        diff = d["difficulty"] - target
+        if abs(diff) <= NEAR:
             s[1] += 1
+        elif diff < 0:
+            s[3] += 1
+        else:
+            s[4] += 1
         if d["id"] in read:
             s[2] += 1
-    out = [(t, s[1] + 0.05 * s[0] - 0.5 * s[2], s[1], s[0], s[2]) for t, s in stat.items() if s[0] >= MIN_DOCS]
+    out = []
+    for t, (n, near, rd, below, above) in stat.items():
+        if n < MIN_DOCS:
+            continue
+        score = near / n + 0.002 * min(n, 40) + 0.3 * (near >= 3 and below > 0 and above > 0) - 0.05 * rd
+        out.append((t, score, near, n, rd))
     out.sort(key=lambda x: (-x[1], x[0]))
     return out
 
