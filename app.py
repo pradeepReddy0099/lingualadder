@@ -22,7 +22,7 @@ app = Flask(__name__)
 from lingualadder.search import cefr_label, cefr_display
 app.jinja_env.filters['cefr'] = cefr_display
 app.secret_key = os.environ.get("SECRET_KEY", "lingualadder-dev-key")
-ENGINE = LinguaLadder()
+ENGINE = LinguaLadder(lazy=True)
 DB = DATA_DIR / "users.sqlite"
 
 
@@ -79,6 +79,34 @@ def set_ui(lang):
     return redirect(back)
 
 
+_META = {}
+
+
+def home_meta():
+    """Topic list and article counts for the home page, cached in a small file so the home page
+    does not load both language indexes."""
+    if not _META:
+        import json
+        from lingualadder.search import DATA_DIR
+        f = DATA_DIR / "home_meta.json"
+        stamp = max((DATA_DIR / f"index_{l}.pkl").stat().st_mtime for l in ("en", "es"))
+        try:
+            m = json.load(open(f))
+            ok = m.get("stamp") == stamp
+        except Exception:
+            ok = False
+        if not ok:
+            m = {"stamp": stamp,
+                 "topics": sorted({d["topic"] for docs in ENGINE.docs.values() for d in docs if d.get("topic")}),
+                 "stats": {l: len(d) for l, d in ENGINE.docs.items()}}
+            try:
+                json.dump(m, open(f, "w"))
+            except OSError:
+                pass
+        _META.update(m)
+    return list(_META["topics"]), dict(_META["stats"])
+
+
 @app.route("/", methods=["GET", "POST"])
 def home():
     profile()
@@ -91,8 +119,7 @@ def home():
             return flask_i18n.make_t(ui_lang())("bad_profile"), 400
         session["profile"] = {"target": tgt, "native": nat, "level": lvl, "offset": 0.0}
         return redirect(url_for("search"))
-    topics = sorted({d["topic"] for docs in ENGINE.docs.values() for d in docs if d.get("topic")})
-    stats = {lang: len(docs) for lang, docs in ENGINE.docs.items()}
+    topics, stats = home_meta()
     if ui_lang() == "es":
         labels = flask_i18n.topic_labels_es()
         topics = sorted(labels.get(x, x) for x in topics)

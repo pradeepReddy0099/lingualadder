@@ -35,7 +35,7 @@ Goal: results that fit the learner's level better WITHOUT losing much relevance.
 ## Engineering
 - [x] Unit tests for textproc, BM25, re-ranker (pytest). (DONE: app, textproc, BM25, reranker; 10 tests)
 - [x] Placement staircase initial step 0.15 (see CHANGELOG)
-- [ ] Faster startup (smaller index, lazy load).
+- [ ] Faster startup (smaller index, lazy load). Step 1 DONE: measured (import 4.6 s with 213 MB index, first Spanish search 0.86 s, then 0.03 s). Step 2 split: (a) save index.pkl as one file per language, (b) load lazily on first request per language, (c) re-measure. Step (a) DONE (build writes index_en.pkl and index_es.pkl, 116 MB + 96 MB). Step (b) DONE (app loads each language on first use; import 4.6 s -> 0.7 s). Step (c) re-measure is next.
 - [x] Input validation (400 on bad values); 404/500 error pages done.
 - [ ] README kept current.
 

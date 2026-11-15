@@ -394,3 +394,19 @@ No search metric change. Tests pass.
 - Simulated learners (7 abilities x 200, 8 items, guessing-aware estimate), mean absolute error of the placement estimate: slope 5 0.134 -> 0.131, slope 8 0.107 -> 0.099, slope 12 0.095 -> 0.085. Smaller starts (0.06-0.10) scored slightly better still, but 0.15 was kept so real learners far from the middle can still move. The simulation works on item difficulty quantiles, so it applies to English and Spanish alike.
 - Python and web ports changed together (the fixed-history EAP test still matches). Tests: pytest 54, parity, app smoke, placement pass.
 - Next: website step (Spanish UI text review).
+
+## Spanish UI wording review (website step)
+Reviewed every Spanish interface string. Changed the feedback buttons "Muy fácil / Muy difícil" to the more natural "Demasiado fácil / Demasiado difícil" (also in the placement result text). No ranking change, so no metric change. Tests: pytest 54, parity 81/81, app smoke, placement, i18n pass.
+- Next: fit step.
+
+## Startup measurement (engineering step 1)
+Measured: app import 4.6 s with the 213 MB index, first Spanish search 0.86 s, later searches 0.03 s. No ranking change (en nDCG@10 0.792, es 0.748). Pytest passes. Next: website step; startup split per language is queued.
+
+## Startup plan split (engineering step 2 planning)
+Split the per-language lazy loading into three sub-steps in the roadmap; no code or ranking change (en nDCG@10 0.792, es 0.748). Pytest passes. Next: fit step.
+
+## Startup step (a): index saved per language (engineering)
+The build now also writes one index file per language (English 116 MB, Spanish 96 MB) next to the full one, ready for lazy loading in the next step. No ranking change (en nDCG@10 0.792, es 0.748). Pytest passes. Next: website step.
+
+## Startup step (b): lazy per-language loading (engineering)
+The Flask app now reads each language's index file only when that language is first used. App import 4.6 s -> 0.7 s; first Spanish search 0.48 s (loads only Spanish); the home page uses a small cached topic/count file. Ranking unchanged (en nDCG@10 0.792, es 0.748). Pytest 54 passed, Flask search for English and Spanish returns 200. Next: website step, then re-measure startup.
