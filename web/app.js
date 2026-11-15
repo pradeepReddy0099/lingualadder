@@ -125,11 +125,12 @@ async function renderTopics() {
   const box = $('topics'); if (!box) return;
   let idx; try { idx = await loadIndex($('lang').value); } catch (e) { return; }
   const target = targetFor(idx, $('lang').value), stat = {};
-  idx.docs.forEach(d => { const t = d[7]; if (!t) return; const s = stat[t] || (stat[t] = { n: 0, near: 0, read: 0 });
-    s.n++; if (Math.abs(d[4] - target) <= 0.15) s.near++; if (prof.read.includes(d[0])) s.read++; });
+  idx.docs.forEach(d => { const t = d[7]; if (!t) return; const s = stat[t] || (stat[t] = { n: 0, near: 0, read: 0, below: 0, above: 0 });
+    s.n++; const diff = d[4] - target; if (Math.abs(diff) <= 0.15) s.near++; else if (diff < 0) s.below++; else s.above++; if (prof.read.includes(d[0])) s.read++; });
   const label = t => (idx.topics && idx.topics[t]) || t;
   const ranked = Object.entries(stat).filter(([, s]) => s.n >= 3)
-    .map(([t, s]) => [t, s.near + 0.05 * s.n - 0.5 * s.read]).sort((a, b) => b[1] - a[1] || (a[0] < b[0] ? -1 : 1));
+    .map(([t, s]) => [t, s.near / s.n + 0.002 * Math.min(s.n, 40) + (s.near >= 3 && s.below > 0 && s.above > 0 ? 0.3 : 0) - 0.05 * s.read])
+    .sort((a, b) => b[1] - a[1] || (a[0] < b[0] ? -1 : 1));
   const showAll = box.dataset.all === '1', list = showAll ? ranked.slice().sort((a, b) => label(a[0]).localeCompare(label(b[0]))) : ranked.slice(0, 14);
   box.innerHTML = list.map(([t]) => `<button type="button" class="topic" data-topic="${esc(label(t))}">${esc(label(t))}</button>`).join('') +
     `<button type="button" class="topic more-topics" data-all="1">${showAll ? tr('fewer_topics') : tr('all_topics', { n: ranked.length })}</button>`;
