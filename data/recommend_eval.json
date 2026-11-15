@@ -1,0 +1,126 @@
+{
+ "en": {
+  "current": {
+   "usable": 1.0,
+   "ladder": 0.349,
+   "near": 23.48,
+   "share": 0.555,
+   "size": 39.0,
+   "covered": 47,
+   "topics": 304,
+   "churn": 0.375
+  },
+  "capped6": {
+   "usable": 1.0,
+   "ladder": 0.341,
+   "near": 21.06,
+   "share": 0.458,
+   "size": 41.0,
+   "covered": 25,
+   "topics": 304,
+   "churn": 0.134
+  },
+  "capped4": {
+   "usable": 1.0,
+   "ladder": 0.357,
+   "near": 20.99,
+   "share": 0.455,
+   "size": 41.0,
+   "covered": 21,
+   "topics": 304,
+   "churn": 0.098
+  },
+  "ladder": {
+   "usable": 1.0,
+   "ladder": 0.444,
+   "near": 20.95,
+   "share": 0.462,
+   "size": 41.0,
+   "covered": 32,
+   "topics": 304,
+   "churn": 0.277
+  },
+  "share": {
+   "usable": 1.0,
+   "ladder": 0.31,
+   "near": 18.1,
+   "share": 0.693,
+   "size": 25.5,
+   "covered": 68,
+   "topics": 304,
+   "churn": 0.527
+  },
+  "share_ladder": {
+   "usable": 1.0,
+   "ladder": 0.444,
+   "near": 18.01,
+   "share": 0.685,
+   "size": 26.0,
+   "covered": 69,
+   "topics": 304,
+   "churn": 0.527
+  }
+ },
+ "es": {
+  "current": {
+   "usable": 1.0,
+   "ladder": 0.437,
+   "near": 34.39,
+   "share": 0.464,
+   "size": 74.0,
+   "covered": 23,
+   "topics": 304,
+   "churn": 0.116
+  },
+  "capped6": {
+   "usable": 1.0,
+   "ladder": 0.429,
+   "near": 33.52,
+   "share": 0.441,
+   "size": 75.0,
+   "covered": 16,
+   "topics": 304,
+   "churn": 0.027
+  },
+  "capped4": {
+   "usable": 1.0,
+   "ladder": 0.429,
+   "near": 33.44,
+   "share": 0.439,
+   "size": 75.0,
+   "covered": 14,
+   "topics": 304,
+   "churn": 0.0
+  },
+  "ladder": {
+   "usable": 1.0,
+   "ladder": 0.444,
+   "near": 33.55,
+   "share": 0.442,
+   "size": 75.0,
+   "covered": 18,
+   "topics": 304,
+   "churn": 0.036
+  },
+  "share": {
+   "usable": 1.0,
+   "ladder": 0.397,
+   "near": 20.56,
+   "share": 0.69,
+   "size": 29.0,
+   "covered": 68,
+   "topics": 304,
+   "churn": 0.5
+  },
+  "share_ladder": {
+   "usable": 1.0,
+   "ladder": 0.444,
+   "near": 20.85,
+   "share": 0.686,
+   "size": 30.0,
+   "covered": 71,
+   "topics": 304,
+   "churn": 0.527
+  }
+ }
+}
