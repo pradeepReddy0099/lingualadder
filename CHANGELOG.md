@@ -367,3 +367,10 @@ English 5,500 articles cached; Spanish 3,620 of 5,500 cached. Collector resumes 
 - Search ranking untouched: metrics unchanged (en nDCG@10 0.792, es 0.748; level match 0.465 / 0.403).
 - Tests: pytest 52 -> 54 pass (new: share rule and ladder bonus exact scores; chips vary with level in en and es); parity 81/81; app smoke and placement OK, browser chips equal the Python chips for the same level; Flask /search?q=volcano 200 (en) and Spanish search 200.
 - Next: website step - refresh the Hark Page and public site with the new chips; then fit step on read-next ordering per language.
+
+## Web: "show easier results" hint after 3 new words in one snippet (website step, en and es)
+- When a learner marks three or more different new words in the same result snippet, the page now shows a short hint under the status line ("You marked 3 new words in one snippet." / "Marcaste 3 palabras nuevas en un mismo fragmento.") with one button that does the same step as "Too hard". Nothing changes by itself: the learner decides. The hint hides on the next mark or when a feedback button is used. This wires the one idea left over from the look-up evaluation (lookups alone nudge downwards) without any automatic ranking change.
+- Words are counted as distinct, case-insensitive, with accents kept (`LL.newWordCount`, threshold `LL.NUDGE_MIN` = 3), same for English and Spanish; English and Spanish interface texts added.
+- No ranking or data change: metrics unchanged (en nDCG@10 0.792, es 0.748; level match 0.465 / 0.403). This is a web-only behaviour; the Flask pages only look words up on the reader page, so they have no per-snippet marks.
+- Tests: pytest 54 pass; parity 81/81; app smoke (new check: hint appears after three marks, English and Spanish texts), placement, i18n, cefr, lookup (3 new checks) OK; Flask /search?q=volcano 200.
+- Next: fit step - read-next ordering per language (en and es).
