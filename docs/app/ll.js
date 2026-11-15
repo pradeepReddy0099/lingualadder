@@ -121,10 +121,17 @@
     return out;
   }
   const WIKT_ANCHOR = { en: { en: 'English', es: 'Spanish' }, es: { en: 'Inglés', es: 'Español' } };
+  // Distinct words of a snippet that the learner marked as new (case-insensitive). Three or more means the snippet is too hard.
+  const NUDGE_MIN = 3;
+  function newWordCount(text, mine) {
+    const m = mine instanceof Set ? mine : new Set(mine || []), seen = new Set();
+    for (const p of wordPieces(text)) if (p.w && m.has(p.t.toLowerCase())) seen.add(p.t.toLowerCase());
+    return seen.size;
+  }
   function wiktionaryUrl(word, searchLang, uiLang) {
     const ui = uiLang === 'es' ? 'es' : 'en';
     return 'https://' + ui + '.wiktionary.org/wiki/' + encodeURIComponent(String(word).toLowerCase()) + '#' + encodeURIComponent((WIKT_ANCHOR[ui] || {})[searchLang] || '');
   }
-  const api = { wordPieces, wiktionaryUrl, indexTokens, bm25, search, knownWords, VOCAB_SIZES, cefr, cefrDisplay, CEFR_CUTS, CEFR_SPLIT };
+  const api = { wordPieces, newWordCount, NUDGE_MIN, wiktionaryUrl, indexTokens, bm25, search, knownWords, VOCAB_SIZES, cefr, cefrDisplay, CEFR_CUTS, CEFR_SPLIT };
   if (typeof module !== 'undefined' && module.exports) module.exports = api; else root.LL = api;
 })(typeof self !== 'undefined' ? self : this);

@@ -54,13 +54,17 @@ function openWord(el) {
   pop.hidden = false;
   pop.innerHTML = `<b>${esc(w)}</b> <a href="${esc(LL.wiktionaryUrl(w, lang, LLI18n.get()))}" target="_blank" rel="noopener">${tr('word_look')} &rarr;</a> <button type="button" class="mini" data-markword="${esc(lw)}" data-mark="${has ? 0 : 1}">${tr(has ? 'word_unmark' : 'word_mark')}</button>`;
 }
-function setWord(w, on) {
+function setWord(w, on, li) {
+  const nudge = $('nudge'); if (nudge) nudge.hidden = true;
   const lang = $('lang').value, list = myWords(lang), i = list.indexOf(w);
   if (on && i < 0) list.push(w); else if (!on && i >= 0) list.splice(i, 1);
   prof.words[lang] = list.slice(-300); save(); renderMyWords();
   $('status').textContent = tr(on ? 'word_added' : 'word_removed', { w });
   const keep = $('status').textContent;
-  if ($('q').value.trim()) run().then(() => { $('status').textContent = keep + ' ' + $('status').textContent; });
+  // Three or more new words in one snippet: offer easier results (the learner decides; nothing changes by itself).
+  const sn = li && li.querySelector ? li.querySelector('.snip') : null, n = on && sn ? LL.newWordCount(sn.textContent, myWords(lang)) : 0;
+  const after = () => { if (n >= LL.NUDGE_MIN && nudge) { nudge.hidden = false; nudge.innerHTML = `${esc(tr('nudge_text', { n }))} <button type="button" class="mini" data-fb="too_hard">${tr('nudge_btn')}</button>`; } };
+  if ($('q').value.trim()) run().then(() => { $('status').textContent = keep + ' ' + $('status').textContent; after(); }); else after();
 }
 function renderMyWords() {
   const box = $('mywords'); if (!box) return;
@@ -224,9 +228,9 @@ document.addEventListener('click', async e => {
   const topic = t.closest('[data-topic]'); if (topic) { $('q').value = topic.dataset.topic; run(); window.scrollTo && window.scrollTo({ top: 0, behavior: 'smooth' }); }
   const all = t.closest('.more-topics'); if (all) { const b = $('topics'); b.dataset.all = b.dataset.all === '1' ? '0' : '1'; renderTopics(); }
   const nx = t.closest('[data-next]'); if (nx) readNext(await loadIndex($('lang').value), nx.dataset.next, nx.closest('li').querySelector('.next'));
-  const fb = t.closest('[data-fb]'); if (fb) feedback(fb.dataset.fb);
+  const fb = t.closest('[data-fb]'); if (fb) { if ($('nudge')) $('nudge').hidden = true; feedback(fb.dataset.fb); }
   const wd = t.closest('.w'); if (wd) openWord(wd);
-  const mk = t.closest('[data-markword]'); if (mk) setWord(mk.dataset.markword, mk.dataset.mark === '1');
+  const mk = t.closest('[data-markword]'); if (mk) setWord(mk.dataset.markword, mk.dataset.mark === '1', mk.closest('li'));
   if (t.closest('#mywords-clear')) { prof.words[$('lang').value] = []; save(); renderMyWords(); $('q').value.trim() && run(); }
 });
 // Interface language (independent of the search language): saved choice, else the browser's language
