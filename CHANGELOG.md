@@ -359,3 +359,11 @@ English 5,500 articles cached; Spanish 3,620 of 5,500 cached. Collector resumes 
 - No ranking change: metrics unchanged (en nDCG@10 0.792, es 0.748; level match 0.465 / 0.403).
 - Tests: pytest 52 pass; parity 81/81; app smoke, placement, i18n, cefr, lookup OK; Flask /search?q=volcano 200.
 - Next: fit step - evaluate the placement test and recommended topics per language (en and es).
+
+## Recommended topics: share-based rule (fit step, en and es)
+- New `python -m lingualadder.recommend_eval` (data/recommend_eval.json): for nine learner levels (corpus difficulty quantiles 0.1-0.9) it scores the 14 recommended topics per language. Finding: with the old rule (count of near-level articles + 0.05 x topic size) the big topics always won, so the chips barely changed with level: over the nine levels English showed only 47 different topics and Spanish only 23 (of 304), and only 55% (en) / 46% (es) of a chip's articles were near the learner's level.
+- New rule, in Python (`recommend.py`) and the browser (`web/app.js`): share of the topic's articles within 0.15 of the target + small size term (capped at 40 articles) + 0.3 bonus when the topic has 3+ near articles plus an easier and a harder one (a ladder to climb) - 0.05 per article already read.
+- Before -> after (mean over the nine levels). English: share of chip articles near the level 0.555 -> 0.685; different topics shown 47 -> 69; chips with a full ladder 0.349 -> 0.444; chips with 3+ near articles 100% -> 100%. Spanish: 0.464 -> 0.686; 23 -> 71; 0.437 -> 0.444; 100% -> 100%. Cost: median near articles per chip falls (en 23.5 -> 18.0, es 34.4 -> 20.9) because smaller, more focused topics now appear; every chip still has at least 3 near articles. (The full-ladder share is capped near 0.44 because the lowest and highest levels cannot have an easier or a harder article.)
+- Search ranking untouched: metrics unchanged (en nDCG@10 0.792, es 0.748; level match 0.465 / 0.403).
+- Tests: pytest 52 -> 54 pass (new: share rule and ladder bonus exact scores; chips vary with level in en and es); parity 81/81; app smoke and placement OK, browser chips equal the Python chips for the same level; Flask /search?q=volcano 200 (en) and Spanish search 200.
+- Next: website step - refresh the Hark Page and public site with the new chips; then fit step on read-next ordering per language.
