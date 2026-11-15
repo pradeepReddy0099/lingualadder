@@ -38,7 +38,9 @@ pytest                               # unit tests
 
 **Browser version:** `python -m lingualadder.export_web` writes `web/data/{en,es}.json`; then serve `web/`
 (`python -m http.server -d web`). `node web/parity_test.js` checks that the JavaScript ranking matches Python.
-The copy in `docs/app/` is what GitHub Pages serves.
+The copy in `docs/app/` is what GitHub Pages serves. Because the full index is about 50 MB, Pages carries a topic-balanced demo sample instead
+(1,175 English and 1,139 Spanish articles, 5.2 MB; `LL_LITE_JSON=docs/app/data python -m lingualadder.export_sample`), and the page says so under the results.
+The full-corpus index in `web/data/` is what the parity test and a local server use.
 
 ## Data
 

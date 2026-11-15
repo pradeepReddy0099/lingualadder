@@ -350,3 +350,12 @@ English 5,500 articles cached; Spanish 3,620 of 5,500 cached. Collector resumes 
 - Long articles: Wikipedia ranks above Vikidia (AUC over random pairs) 0.861 with the production score and 0.725 with the CAES head; medians Vikidia 3.50 vs Wikipedia 5.01 on the head's A1-C1 index (so almost every article is above C1 anyway).
 - Decision: NOT shipped. The head helps on Kwiziq reading texts but is worse on Habla Cultura and worse at telling easy from regular articles, and essays written by learners measure what learners can write, not what they can read. Spanish CEFR badges stay indicative only. No ranking, data or web change; metrics unchanged (en nDCG@10 0.792, es 0.748; level match 0.465 / 0.403).
 - Tests: pytest 51 -> 52 pass (new: experiment report complete, production score still separates easy from regular articles); parity 81/81; app smoke and placement OK; Flask /search?q=volcano 200 (en) and Spanish search 200. Next: website step (Hark Page refresh with the "+" bands and phone fixes), then fit step on placement or recommendation evaluation per language.
+
+## Web: public demo that actually loads, and Hark Page refresh (website step, en and es)
+- Problem found: the public Pages demo asked for the full index (English 27.1 MB, Spanish 24.0 MB in three files each), which was never uploaded to GitHub (web upload limit 25 MB per file), so the live demo link could not load any data.
+- Fix: `export_sample` can now also write the topic-balanced sample as plain data files (`LL_LITE_JSON=<dir>`); the public site carries that sample (English 1,175 articles, 2.8 MB; Spanish 1,139 articles, 2.4 MB; 5.2 MB total, was 49.4 MB in the repo copy). The page shows "demo index: topic-balanced sample of N articles" under the results (English and Spanish text), so nobody mistakes it for the full corpus. The full index stays in the local web folder and the parity test.
+- Checked with the headless page runner on the exact public files: English "volcano" returns 10 results, Spanish "volcán" 9 (sample is smaller than the full corpus), look-up words, ladder strip and topics work in both.
+- Hark Page rebuilt from the same sample build (with the "+" bands and the phone-size fixes).
+- No ranking change: metrics unchanged (en nDCG@10 0.792, es 0.748; level match 0.465 / 0.403).
+- Tests: pytest 52 pass; parity 81/81; app smoke, placement, i18n, cefr, lookup OK; Flask /search?q=volcano 200.
+- Next: fit step - evaluate the placement test and recommended topics per language (en and es).
