@@ -34,6 +34,7 @@ Goal: results that fit the learner's level better WITHOUT losing much relevance.
 
 ## Engineering
 - [x] Unit tests for textproc, BM25, re-ranker (pytest). (DONE: app, textproc, BM25, reranker; 10 tests)
+- [x] Placement staircase initial step 0.15 (see CHANGELOG)
 - [ ] Faster startup (smaller index, lazy load).
 - [x] Input validation (400 on bad values); 404/500 error pages done.
 - [ ] README kept current.

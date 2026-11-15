@@ -389,3 +389,8 @@ No search metric change. Tests pass.
 - A shared search link now includes the language and level (?q=...&lang=es&level=beginner), so the person opening it sees the same results. Before, only the query was in the link and the receiver's own saved profile decided. No ranking or data change: metrics unchanged (en nDCG@10 0.792, es 0.748).
 - Tests: pytest, parity, app smoke, placement pass.
 - Next: fit step (placement test adaptive step per language).
+
+## Fit: placement staircase starts with a smaller step (0.25 -> 0.15)
+- Simulated learners (7 abilities x 200, 8 items, guessing-aware estimate), mean absolute error of the placement estimate: slope 5 0.134 -> 0.131, slope 8 0.107 -> 0.099, slope 12 0.095 -> 0.085. Smaller starts (0.06-0.10) scored slightly better still, but 0.15 was kept so real learners far from the middle can still move. The simulation works on item difficulty quantiles, so it applies to English and Spanish alike.
+- Python and web ports changed together (the fixed-history EAP test still matches). Tests: pytest 54, parity, app smoke, placement pass.
+- Next: website step (Spanish UI text review).
