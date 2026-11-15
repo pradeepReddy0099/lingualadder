@@ -1,0 +1,78 @@
+{
+ "n_caes": 2500,
+ "n_kwiziq": 206,
+ "current_score_spearman": {
+  "caes": 0.276,
+  "kwiziq": 0.181
+ },
+ "caes_median_score_by_level": {
+  "A1": 0.344,
+  "A2": 0.258,
+  "B1": 0.373,
+  "B2": 0.492,
+  "C1": 0.586
+ },
+ "head_trained_caes_test_kwiziq_spearman": 0.35,
+ "head_trained_kwiziq_test_caes_spearman": 0.599,
+ "head_caes_half_split_spearman": 0.79,
+ "band_transfer_cuts_from_caes": {
+  "production_score": {
+   "kwiziq": {
+    "spearman": 0.181,
+    "exact": 0.17,
+    "within1": 0.393
+   },
+   "hablacultura": {
+    "spearman": 0.209,
+    "exact": 0.143,
+    "within1": 0.46
+   }
+  },
+  "head_caes": {
+   "kwiziq": {
+    "spearman": 0.35,
+    "exact": 0.282,
+    "within1": 0.694
+   },
+   "hablacultura": {
+    "spearman": 0.075,
+    "exact": 0.211,
+    "within1": 0.605
+   }
+  }
+ },
+ "articles": {
+  "production_score": {
+   "vikidia_median": 0.457,
+   "wikipedia_median": 0.928,
+   "auc_wiki_above_vikidia": 0.861
+  },
+  "head_caes": {
+   "vikidia_median": 3.495,
+   "wikipedia_median": 5.013,
+   "auc_wiki_above_vikidia": 0.725
+  },
+  "head_kwiziq": {
+   "vikidia_median": 4.591,
+   "wikipedia_median": 6.206,
+   "auc_wiki_above_vikidia": 0.761
+  },
+  "head_both": {
+   "vikidia_median": 3.403,
+   "wikipedia_median": 4.887,
+   "auc_wiki_above_vikidia": 0.73
+  }
+ },
+ "head_caes_article_index_pctiles": {
+  "vikidia": [
+   2.1,
+   3.49,
+   5.61
+  ],
+  "wikipedia": [
+   2.78,
+   5.01,
+   6.94
+  ]
+ }
+}
