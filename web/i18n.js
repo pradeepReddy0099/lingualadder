@@ -74,7 +74,7 @@
       some_mention: ' · {on} sobre este tema y luego {off} que solo lo mencionan.',
       mentions: 'menciona', mentions_title: 'Menciona las palabras buscadas, pero no trata principalmente de ellas', read_badge: 'leído',
       relevance: 'relevancia', level_fit: 'ajuste al nivel', words: '{n} palabras', read_on: 'Leer en Wikipedia', read_next: 'Leer a continuación ↑',
-      too_easy: 'Muy fácil', too_hard: 'Muy difícil',
+      too_easy: 'Demasiado fácil', too_hard: 'Demasiado difícil',
       plain_bm25: 'BM25 simple', ll_col: 'LinguaLadder ({level})',
       ladder_h: 'La escalera de este tema', ladder_none: 'Aún no hay artículo de este nivel',
       next_up: 'Siguiente:', nothing_harder: '(no queda nada más difícil sobre este tema)',
@@ -90,7 +90,7 @@
       t_start: 'Empezar', t_vocab_h: '¿Cuáles de estas palabras conoces?', t_vocab_p: 'Toca cada palabra que sepas explicar o traducir. Deja las demás.',
       t_continue: 'Continuar', t_cloze_h: 'Completa el hueco', t_of: '{i} de {n}', t_skip: 'No lo sé',
       t_res_lead: 'Tu nivel de lectura en {lang}',
-      t_res_detail: '{level} · vocabulario {vocab}% · lees al nivel del percentil {pct} de los artículos. Ahora los resultados apuntan a este nivel, y «Muy fácil» o «Muy difícil» en cualquier artículo lo afina.',
+      t_res_detail: '{level} · vocabulario {vocab}% · lees al nivel del percentil {pct} de los artículos. Ahora los resultados apuntan a este nivel, y «Demasiado fácil» o «Demasiado difícil» en cualquier artículo lo afina.',
       t_done: 'Empezar a leer'
     }
   };
