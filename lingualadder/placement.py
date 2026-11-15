@@ -156,7 +156,7 @@ def cloze_item(engine, lang, q, r, used):
 class Staircase:
     """Adaptive staircase over difficulty quantiles; serializable for the session."""
 
-    def __init__(self, n=8, q=0.5, step=0.25, history=None):
+    def __init__(self, n=8, q=0.5, step=0.15, history=None):
         self.q, self.step, self.n = q, step, n
         self.history = history or []
 
