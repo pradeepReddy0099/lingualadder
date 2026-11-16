@@ -7,7 +7,8 @@ Goal: results that fit the learner's level better WITHOUT losing much relevance.
 - [x] Better difficulty model: try gradient boosting / calibrated LR, add features (CEFRLex-style word-frequency bands, syllables/word, subordinate-clause markers), report CV accuracy vs 0.849. (done: 15 features + LR, CV 0.865; GBT did not transfer better)
 - [x] Better fusion (swept alpha 0.5-0.7, sigma 0.15/0.25, relevance floor 0-0.6; current alpha 0.5 sigma 0.15 stays best on harmonic mean 0.514; floor kept as optional min_rel). Follow-up idea: RRF and learning-to-rank: rerank only top-N relevant (e.g. require BM25 >= x% of max), reciprocal-rank fusion, or learning-to-rank; sweep alpha/sigma; pick the setting that maximizes a combined metric (e.g. harmonic mean of nDCG@10 and level match).
 - [x] Adaptive target (wired into /api/feedback; offline simulation done: gap to ideal difficulty 0.264 -> 0.136) from feedback (too easy / too hard) and looked-up words.
-- [ ] (stem-for-BM25-only split into reranker-unstemmed still open) Report every experiment in data/eval_report.md with before/after numbers.
+- [ ] Stem-for-BM25-only, sub-steps: (a) add a separate stemmed postings field built beside the unstemmed one in build.py; (b) BM25 stage uses stemmed terms, reranker keeps unstemmed snippets; (c) evaluate en and es with evaluate.py and keep only if both gain. (a) DONE; (b) DONE (opt-in LL_STEM_BM25=1); (c) DONE: nDCG up in both languages but level match down, kept opt-in.
+- [ ] (original note) Report every experiment in data/eval_report.md with before/after numbers.
 - [x] Level match in evaluate.py/grad_eval.py is judged with the current model's own difficulty, so it is circular across difficulty models; add a fixed reference judge (e.g. held-out source labels or a frozen model) for fair comparisons. (Done: grad_eval reports gold_level, source-label level fit, as the model-independent judge.)
 - [x] Difficulty calibration (percentile rank per language, env LL_CALIBRATE=1; off by default, see CHANGELOG).
 
@@ -35,7 +36,7 @@ Goal: results that fit the learner's level better WITHOUT losing much relevance.
 ## Engineering
 - [x] Unit tests for textproc, BM25, re-ranker (pytest). (DONE: app, textproc, BM25, reranker; 10 tests)
 - [x] Placement staircase initial step 0.15 (see CHANGELOG)
-- [ ] Faster startup (smaller index, lazy load). Step 1 DONE: measured (import 4.6 s with 213 MB index, first Spanish search 0.86 s, then 0.03 s). Step 2 split: (a) save index.pkl as one file per language, (b) load lazily on first request per language, (c) re-measure. Step (a) DONE (build writes index_en.pkl and index_es.pkl, 116 MB + 96 MB). Step (b) DONE (app loads each language on first use; import 4.6 s -> 0.7 s). Step (c) re-measure is next.
+- [ ] Faster startup (smaller index, lazy load). Step 1 DONE: measured (import 4.6 s with 213 MB index, first Spanish search 0.86 s, then 0.03 s). Step 2 split: (a) save index.pkl as one file per language, (b) load lazily on first request per language, (c) re-measure. Step (a) DONE (build writes index_en.pkl and index_es.pkl, 116 MB + 96 MB). Step (b) DONE (app loads each language on first use; import 4.6 s -> 0.7 s). Step (c) DONE (re-measured, see CHANGELOG).
 - [x] Input validation (400 on bad values); 404/500 error pages done.
 - [ ] README kept current.
 

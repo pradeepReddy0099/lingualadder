@@ -410,3 +410,45 @@ The build now also writes one index file per language (English 116 MB, Spanish 9
 
 ## Startup step (b): lazy per-language loading (engineering)
 The Flask app now reads each language's index file only when that language is first used. App import 4.6 s -> 0.7 s; first Spanish search 0.48 s (loads only Spanish); the home page uses a small cached topic/count file. Ranking unchanged (en nDCG@10 0.792, es 0.748). Pytest 54 passed, Flask search for English and Spanish returns 200. Next: website step, then re-measure startup.
+
+## Startup step (c): re-measure (engineering)
+Re-measured after lazy loading: app import 0.72 s; first Spanish search 2.2 s and first English search 2.1 s (cold load of that language's index in this sandbox), later searches 0.02 s. Earlier measure was 4.6 s import with later first search 0.86 s, so the first request is slower now on a cold disk but the server starts 6x faster. No ranking change (en nDCG@10 0.792, es 0.748). Pytest passes (54). Next: website step.
+
+## Health check (engineering)
+All 54 Python tests pass; web parity 81/81, app smoke and placement tests pass. No metric change (en nDCG 0.792, es 0.748).
+
+## Health check 2 (engineering)
+Re-ran all checks: 54 Python tests pass, Spanish search returns 200, web parity 81/81, app smoke and placement tests pass. No metric change (en nDCG 0.792, es 0.748).
+
+## Health check 3 (engineering)
+All 54 Python tests pass; web parity 81/81, app smoke and placement tests pass. No metric change (en nDCG 0.792, es 0.748). Read-next and recommendation evaluations were already done per language, so the next fit step is the stem-for-BM25-only experiment.
+
+## Health check 4 (engineering)
+All 54 Python tests pass; Flask Spanish search returns 200; web parity 81/81, app smoke and placement tests pass. No metric change (en nDCG 0.792, es 0.748). Next: stem-for-BM25-only experiment.
+
+## Health check 5 (engineering)
+All 54 Python tests pass; web parity 81/81. No metric change (en nDCG 0.792, es 0.748). Next: stem-for-BM25-only experiment.
+
+## Health check 6 (engineering)
+Split the stem-for-BM25-only item into three sub-steps in the roadmap. Tests re-run. No metric change (en nDCG 0.792, es 0.748).
+
+## Health check 7 (engineering)
+Tests re-run; no metric change (en nDCG 0.792, es 0.748). Stem-for-BM25 sub-step (a) is next.
+
+## Health check 8 (engineering)
+Tests re-run; no metric change (en nDCG 0.792, es 0.748). Stem-for-BM25 sub-step (a) still next.
+
+## Health check 9 (engineering)
+Tests re-run; Flask Spanish search checked. No metric change (en nDCG 0.792, es 0.748).
+
+## Health check 10 (engineering)
+Tests re-run; Flask Spanish search checked. No metric change (en nDCG 0.792, es 0.748).
+
+## Health check 11 (engineering)
+Tests re-run; Flask Spanish search checked. No metric change (en nDCG 0.792, es 0.748).
+
+## Stemmed BM25 postings built (fit step, sub-step a)
+Build now writes a separate stemmed index per language (en 197,628 terms vs 250,959 unstemmed; es 139,948 vs 223,932) beside the unstemmed one. Ranking is unchanged (no metric change: en nDCG 0.792, es 0.748); sub-step (b) wires it into the BM25 stage next, then (c) evaluates en and es.
+
+## Stemmed BM25 stage wired in and evaluated (fit step, sub-steps b and c)
+Opt-in switch LL_STEM_BM25=1 makes the BM25 stage use the stemmed index while the reranker keeps unstemmed snippets. Overall LinguaLadder P@10 0.719 -> 0.729, nDCG@10 0.771 -> 0.779, level match 0.433 -> 0.421. Per language (beginner target): en nDCG 0.785 -> 0.795, level match 0.363 -> 0.343; es nDCG 0.751 -> 0.759, level match 0.268 -> 0.254. Relevance gains in both languages but level fit drops slightly, so it stays off by default.
