@@ -14,7 +14,8 @@ from collections import Counter, defaultdict
 import numpy as np
 
 from .config import REORDER_MATCH, PREFIX_MATCH, ALPHA, CANDIDATES, DATA_DIR, ON_TOPIC_FIRST, ON_TOPIC_MIN, SIGMA, TITLE_BONUS, TOPIC_WEIGHT, VOCAB_BETA
-from .textproc import index_tokens
+import os
+from .textproc import index_tokens, stem_tokens
 
 
 class BM25Index:
@@ -114,7 +115,24 @@ class LinguaLadder:
     def languages(self):
         return sorted(self.docs.keys())
 
+    def _stem_index(self, lang):
+        si = getattr(self, "_stem", None)
+        if si is None:
+            si = self._stem = {}
+        if lang not in si:
+            try:
+                with open(DATA_DIR / f"index_stem_{lang}.pkl", "rb") as f:
+                    si[lang] = pickle.load(f)
+            except OSError:
+                si[lang] = None
+        return si[lang]
+
     def bm25(self, lang, query, k=CANDIDATES):
+        if os.environ.get("LL_STEM_BM25") == "1":  # stemmed BM25 stage only; reranker stays unstemmed
+            si = self._stem_index(lang)
+            if si is not None:
+                scores = si.score(stem_tokens(query, lang))
+                return sorted(scores.items(), key=lambda x: -x[1])[:k]
         scores = self.indexes[lang].score(index_tokens(query, lang))
         return sorted(scores.items(), key=lambda x: -x[1])[:k]
 
